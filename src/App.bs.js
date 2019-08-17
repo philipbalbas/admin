@@ -4,9 +4,9 @@ import * as React from "react";
 import * as Core from "@emotion/core";
 import * as ReasonReactRouter from "reason-react/src/ReasonReactRouter.js";
 import * as Home$ReactHooksTemplate from "./pages/Home.bs.js";
-import * as Note$ReactHooksTemplate from "./pages/Note.bs.js";
 import * as Header$ReactHooksTemplate from "./components/Header.bs.js";
 import * as Sidebar$ReactHooksTemplate from "./components/Sidebar.bs.js";
+import * as NotesList$ReactHooksTemplate from "./pages/NotesList.bs.js";
 import * as PagesList$ReactHooksTemplate from "./pages/PagesList.bs.js";
 import * as ModulePage$ReactHooksTemplate from "./pages/ModulePage.bs.js";
 import * as TopicsList$ReactHooksTemplate from "./pages/TopicsList.bs.js";
@@ -70,7 +70,7 @@ function App(Props) {
             ) : React.createElement(Home$ReactHooksTemplate.make, { });
           break;
       case "notes" : 
-          container = match[1] ? "Page Not Found" : React.createElement(Note$ReactHooksTemplate.make, { });
+          container = match[1] ? "Page Not Found" : React.createElement(NotesList$ReactHooksTemplate.make, { });
           break;
       case "pages" : 
           container = match[1] ? "Page Not Found" : React.createElement(PagesList$ReactHooksTemplate.make, { });

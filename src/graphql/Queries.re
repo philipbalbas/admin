@@ -42,6 +42,17 @@ module ListPages = [%graphql
   |}
 ];
 
+module ListNotes = [%graphql
+  {|
+    query notes {
+      notes {
+        name
+        id
+      }
+    }
+  |}
+];
+
 type entity =
   | Module
   | Subject
