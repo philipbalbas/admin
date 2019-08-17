@@ -31,6 +31,17 @@ module ListTopics = [%graphql
   |}
 ];
 
+module ListPages = [%graphql
+  {|
+    query pages {
+      pages {
+        name
+        id
+      }
+    }
+  |}
+];
+
 type entity =
   | Module
   | Subject
