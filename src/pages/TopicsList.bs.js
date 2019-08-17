@@ -11,7 +11,7 @@ function str(prim) {
 }
 
 function TopicsList(Props) {
-  var request = Queries$ReactHooksTemplate.ListSubjects[/* make */3](/* () */0);
+  var request = Queries$ReactHooksTemplate.ListTopics[/* make */3](/* () */0);
   var match = Curry._4(ReasonUrql.Hooks[/* useQuery */1], request, undefined, undefined, /* () */0);
   var response = match[0][/* response */3];
   if (typeof response === "number") {
@@ -23,7 +23,7 @@ function TopicsList(Props) {
   } else if (response.tag) {
     return "Error";
   } else {
-    var match$1 = response[0].subjects;
+    var match$1 = response[0].topics;
     if (match$1 !== undefined) {
       return React.createElement(List$ReactHooksTemplate.make, {
                   items: match$1,

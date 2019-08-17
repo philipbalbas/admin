@@ -8,6 +8,7 @@ import * as Note$ReactHooksTemplate from "./pages/Note.bs.js";
 import * as Header$ReactHooksTemplate from "./components/Header.bs.js";
 import * as Sidebar$ReactHooksTemplate from "./components/Sidebar.bs.js";
 import * as ModulePage$ReactHooksTemplate from "./pages/ModulePage.bs.js";
+import * as TopicsList$ReactHooksTemplate from "./pages/TopicsList.bs.js";
 import * as SubjectsList$ReactHooksTemplate from "./pages/SubjectsList.bs.js";
 
 var Global = /* module */[];
@@ -77,6 +78,9 @@ function App(Props) {
                       id: match$2[0]
                     })
             ) : React.createElement(SubjectsList$ReactHooksTemplate.make, { });
+          break;
+      case "topic" : 
+          container = match[1] ? "Page Not Found" : React.createElement(TopicsList$ReactHooksTemplate.make, { });
           break;
       default:
         container = "Page Not Found";

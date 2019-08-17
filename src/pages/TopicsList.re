@@ -6,7 +6,7 @@ let str = ReasonReact.string;
 
 [@react.component]
 let make = () => {
-  let request = ListSubjects.make();
+  let request = ListTopics.make();
   let ({response}, _) = useQuery(~request, ());
 
   switch (response) {
@@ -14,9 +14,9 @@ let make = () => {
   | NotFound => "No Data"->str
   | Error(_e) => "Error"->str
   | Data(data) =>
-    switch (data##subjects) {
+    switch (data##topics) {
     | None => "No items"->str
-    | Some(subjects) => <List items=subjects entity=Subject />
+    | Some(topics) => <List items=topics entity=Subject />
     }
   };
 };

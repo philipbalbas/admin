@@ -52,6 +52,7 @@ let make = () => {
     | ["module", id] => <ModulePage id />
     | ["subject"] => <SubjectsList />
     | ["subject", id] => <ModulePage id />
+    | ["topic"] => <TopicsList />
     | ["notes"] => <Note />
     | _ => "Page Not Found"->ReasonReact.string
     };
