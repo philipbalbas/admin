@@ -3,6 +3,11 @@ module Global = {
   external make: (~styles: string) => React.element = "Global";
 };
 
+%raw
+{|import styled from "@emotion/styled"|};
+%raw
+{|import css from "@styled-system/css"|};
+
 let styles = [%raw
   {|
     {
@@ -22,6 +27,21 @@ let styles = [%raw
   |}
 ];
 
+module BodyContainer = {
+  let wrapper = [%raw
+    {|
+      styled("div")(css({
+        display: "flex",
+      }))
+    |}
+  ];
+
+  [@react.component]
+  let make = (~children) => {
+    React.createElementVariadic(wrapper, makeProps(~children, ()), [||]);
+  };
+};
+
 [@react.component]
 let make = () => {
   let url = ReasonReactRouter.useUrl();
@@ -31,5 +51,9 @@ let make = () => {
     | ["notes"] => <Note />
     | _ => "Page Not Found"->ReasonReact.string
     };
-  <> <Global styles /> container </>;
+  <>
+    <Global styles />
+    <Header />
+    <BodyContainer> <Sidebar /> container </BodyContainer>
+  </>;
 };

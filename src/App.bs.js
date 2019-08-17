@@ -5,8 +5,16 @@ import * as Core from "@emotion/core";
 import * as ReasonReactRouter from "reason-react/src/ReasonReactRouter.js";
 import * as Home$ReactHooksTemplate from "./pages/Home.bs.js";
 import * as Note$ReactHooksTemplate from "./pages/Note.bs.js";
+import * as Header$ReactHooksTemplate from "./components/Header.bs.js";
+import * as Sidebar$ReactHooksTemplate from "./components/Sidebar.bs.js";
 
 var Global = /* module */[];
+
+import styled from "@emotion/styled"
+;
+
+import css from "@styled-system/css"
+;
 
 var styles = (
     {
@@ -25,6 +33,24 @@ var styles = (
     }
   );
 
+var wrapper = (
+      styled("div")(css({
+        display: "flex",
+      }))
+    );
+
+function App$BodyContainer(Props) {
+  var children = Props.children;
+  return React.createElement(wrapper, {
+              children: children
+            });
+}
+
+var BodyContainer = /* module */[
+  /* wrapper */wrapper,
+  /* make */App$BodyContainer
+];
+
 function App(Props) {
   var url = ReasonReactRouter.useUrl(undefined, /* () */0);
   var match = url[/* path */0];
@@ -33,7 +59,9 @@ function App(Props) {
     ) : React.createElement(Home$ReactHooksTemplate.make, { });
   return React.createElement(React.Fragment, undefined, React.createElement(Core.Global, {
                   styles: styles
-                }), container);
+                }), React.createElement(Header$ReactHooksTemplate.make, { }), React.createElement(App$BodyContainer, {
+                  children: null
+                }, React.createElement(Sidebar$ReactHooksTemplate.make, { }), container));
 }
 
 var make = App;
@@ -41,7 +69,8 @@ var make = App;
 export {
   Global ,
   styles ,
+  BodyContainer ,
   make ,
   
 }
-/* styles Not a pure module */
+/*  Not a pure module */
