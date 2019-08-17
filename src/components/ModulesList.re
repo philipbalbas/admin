@@ -28,7 +28,7 @@ let make = (~modules) => {
          switch (module_) {
          | Some(module_) =>
            switch (module_##name, module_##id) {
-           | (Some(name), Some(id)) => <Module key=id name />
+           | (Some(name), Some(id)) => <ModuleCard key=id name id />
            | _ => "No Name"->str
            }
          | None => "None"->str

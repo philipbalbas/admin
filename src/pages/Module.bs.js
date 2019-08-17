@@ -2,19 +2,14 @@
 
 import * as React from "react";
 
-function str(prim) {
-  return prim;
-}
-
 function Module(Props) {
-  var name = Props.name;
-  return React.createElement("div", undefined, name);
+  Props.id;
+  return React.createElement("div", undefined, "Module Page");
 }
 
 var make = Module;
 
 export {
-  str ,
   make ,
   
 }

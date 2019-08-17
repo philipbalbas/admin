@@ -3,7 +3,7 @@
 import * as $$Array from "bs-platform/lib/es6/array.js";
 import * as React from "react";
 import * as Caml_option from "bs-platform/lib/es6/caml_option.js";
-import * as Module$ReactHooksTemplate from "./Module.bs.js";
+import * as ModuleCard$ReactHooksTemplate from "./ModuleCard.bs.js";
 
 function str(prim) {
   return prim;
@@ -42,9 +42,11 @@ function ModulesList(Props) {
             var match = module_$1.name;
             var match$1 = module_$1.id;
             if (match !== undefined && match$1 !== undefined) {
-              return React.createElement(Module$ReactHooksTemplate.make, {
+              var id = match$1;
+              return React.createElement(ModuleCard$ReactHooksTemplate.make, {
                           name: match,
-                          key: match$1
+                          id: id,
+                          key: id
                         });
             } else {
               return "No Name";
