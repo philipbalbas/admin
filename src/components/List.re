@@ -21,14 +21,14 @@ module Wrapper = {
 };
 
 [@react.component]
-let make = (~modules) => {
-  let modulesList =
-    modules
-    |> Array.map(module_ =>
-         switch (module_) {
-         | Some(module_) =>
-           switch (module_##name, module_##id) {
-           | (Some(name), Some(id)) => <ModuleCard key=id name id />
+let make = (~items, ~entity) => {
+  let itemsList =
+    items
+    |> Array.map(item =>
+         switch (item) {
+         | Some(item) =>
+           switch (item##name, item##id) {
+           | (Some(name), Some(id)) => <ModuleCard key=id name id entity />
            | _ => "No Name"->str
            }
          | None => "None"->str
@@ -36,5 +36,5 @@ let make = (~modules) => {
        )
     |> React.array;
 
-  <Wrapper> modulesList </Wrapper>;
+  <Wrapper> itemsList </Wrapper>;
 };

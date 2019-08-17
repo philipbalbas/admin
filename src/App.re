@@ -49,7 +49,9 @@ let make = () => {
     switch (url.path) {
     | [] => <Home />
     | ["module"] => <Home />
-    | ["module", id] => <Module id />
+    | ["module", id] => <ModulePage id />
+    | ["subject"] => <SubjectsList />
+    | ["subject", id] => <ModulePage id />
     | ["notes"] => <Note />
     | _ => "Page Not Found"->ReasonReact.string
     };

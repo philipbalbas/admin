@@ -22,7 +22,7 @@ var wrapper = (
       }))
     );
 
-function ModulesList$Wrapper(Props) {
+function List$Wrapper(Props) {
   var children = Props.children;
   return React.createElement(wrapper, {
               children: children
@@ -31,21 +31,23 @@ function ModulesList$Wrapper(Props) {
 
 var Wrapper = /* module */[
   /* wrapper */wrapper,
-  /* make */ModulesList$Wrapper
+  /* make */List$Wrapper
 ];
 
-function ModulesList(Props) {
-  var modules = Props.modules;
-  var modulesList = $$Array.map((function (module_) {
-          if (module_ !== undefined) {
-            var module_$1 = Caml_option.valFromOption(module_);
-            var match = module_$1.name;
-            var match$1 = module_$1.id;
+function List(Props) {
+  var items = Props.items;
+  var entity = Props.entity;
+  var itemsList = $$Array.map((function (item) {
+          if (item !== undefined) {
+            var item$1 = Caml_option.valFromOption(item);
+            var match = item$1.name;
+            var match$1 = item$1.id;
             if (match !== undefined && match$1 !== undefined) {
               var id = match$1;
               return React.createElement(ModuleCard$ReactHooksTemplate.make, {
                           name: match,
                           id: id,
+                          entity: entity,
                           key: id
                         });
             } else {
@@ -54,13 +56,13 @@ function ModulesList(Props) {
           } else {
             return "None";
           }
-        }), modules);
-  return React.createElement(ModulesList$Wrapper, {
-              children: modulesList
+        }), items);
+  return React.createElement(List$Wrapper, {
+              children: itemsList
             });
 }
 
-var make = ModulesList;
+var make = List;
 
 export {
   str ,

@@ -10,8 +10,8 @@ function str(prim) {
   return prim;
 }
 
-function Home(Props) {
-  var request = Queries$ReactHooksTemplate.ListModules[/* make */3](/* () */0);
+function TopicsList(Props) {
+  var request = Queries$ReactHooksTemplate.ListSubjects[/* make */3](/* () */0);
   var match = Curry._4(ReasonUrql.Hooks[/* useQuery */1], request, undefined, undefined, /* () */0);
   var response = match[0][/* response */3];
   if (typeof response === "number") {
@@ -23,11 +23,11 @@ function Home(Props) {
   } else if (response.tag) {
     return "Error";
   } else {
-    var match$1 = response[0].modules;
+    var match$1 = response[0].subjects;
     if (match$1 !== undefined) {
       return React.createElement(List$ReactHooksTemplate.make, {
                   items: match$1,
-                  entity: /* Module */0
+                  entity: /* Subject */1
                 });
     } else {
       return "No items";
@@ -35,7 +35,7 @@ function Home(Props) {
   }
 }
 
-var make = Home;
+var make = TopicsList;
 
 export {
   str ,

@@ -2,12 +2,12 @@
 
 import * as React from "react";
 
-function Module(Props) {
+function ModulePage(Props) {
   Props.id;
   return React.createElement("div", undefined, "Module Page");
 }
 
-var make = Module;
+var make = ModulePage;
 
 export {
   make ,

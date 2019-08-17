@@ -1,11 +1,12 @@
 open ReasonUrql;
 open Hooks;
-let str = ReasonReact.string;
 open Queries;
+
+let str = ReasonReact.string;
 
 [@react.component]
 let make = () => {
-  let request = ListModules.make();
+  let request = ListSubjects.make();
   let ({response}, _) = useQuery(~request, ());
 
   switch (response) {
@@ -13,9 +14,9 @@ let make = () => {
   | NotFound => "No Data"->str
   | Error(_e) => "Error"->str
   | Data(data) =>
-    switch (data##modules) {
+    switch (data##subjects) {
     | None => "No items"->str
-    | Some(modules) => <List items=modules entity=Module />
+    | Some(subjects) => <List items=subjects entity=Subject />
     }
   };
 };

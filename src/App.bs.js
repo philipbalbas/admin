@@ -6,8 +6,9 @@ import * as ReasonReactRouter from "reason-react/src/ReasonReactRouter.js";
 import * as Home$ReactHooksTemplate from "./pages/Home.bs.js";
 import * as Note$ReactHooksTemplate from "./pages/Note.bs.js";
 import * as Header$ReactHooksTemplate from "./components/Header.bs.js";
-import * as Module$ReactHooksTemplate from "./pages/Module.bs.js";
 import * as Sidebar$ReactHooksTemplate from "./components/Sidebar.bs.js";
+import * as ModulePage$ReactHooksTemplate from "./pages/ModulePage.bs.js";
+import * as SubjectsList$ReactHooksTemplate from "./pages/SubjectsList.bs.js";
 
 var Global = /* module */[];
 
@@ -61,13 +62,21 @@ function App(Props) {
       case "module" : 
           var match$1 = match[1];
           container = match$1 ? (
-              match$1[1] ? "Page Not Found" : React.createElement(Module$ReactHooksTemplate.make, {
+              match$1[1] ? "Page Not Found" : React.createElement(ModulePage$ReactHooksTemplate.make, {
                       id: match$1[0]
                     })
             ) : React.createElement(Home$ReactHooksTemplate.make, { });
           break;
       case "notes" : 
           container = match[1] ? "Page Not Found" : React.createElement(Note$ReactHooksTemplate.make, { });
+          break;
+      case "subject" : 
+          var match$2 = match[1];
+          container = match$2 ? (
+              match$2[1] ? "Page Not Found" : React.createElement(ModulePage$ReactHooksTemplate.make, {
+                      id: match$2[0]
+                    })
+            ) : React.createElement(SubjectsList$ReactHooksTemplate.make, { });
           break;
       default:
         container = "Page Not Found";

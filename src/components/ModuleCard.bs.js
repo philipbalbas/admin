@@ -10,7 +10,27 @@ function str(prim) {
 function ModuleCard(Props) {
   var name = Props.name;
   var id = Props.id;
-  var link = "/module/" + (String(id) + "");
+  var entity = Props.entity;
+  var entityString;
+  switch (entity) {
+    case 0 : 
+        entityString = "module";
+        break;
+    case 1 : 
+        entityString = "subject";
+        break;
+    case 2 : 
+        entityString = "topic";
+        break;
+    case 3 : 
+        entityString = "page";
+        break;
+    case 4 : 
+        entityString = "note";
+        break;
+    
+  }
+  var link = "/" + (String(entityString) + ("/" + (String(id) + "")));
   return React.createElement("div", undefined, React.createElement(Link$ReactHooksTemplate.make, {
                   to_: link,
                   children: name
