@@ -1,4 +1,24 @@
 let str = ReasonReact.string;
+%raw
+{|import styled from "@emotion/styled"|};
+%raw
+{|import css from "@styled-system/css"|};
+
+module Wrapper = {
+  let wrapper = [%raw
+    {|
+      styled.div(css({
+        fontSize: 3,
+        color: 1,
+      }))
+    |}
+  ];
+
+  [@react.component]
+  let make = (~children) => {
+    React.createElementVariadic(wrapper, makeProps(~children, ()), [||]);
+  };
+};
 
 [@react.component]
 let make = (~modules) => {
@@ -16,5 +36,5 @@ let make = (~modules) => {
        )
     |> React.array;
 
-  <div> modulesList </div>;
+  <Wrapper> modulesList </Wrapper>;
 };

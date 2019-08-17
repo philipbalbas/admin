@@ -9,6 +9,31 @@ function str(prim) {
   return prim;
 }
 
+import styled from "@emotion/styled"
+;
+
+import css from "@styled-system/css"
+;
+
+var wrapper = (
+      styled.div(css({
+        fontSize: 3,
+        color: 1,
+      }))
+    );
+
+function ModulesList$Wrapper(Props) {
+  var children = Props.children;
+  return React.createElement(wrapper, {
+              children: children
+            });
+}
+
+var Wrapper = /* module */[
+  /* wrapper */wrapper,
+  /* make */ModulesList$Wrapper
+];
+
 function ModulesList(Props) {
   var modules = Props.modules;
   var modulesList = $$Array.map((function (module_) {
@@ -28,14 +53,17 @@ function ModulesList(Props) {
             return "None";
           }
         }), modules);
-  return React.createElement("div", undefined, modulesList);
+  return React.createElement(ModulesList$Wrapper, {
+              children: modulesList
+            });
 }
 
 var make = ModulesList;
 
 export {
   str ,
+  Wrapper ,
   make ,
   
 }
-/* react Not a pure module */
+/*  Not a pure module */
