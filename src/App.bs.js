@@ -60,7 +60,7 @@ function App(Props) {
   var container;
   if (match) {
     switch (match[0]) {
-      case "module" : 
+      case "modules" : 
           var match$1 = match[1];
           container = match$1 ? (
               match$1[1] ? "Page Not Found" : React.createElement(ModulePage$ReactHooksTemplate.make, {
@@ -71,7 +71,7 @@ function App(Props) {
       case "notes" : 
           container = match[1] ? "Page Not Found" : React.createElement(Note$ReactHooksTemplate.make, { });
           break;
-      case "subject" : 
+      case "subjects" : 
           var match$2 = match[1];
           container = match$2 ? (
               match$2[1] ? "Page Not Found" : React.createElement(ModulePage$ReactHooksTemplate.make, {
@@ -79,7 +79,7 @@ function App(Props) {
                     })
             ) : React.createElement(SubjectsList$ReactHooksTemplate.make, { });
           break;
-      case "topic" : 
+      case "topics" : 
           container = match[1] ? "Page Not Found" : React.createElement(TopicsList$ReactHooksTemplate.make, { });
           break;
       default:

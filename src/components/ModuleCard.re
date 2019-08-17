@@ -5,11 +5,11 @@ open Queries;
 let make = (~name, ~id, ~entity) => {
   let entityString =
     switch (entity) {
-    | Module => "module"
-    | Subject => "subject"
-    | Topic => "topic"
-    | Page => "page"
-    | Note => "note"
+    | Module => "modules"
+    | Subject => "subjects"
+    | Topic => "topics"
+    | Page => "pages"
+    | Note => "notes"
     };
 
   let link = {j|/$entityString/$id|j};

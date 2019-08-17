@@ -38,10 +38,10 @@ module SidebarWrapper = {
 [@react.component]
 let make = () => {
   <SidebarWrapper>
-    <Link to_="/module"> "Modules"->str </Link>
-    <Link to_="/subject"> "Subjects"->str </Link>
-    <Link to_="/topic"> "Topics"->str </Link>
-    <Link to_="/page"> "Pages"->str </Link>
-    <Link to_="/note"> "Notes"->str </Link>
+    <Link to_="/modules"> "Modules"->str </Link>
+    <Link to_="/subjects"> "Subjects"->str </Link>
+    <Link to_="/topics"> "Topics"->str </Link>
+    <Link to_="/pages"> "Pages"->str </Link>
+    <Link to_="/notes"> "Notes"->str </Link>
   </SidebarWrapper>;
 };

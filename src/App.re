@@ -48,11 +48,11 @@ let make = () => {
   let container =
     switch (url.path) {
     | [] => <Home />
-    | ["module"] => <Home />
-    | ["module", id] => <ModulePage id />
-    | ["subject"] => <SubjectsList />
-    | ["subject", id] => <ModulePage id />
-    | ["topic"] => <TopicsList />
+    | ["modules"] => <Home />
+    | ["modules", id] => <ModulePage id />
+    | ["subjects"] => <SubjectsList />
+    | ["subjects", id] => <ModulePage id />
+    | ["topics"] => <TopicsList />
     | ["notes"] => <Note />
     | _ => "Page Not Found"->ReasonReact.string
     };

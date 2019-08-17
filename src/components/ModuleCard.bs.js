@@ -14,19 +14,19 @@ function ModuleCard(Props) {
   var entityString;
   switch (entity) {
     case 0 : 
-        entityString = "module";
+        entityString = "modules";
         break;
     case 1 : 
-        entityString = "subject";
+        entityString = "subjects";
         break;
     case 2 : 
-        entityString = "topic";
+        entityString = "topics";
         break;
     case 3 : 
-        entityString = "page";
+        entityString = "pages";
         break;
     case 4 : 
-        entityString = "note";
+        entityString = "notes";
         break;
     
   }

@@ -50,19 +50,19 @@ function Sidebar(Props) {
   return React.createElement(Sidebar$SidebarWrapper, {
               children: null
             }, React.createElement(Link$ReactHooksTemplate.make, {
-                  to_: "/module",
+                  to_: "/modules",
                   children: "Modules"
                 }), React.createElement(Link$ReactHooksTemplate.make, {
-                  to_: "/subject",
+                  to_: "/subjects",
                   children: "Subjects"
                 }), React.createElement(Link$ReactHooksTemplate.make, {
-                  to_: "/topic",
+                  to_: "/topics",
                   children: "Topics"
                 }), React.createElement(Link$ReactHooksTemplate.make, {
-                  to_: "/page",
+                  to_: "/pages",
                   children: "Pages"
                 }), React.createElement(Link$ReactHooksTemplate.make, {
-                  to_: "/note",
+                  to_: "/notes",
                   children: "Notes"
                 }));
 }
