@@ -9,6 +9,22 @@ module ListModules = [%graphql
   |}
 ];
 
+module GetModule = [%graphql
+  {|
+    query module($id: ID!) {
+      module_: module(id: $id) {
+        id
+        name
+        description
+        subjects {
+          id
+          name
+        }
+      }
+    }
+  |}
+];
+
 module ListSubjects = [%graphql
   {|
     query subjects {
