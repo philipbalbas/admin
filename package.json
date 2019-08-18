@@ -9,7 +9,8 @@
     "webpack": "webpack -w",
     "webpack:production": "NODE_ENV=production webpack",
     "server": "webpack-dev-server",
-    "build:css": "postcss css/tailwind.css -o src/tailwind.css"
+    "build:css": "postcss css/tailwind.css -o src/tailwind.css",
+    "deploy": "npm run clean && npm run build && npm run build:css && npm run webpack:production"
   },
   "keywords": [
     "BuckleScript"
