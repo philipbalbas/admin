@@ -13,5 +13,8 @@ let make = () => {
     | ["notes"] => <NotesList />
     | _ => "Page Not Found"->ReasonReact.string
     };
-  <> <Header /> <div> <Sidebar /> container </div> </>;
+  <>
+    <Header />
+    <div className="flex h-screen"> <Sidebar /> container </div>
+  </>;
 };

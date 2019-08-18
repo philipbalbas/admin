@@ -48,7 +48,9 @@ function App(Props) {
   } else {
     container = React.createElement(Home$ReactHooksTemplate.make, { });
   }
-  return React.createElement(React.Fragment, undefined, React.createElement(Header$ReactHooksTemplate.make, { }), React.createElement("div", undefined, React.createElement(Sidebar$ReactHooksTemplate.make, { }), container));
+  return React.createElement(React.Fragment, undefined, React.createElement(Header$ReactHooksTemplate.make, { }), React.createElement("div", {
+                  className: "flex h-screen"
+                }, React.createElement(Sidebar$ReactHooksTemplate.make, { }), container));
 }
 
 var make = App;
