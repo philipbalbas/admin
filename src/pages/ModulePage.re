@@ -26,7 +26,12 @@ let make = (~id) => {
                | Some(subject) =>
                  switch (subject##id, subject##name) {
                  | (Some(id), Some(name)) =>
-                   <Link to_=id key=id> name->str </Link>
+                   <Link to_={j|subjects/$id|j} key=id>
+                     <div
+                       className="text-indigo-900 cursor-pointer hover:text-purple-600">
+                       name->str
+                     </div>
+                   </Link>
                  | _ => React.null
                  }
                | None => "No Subject"->str
@@ -35,9 +40,16 @@ let make = (~id) => {
           |> React.array;
 
         <div>
-          <div> name->str </div>
-          <div> description->str </div>
-          <div> subjectsList </div>
+          <div className="text-4xl font-semibold text-indigo-800">
+            name->str
+          </div>
+          <div className="text-lg font-semibold text-indigo-600">
+            description->str
+          </div>
+          <div className="mt-6">
+            <div className="text-lg"> "Subjects:"->str </div>
+            <div> subjectsList </div>
+          </div>
         </div>;
       | _ => React.null
       }

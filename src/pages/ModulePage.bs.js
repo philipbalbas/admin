@@ -41,8 +41,10 @@ function ModulePage(Props) {
                   if (match !== undefined && match$1 !== undefined) {
                     var id = match;
                     return React.createElement(Link$ReactHooksTemplate.make, {
-                                to_: id,
-                                children: match$1,
+                                to_: "subjects/" + (String(id) + ""),
+                                children: React.createElement("div", {
+                                      className: "text-indigo-900 cursor-pointer hover:text-purple-600"
+                                    }, match$1),
                                 key: id
                               });
                   } else {
@@ -52,7 +54,15 @@ function ModulePage(Props) {
                   return "No Subject";
                 }
               }), match$4);
-        return React.createElement("div", undefined, React.createElement("div", undefined, match$2), React.createElement("div", undefined, match$3), React.createElement("div", undefined, subjectsList));
+        return React.createElement("div", undefined, React.createElement("div", {
+                        className: "text-4xl font-semibold text-indigo-800"
+                      }, match$2), React.createElement("div", {
+                        className: "text-lg font-semibold text-indigo-600"
+                      }, match$3), React.createElement("div", {
+                        className: "mt-6"
+                      }, React.createElement("div", {
+                            className: "text-lg"
+                          }, "Subjects:"), React.createElement("div", undefined, subjectsList)));
       } else {
         return null;
       }
