@@ -7,37 +7,8 @@ function str(prim) {
   return prim;
 }
 
-import styled from "@emotion/styled"
-;
-
-import css from "@styled-system/css"
-;
-
-var header = (
-      styled.div(css({
-        border: "1px solid #e2e2e2",
-        p: 3,
-        display: "flex",
-        justifyContent: "space-between"
-      }))
-    );
-
-function Header$HeaderContainer(Props) {
-  var children = Props.children;
-  return React.createElement(header, {
-              children: children
-            });
-}
-
-var HeaderContainer = /* module */[
-  /* header */header,
-  /* make */Header$HeaderContainer
-];
-
 function Header(Props) {
-  return React.createElement(Header$HeaderContainer, {
-              children: null
-            }, React.createElement(Link$ReactHooksTemplate.make, {
+  return React.createElement("header", undefined, React.createElement(Link$ReactHooksTemplate.make, {
                   to_: "/",
                   children: "Reviewer Admin"
                 }), React.createElement("nav", undefined, "Hello User"));
@@ -47,8 +18,7 @@ var make = Header;
 
 export {
   str ,
-  HeaderContainer ,
   make ,
   
 }
-/*  Not a pure module */
+/* react Not a pure module */

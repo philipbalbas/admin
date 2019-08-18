@@ -3,49 +3,21 @@
 import * as React from "react";
 import * as ReasonReactRouter from "reason-react/src/ReasonReactRouter.js";
 
-import styled from "@emotion/styled"
-;
-
-import css from "@styled-system/css"
-;
-
-var wrapper = (
-      styled("a")(css({
-        cursor: "pointer",
-      }))
-    );
-
-function Link$LinkWrapper(Props) {
-  var children = Props.children;
-  var onClick = Props.onClick;
-  return React.createElement(wrapper, {
-              children: children,
-              onClick: onClick
-            });
-}
-
-var LinkWrapper = /* module */[
-  /* wrapper */wrapper,
-  /* make */Link$LinkWrapper
-];
-
 function Link(Props) {
   var to_ = Props.to_;
   var children = Props.children;
   var handleClick = function (_e) {
     return ReasonReactRouter.push(to_);
   };
-  return React.createElement(Link$LinkWrapper, {
-              children: children,
+  return React.createElement("a", {
               onClick: handleClick
-            });
+            }, children);
 }
 
 var make = Link;
 
 export {
-  LinkWrapper ,
   make ,
   
 }
-/*  Not a pure module */
+/* react Not a pure module */
