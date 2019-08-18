@@ -15,6 +15,9 @@ let make = () => {
     };
   <>
     <Header />
-    <div className="flex h-screen"> <Sidebar /> container </div>
+    <div className="flex h-screen">
+      <Sidebar />
+      <div className="px-10 py-5"> container </div>
+    </div>
   </>;
 };

@@ -14,7 +14,7 @@ module SidebarLink = {
 [@react.component]
 let make = () => {
   <div
-    className="flex flex-col px-6 pt-5 shadow-md border-r-3 border-gray-200 bg-gray-300">
+    className="flex flex-col px-6 pt-10 shadow-md border-r-3 border-gray-200 bg-gray-300">
     <SidebarLink to_="/modules"> "Modules"->str </SidebarLink>
     <SidebarLink to_="/subjects"> "Subjects"->str </SidebarLink>
     <SidebarLink to_="/topics"> "Topics"->str </SidebarLink>

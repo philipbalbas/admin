@@ -18,7 +18,7 @@ var SidebarLink = /* module */[/* make */Sidebar$SidebarLink];
 
 function Sidebar(Props) {
   return React.createElement("div", {
-              className: "flex flex-col px-6 pt-5 shadow-md border-r-3 border-gray-200 bg-gray-300"
+              className: "flex flex-col px-6 pt-10 shadow-md border-r-3 border-gray-200 bg-gray-300"
             }, React.createElement(Sidebar$SidebarLink, {
                   children: Utils$ReactHooksTemplate.str("Modules"),
                   to_: "/modules"

@@ -1,24 +1,5 @@
-let str = ReasonReact.string;
-%raw
-{|import styled from "@emotion/styled"|};
-%raw
-{|import css from "@styled-system/css"|};
-
-module Wrapper = {
-  let wrapper = [%raw
-    {|
-      styled.div(css({
-        fontSize: 3,
-        color: 1,
-      }))
-    |}
-  ];
-
-  [@react.component]
-  let make = (~children) => {
-    React.createElementVariadic(wrapper, makeProps(~children, ()), [||]);
-  };
-};
+open Utils;
+open Queries;
 
 [@react.component]
 let make = (~items, ~entity) => {
@@ -28,7 +9,7 @@ let make = (~items, ~entity) => {
          switch (item) {
          | Some(item) =>
            switch (item##name, item##id) {
-           | (Some(name), Some(id)) => <ModuleCard key=id name id entity />
+           | (Some(name), Some(id)) => <ItemCard key=id name id entity />
            | _ => "No Name"->str
            }
          | None => "None"->str
@@ -36,5 +17,17 @@ let make = (~items, ~entity) => {
        )
     |> React.array;
 
-  <Wrapper> itemsList </Wrapper>;
+  let title =
+    switch (entity) {
+    | Module => "Modules"
+    | Subject => "Subjects"
+    | Topic => "Topic"
+    | Page => "Page"
+    | Note => "Note"
+    };
+
+  <div>
+    <p className="font-bold text-4xl mb-8"> title->str </p>
+    itemsList
+  </div>;
 };

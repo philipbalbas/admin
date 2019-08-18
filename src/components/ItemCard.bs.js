@@ -7,7 +7,7 @@ function str(prim) {
   return prim;
 }
 
-function ModuleCard(Props) {
+function ItemCard(Props) {
   var name = Props.name;
   var id = Props.id;
   var entity = Props.entity;
@@ -31,13 +31,15 @@ function ModuleCard(Props) {
     
   }
   var link = "/" + (String(entityString) + ("/" + (String(id) + "")));
-  return React.createElement("div", undefined, React.createElement(Link$ReactHooksTemplate.make, {
-                  to_: link,
-                  children: name
-                }));
+  return React.createElement(Link$ReactHooksTemplate.make, {
+              to_: link,
+              children: React.createElement("div", {
+                    className: "cursor-pointer text-indigo-900 hover:text-indigo-500 text-lg mb-3"
+                  }, name)
+            });
 }
 
-var make = ModuleCard;
+var make = ItemCard;
 
 export {
   str ,

@@ -3,36 +3,8 @@
 import * as $$Array from "bs-platform/lib/es6/array.js";
 import * as React from "react";
 import * as Caml_option from "bs-platform/lib/es6/caml_option.js";
-import * as ModuleCard$ReactHooksTemplate from "./ModuleCard.bs.js";
-
-function str(prim) {
-  return prim;
-}
-
-import styled from "@emotion/styled"
-;
-
-import css from "@styled-system/css"
-;
-
-var wrapper = (
-      styled.div(css({
-        fontSize: 3,
-        color: 1,
-      }))
-    );
-
-function List$Wrapper(Props) {
-  var children = Props.children;
-  return React.createElement(wrapper, {
-              children: children
-            });
-}
-
-var Wrapper = /* module */[
-  /* wrapper */wrapper,
-  /* make */List$Wrapper
-];
+import * as Utils$ReactHooksTemplate from "../Utils.bs.js";
+import * as ItemCard$ReactHooksTemplate from "./ItemCard.bs.js";
 
 function List(Props) {
   var items = Props.items;
@@ -44,30 +16,47 @@ function List(Props) {
             var match$1 = item$1.id;
             if (match !== undefined && match$1 !== undefined) {
               var id = match$1;
-              return React.createElement(ModuleCard$ReactHooksTemplate.make, {
+              return React.createElement(ItemCard$ReactHooksTemplate.make, {
                           name: match,
                           id: id,
                           entity: entity,
                           key: id
                         });
             } else {
-              return "No Name";
+              return Utils$ReactHooksTemplate.str("No Name");
             }
           } else {
-            return "None";
+            return Utils$ReactHooksTemplate.str("None");
           }
         }), items);
-  return React.createElement(List$Wrapper, {
-              children: itemsList
-            });
+  var title;
+  switch (entity) {
+    case 0 : 
+        title = "Modules";
+        break;
+    case 1 : 
+        title = "Subjects";
+        break;
+    case 2 : 
+        title = "Topic";
+        break;
+    case 3 : 
+        title = "Page";
+        break;
+    case 4 : 
+        title = "Note";
+        break;
+    
+  }
+  return React.createElement("div", undefined, React.createElement("p", {
+                  className: "font-bold text-4xl mb-8"
+                }, Utils$ReactHooksTemplate.str(title)), itemsList);
 }
 
 var make = List;
 
 export {
-  str ,
-  Wrapper ,
   make ,
   
 }
-/*  Not a pure module */
+/* react Not a pure module */

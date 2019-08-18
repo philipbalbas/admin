@@ -13,5 +13,10 @@ let make = (~name, ~id, ~entity) => {
     };
 
   let link = {j|/$entityString/$id|j};
-  <div> <Link to_=link> name->str </Link> </div>;
+  <Link to_=link>
+    <div
+      className="cursor-pointer text-indigo-900 hover:text-indigo-500 text-lg mb-3">
+      name->str
+    </div>
+  </Link>;
 };

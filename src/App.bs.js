@@ -50,7 +50,9 @@ function App(Props) {
   }
   return React.createElement(React.Fragment, undefined, React.createElement(Header$ReactHooksTemplate.make, { }), React.createElement("div", {
                   className: "flex h-screen"
-                }, React.createElement(Sidebar$ReactHooksTemplate.make, { }), container));
+                }, React.createElement(Sidebar$ReactHooksTemplate.make, { }), React.createElement("div", {
+                      className: "px-10 py-5"
+                    }, container)));
 }
 
 var make = App;
