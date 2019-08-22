@@ -11,6 +11,7 @@ let make = () => {
     | ["topics"] => <TopicsList />
     | ["topics", id] => <TopicPage id />
     | ["pages"] => <PagesList />
+    | ["pages", id] => <Page id />
     | ["notes"] => <NotesList />
     | _ => "Page Not Found"->ReasonReact.string
     };

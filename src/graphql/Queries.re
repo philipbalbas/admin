@@ -56,6 +56,22 @@ module GetTopic = [%graphql
     }
   |}
 ];
+module GetPage = [%graphql
+  {|
+    query page($id: ID!) {
+      page: page(id: $id) {
+        id
+        name
+        description
+        content
+        notes {
+          id
+          name
+        }
+      }
+    }
+  |}
+];
 
 module ListSubjects = [%graphql
   {|
