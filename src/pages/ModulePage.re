@@ -3,8 +3,6 @@ open Hooks;
 open Queries;
 open Utils;
 
-let str = ReasonReact.string;
-
 [@react.component]
 let make = (~id) => {
   let request = GetModule.make(~id, ());
