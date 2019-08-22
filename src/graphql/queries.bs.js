@@ -290,9 +290,189 @@ var GetModule = /* module */[
   /* MT_Ret */MT_Ret$1
 ];
 
-var ppx_printed_query$2 = "query subjects  {\nsubjects  {\nname  \nid  \n}\n\n}\n";
+var ppx_printed_query$2 = "query subject($id: ID!)  {\nsubject: subject(id: $id)  {\nid  \nname  \ndescription  \ntopics  {\nid  \nname  \n}\n\n}\n\n}\n";
 
 function parse$2(value) {
+  var match = Js_json.decodeObject(value);
+  if (match !== undefined) {
+    var match$1 = Js_dict.get(Caml_option.valFromOption(match), "subject");
+    var tmp;
+    if (match$1 !== undefined) {
+      var value$1 = Caml_option.valFromOption(match$1);
+      var match$2 = Js_json.decodeNull(value$1);
+      if (match$2 !== undefined) {
+        tmp = undefined;
+      } else {
+        var match$3 = Js_json.decodeObject(value$1);
+        var tmp$1;
+        if (match$3 !== undefined) {
+          var value$2 = Caml_option.valFromOption(match$3);
+          var match$4 = Js_dict.get(value$2, "id");
+          var tmp$2;
+          if (match$4 !== undefined) {
+            var value$3 = Caml_option.valFromOption(match$4);
+            var match$5 = Js_json.decodeNull(value$3);
+            if (match$5 !== undefined) {
+              tmp$2 = undefined;
+            } else {
+              var match$6 = Js_json.decodeString(value$3);
+              tmp$2 = match$6 !== undefined ? match$6 : Js_exn.raiseError("graphql_ppx: Expected string, got " + JSON.stringify(value$3));
+            }
+          } else {
+            tmp$2 = undefined;
+          }
+          var match$7 = Js_dict.get(value$2, "name");
+          var tmp$3;
+          if (match$7 !== undefined) {
+            var value$4 = Caml_option.valFromOption(match$7);
+            var match$8 = Js_json.decodeNull(value$4);
+            if (match$8 !== undefined) {
+              tmp$3 = undefined;
+            } else {
+              var match$9 = Js_json.decodeString(value$4);
+              tmp$3 = match$9 !== undefined ? match$9 : Js_exn.raiseError("graphql_ppx: Expected string, got " + JSON.stringify(value$4));
+            }
+          } else {
+            tmp$3 = undefined;
+          }
+          var match$10 = Js_dict.get(value$2, "description");
+          var tmp$4;
+          if (match$10 !== undefined) {
+            var value$5 = Caml_option.valFromOption(match$10);
+            var match$11 = Js_json.decodeNull(value$5);
+            if (match$11 !== undefined) {
+              tmp$4 = undefined;
+            } else {
+              var match$12 = Js_json.decodeString(value$5);
+              tmp$4 = match$12 !== undefined ? match$12 : Js_exn.raiseError("graphql_ppx: Expected string, got " + JSON.stringify(value$5));
+            }
+          } else {
+            tmp$4 = undefined;
+          }
+          var match$13 = Js_dict.get(value$2, "topics");
+          var tmp$5;
+          if (match$13 !== undefined) {
+            var value$6 = Caml_option.valFromOption(match$13);
+            var match$14 = Js_json.decodeNull(value$6);
+            if (match$14 !== undefined) {
+              tmp$5 = undefined;
+            } else {
+              var match$15 = Js_json.decodeArray(value$6);
+              tmp$5 = match$15 !== undefined ? match$15.map((function (value) {
+                        var match = Js_json.decodeNull(value);
+                        if (match !== undefined) {
+                          return undefined;
+                        } else {
+                          var match$1 = Js_json.decodeObject(value);
+                          var tmp;
+                          if (match$1 !== undefined) {
+                            var value$1 = Caml_option.valFromOption(match$1);
+                            var match$2 = Js_dict.get(value$1, "id");
+                            var tmp$1;
+                            if (match$2 !== undefined) {
+                              var value$2 = Caml_option.valFromOption(match$2);
+                              var match$3 = Js_json.decodeNull(value$2);
+                              if (match$3 !== undefined) {
+                                tmp$1 = undefined;
+                              } else {
+                                var match$4 = Js_json.decodeString(value$2);
+                                tmp$1 = match$4 !== undefined ? match$4 : Js_exn.raiseError("graphql_ppx: Expected string, got " + JSON.stringify(value$2));
+                              }
+                            } else {
+                              tmp$1 = undefined;
+                            }
+                            var match$5 = Js_dict.get(value$1, "name");
+                            var tmp$2;
+                            if (match$5 !== undefined) {
+                              var value$3 = Caml_option.valFromOption(match$5);
+                              var match$6 = Js_json.decodeNull(value$3);
+                              if (match$6 !== undefined) {
+                                tmp$2 = undefined;
+                              } else {
+                                var match$7 = Js_json.decodeString(value$3);
+                                tmp$2 = match$7 !== undefined ? match$7 : Js_exn.raiseError("graphql_ppx: Expected string, got " + JSON.stringify(value$3));
+                              }
+                            } else {
+                              tmp$2 = undefined;
+                            }
+                            tmp = {
+                              id: tmp$1,
+                              name: tmp$2
+                            };
+                          } else {
+                            tmp = Js_exn.raiseError("graphql_ppx: Object is not a value");
+                          }
+                          return Caml_option.some(tmp);
+                        }
+                      })) : Js_exn.raiseError("graphql_ppx: Expected array, got " + JSON.stringify(value$6));
+            }
+          } else {
+            tmp$5 = undefined;
+          }
+          tmp$1 = {
+            id: tmp$2,
+            name: tmp$3,
+            description: tmp$4,
+            topics: tmp$5
+          };
+        } else {
+          tmp$1 = Js_exn.raiseError("graphql_ppx: Object is not a value");
+        }
+        tmp = Caml_option.some(tmp$1);
+      }
+    } else {
+      tmp = undefined;
+    }
+    return {
+            subject: tmp
+          };
+  } else {
+    return Js_exn.raiseError("graphql_ppx: Object is not a value");
+  }
+}
+
+function make$2(id, param) {
+  return {
+          query: ppx_printed_query$2,
+          variables: Js_dict.fromArray(/* array */[/* tuple */[
+                  "id",
+                  id
+                ]]),
+          parse: parse$2
+        };
+}
+
+function makeWithVariables$2(variables) {
+  var id = variables.id;
+  return {
+          query: ppx_printed_query$2,
+          variables: Js_dict.fromArray(/* array */[/* tuple */[
+                  "id",
+                  id
+                ]]),
+          parse: parse$2
+        };
+}
+
+function ret_type$2(f) {
+  return /* module */[];
+}
+
+var MT_Ret$2 = /* module */[];
+
+var GetSubject = /* module */[
+  /* ppx_printed_query */ppx_printed_query$2,
+  /* query */ppx_printed_query$2,
+  /* parse */parse$2,
+  /* make */make$2,
+  /* makeWithVariables */makeWithVariables$2,
+  /* ret_type */ret_type$2,
+  /* MT_Ret */MT_Ret$2
+];
+
+var ppx_printed_query$3 = "query subjects  {\nsubjects  {\nname  \nid  \n}\n\n}\n";
+
+function parse$3(value) {
   var match = Js_json.decodeObject(value);
   if (match !== undefined) {
     var match$1 = Js_dict.get(Caml_option.valFromOption(match), "subjects");
@@ -363,41 +543,41 @@ function parse$2(value) {
   }
 }
 
-function make$2(param) {
+function make$3(param) {
   return {
-          query: ppx_printed_query$2,
+          query: ppx_printed_query$3,
           variables: null,
-          parse: parse$2
+          parse: parse$3
         };
 }
 
-function makeWithVariables$2(param) {
+function makeWithVariables$3(param) {
   return {
-          query: ppx_printed_query$2,
+          query: ppx_printed_query$3,
           variables: null,
-          parse: parse$2
+          parse: parse$3
         };
 }
 
-function ret_type$2(f) {
+function ret_type$3(f) {
   return /* module */[];
 }
 
-var MT_Ret$2 = /* module */[];
+var MT_Ret$3 = /* module */[];
 
 var ListSubjects = /* module */[
-  /* ppx_printed_query */ppx_printed_query$2,
-  /* query */ppx_printed_query$2,
-  /* parse */parse$2,
-  /* make */make$2,
-  /* makeWithVariables */makeWithVariables$2,
-  /* ret_type */ret_type$2,
-  /* MT_Ret */MT_Ret$2
+  /* ppx_printed_query */ppx_printed_query$3,
+  /* query */ppx_printed_query$3,
+  /* parse */parse$3,
+  /* make */make$3,
+  /* makeWithVariables */makeWithVariables$3,
+  /* ret_type */ret_type$3,
+  /* MT_Ret */MT_Ret$3
 ];
 
-var ppx_printed_query$3 = "query topics  {\ntopics  {\nname  \nid  \n}\n\n}\n";
+var ppx_printed_query$4 = "query topics  {\ntopics  {\nname  \nid  \n}\n\n}\n";
 
-function parse$3(value) {
+function parse$4(value) {
   var match = Js_json.decodeObject(value);
   if (match !== undefined) {
     var match$1 = Js_dict.get(Caml_option.valFromOption(match), "topics");
@@ -468,41 +648,41 @@ function parse$3(value) {
   }
 }
 
-function make$3(param) {
+function make$4(param) {
   return {
-          query: ppx_printed_query$3,
+          query: ppx_printed_query$4,
           variables: null,
-          parse: parse$3
+          parse: parse$4
         };
 }
 
-function makeWithVariables$3(param) {
+function makeWithVariables$4(param) {
   return {
-          query: ppx_printed_query$3,
+          query: ppx_printed_query$4,
           variables: null,
-          parse: parse$3
+          parse: parse$4
         };
 }
 
-function ret_type$3(f) {
+function ret_type$4(f) {
   return /* module */[];
 }
 
-var MT_Ret$3 = /* module */[];
+var MT_Ret$4 = /* module */[];
 
 var ListTopics = /* module */[
-  /* ppx_printed_query */ppx_printed_query$3,
-  /* query */ppx_printed_query$3,
-  /* parse */parse$3,
-  /* make */make$3,
-  /* makeWithVariables */makeWithVariables$3,
-  /* ret_type */ret_type$3,
-  /* MT_Ret */MT_Ret$3
+  /* ppx_printed_query */ppx_printed_query$4,
+  /* query */ppx_printed_query$4,
+  /* parse */parse$4,
+  /* make */make$4,
+  /* makeWithVariables */makeWithVariables$4,
+  /* ret_type */ret_type$4,
+  /* MT_Ret */MT_Ret$4
 ];
 
-var ppx_printed_query$4 = "query pages  {\npages  {\nname  \nid  \n}\n\n}\n";
+var ppx_printed_query$5 = "query pages  {\npages  {\nname  \nid  \n}\n\n}\n";
 
-function parse$4(value) {
+function parse$5(value) {
   var match = Js_json.decodeObject(value);
   if (match !== undefined) {
     var match$1 = Js_dict.get(Caml_option.valFromOption(match), "pages");
@@ -573,41 +753,41 @@ function parse$4(value) {
   }
 }
 
-function make$4(param) {
+function make$5(param) {
   return {
-          query: ppx_printed_query$4,
+          query: ppx_printed_query$5,
           variables: null,
-          parse: parse$4
+          parse: parse$5
         };
 }
 
-function makeWithVariables$4(param) {
+function makeWithVariables$5(param) {
   return {
-          query: ppx_printed_query$4,
+          query: ppx_printed_query$5,
           variables: null,
-          parse: parse$4
+          parse: parse$5
         };
 }
 
-function ret_type$4(f) {
+function ret_type$5(f) {
   return /* module */[];
 }
 
-var MT_Ret$4 = /* module */[];
+var MT_Ret$5 = /* module */[];
 
 var ListPages = /* module */[
-  /* ppx_printed_query */ppx_printed_query$4,
-  /* query */ppx_printed_query$4,
-  /* parse */parse$4,
-  /* make */make$4,
-  /* makeWithVariables */makeWithVariables$4,
-  /* ret_type */ret_type$4,
-  /* MT_Ret */MT_Ret$4
+  /* ppx_printed_query */ppx_printed_query$5,
+  /* query */ppx_printed_query$5,
+  /* parse */parse$5,
+  /* make */make$5,
+  /* makeWithVariables */makeWithVariables$5,
+  /* ret_type */ret_type$5,
+  /* MT_Ret */MT_Ret$5
 ];
 
-var ppx_printed_query$5 = "query notes  {\nnotes  {\nname  \nid  \n}\n\n}\n";
+var ppx_printed_query$6 = "query notes  {\nnotes  {\nname  \nid  \n}\n\n}\n";
 
-function parse$5(value) {
+function parse$6(value) {
   var match = Js_json.decodeObject(value);
   if (match !== undefined) {
     var match$1 = Js_dict.get(Caml_option.valFromOption(match), "notes");
@@ -678,41 +858,42 @@ function parse$5(value) {
   }
 }
 
-function make$5(param) {
+function make$6(param) {
   return {
-          query: ppx_printed_query$5,
+          query: ppx_printed_query$6,
           variables: null,
-          parse: parse$5
+          parse: parse$6
         };
 }
 
-function makeWithVariables$5(param) {
+function makeWithVariables$6(param) {
   return {
-          query: ppx_printed_query$5,
+          query: ppx_printed_query$6,
           variables: null,
-          parse: parse$5
+          parse: parse$6
         };
 }
 
-function ret_type$5(f) {
+function ret_type$6(f) {
   return /* module */[];
 }
 
-var MT_Ret$5 = /* module */[];
+var MT_Ret$6 = /* module */[];
 
 var ListNotes = /* module */[
-  /* ppx_printed_query */ppx_printed_query$5,
-  /* query */ppx_printed_query$5,
-  /* parse */parse$5,
-  /* make */make$5,
-  /* makeWithVariables */makeWithVariables$5,
-  /* ret_type */ret_type$5,
-  /* MT_Ret */MT_Ret$5
+  /* ppx_printed_query */ppx_printed_query$6,
+  /* query */ppx_printed_query$6,
+  /* parse */parse$6,
+  /* make */make$6,
+  /* makeWithVariables */makeWithVariables$6,
+  /* ret_type */ret_type$6,
+  /* MT_Ret */MT_Ret$6
 ];
 
 export {
   ListModules ,
   GetModule ,
+  GetSubject ,
   ListSubjects ,
   ListTopics ,
   ListPages ,

@@ -7,7 +7,7 @@ let make = () => {
     | ["modules"] => <Home />
     | ["modules", id] => <ModulePage id />
     | ["subjects"] => <SubjectsList />
-    | ["subjects", id] => <ModulePage id />
+    | ["subjects", id] => <SubjectPage id />
     | ["topics"] => <TopicsList />
     | ["pages"] => <PagesList />
     | ["notes"] => <NotesList />

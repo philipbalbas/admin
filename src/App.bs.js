@@ -9,6 +9,7 @@ import * as NotesList$ReactHooksTemplate from "./pages/NotesList.bs.js";
 import * as PagesList$ReactHooksTemplate from "./pages/PagesList.bs.js";
 import * as ModulePage$ReactHooksTemplate from "./pages/ModulePage.bs.js";
 import * as TopicsList$ReactHooksTemplate from "./pages/TopicsList.bs.js";
+import * as SubjectPage$ReactHooksTemplate from "./pages/SubjectPage.bs.js";
 import * as SubjectsList$ReactHooksTemplate from "./pages/SubjectsList.bs.js";
 
 function App(Props) {
@@ -34,7 +35,7 @@ function App(Props) {
       case "subjects" : 
           var match$2 = match[1];
           container = match$2 ? (
-              match$2[1] ? "Page Not Found" : React.createElement(ModulePage$ReactHooksTemplate.make, {
+              match$2[1] ? "Page Not Found" : React.createElement(SubjectPage$ReactHooksTemplate.make, {
                       id: match$2[0]
                     })
             ) : React.createElement(SubjectsList$ReactHooksTemplate.make, { });

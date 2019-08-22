@@ -5,7 +5,7 @@ import * as Curry from "bs-platform/lib/es6/curry.js";
 import * as React from "react";
 import * as ReasonUrql from "reason-urql/src/ReasonUrql.bs.js";
 import * as Caml_option from "bs-platform/lib/es6/caml_option.js";
-import * as Link$ReactHooksTemplate from "../components/Link.bs.js";
+import * as Utils$ReactHooksTemplate from "../Utils.bs.js";
 import * as Queries$ReactHooksTemplate from "../graphql/Queries.bs.js";
 
 function str(prim) {
@@ -40,13 +40,13 @@ function ModulePage(Props) {
                   var match$1 = subject$1.name;
                   if (match !== undefined && match$1 !== undefined) {
                     var id = match;
-                    return React.createElement(Link$ReactHooksTemplate.make, {
-                                to_: "subjects/" + (String(id) + ""),
-                                children: React.createElement("div", {
-                                      className: "text-indigo-900 cursor-pointer hover:text-purple-600"
-                                    }, match$1),
-                                key: id
-                              });
+                    return React.createElement("div", undefined, React.createElement("button", {
+                                    onClick: (function (param) {
+                                        return Utils$ReactHooksTemplate.push("/subjects/" + (String(id) + ""));
+                                      })
+                                  }, React.createElement("div", {
+                                        className: "text-indigo-900 cursor-pointer hover:text-purple-600"
+                                      }, match$1)));
                   } else {
                     return null;
                   }
@@ -64,7 +64,7 @@ function ModulePage(Props) {
                             className: "text-lg"
                           }, "Subjects:"), React.createElement("div", undefined, subjectsList)));
       } else {
-        return null;
+        return "Missing Info";
       }
     } else {
       return "No Item";

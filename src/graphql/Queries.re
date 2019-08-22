@@ -25,6 +25,22 @@ module GetModule = [%graphql
   |}
 ];
 
+module GetSubject = [%graphql
+  {|
+    query subject($id: ID!) {
+      subject: subject(id: $id) {
+        id
+        name
+        description
+        topics {
+          id
+          name
+        }
+      }
+    }
+  |}
+];
+
 module ListSubjects = [%graphql
   {|
     query subjects {

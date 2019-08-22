@@ -1,6 +1,7 @@
 open ReasonUrql;
 open Hooks;
 open Queries;
+open Utils;
 
 let str = ReasonReact.string;
 
@@ -26,12 +27,14 @@ let make = (~id) => {
                | Some(subject) =>
                  switch (subject##id, subject##name) {
                  | (Some(id), Some(name)) =>
-                   <Link to_={j|subjects/$id|j} key=id>
-                     <div
-                       className="text-indigo-900 cursor-pointer hover:text-purple-600">
-                       name->str
-                     </div>
-                   </Link>
+                   <div>
+                     <button onClick={_ => push({j|/subjects/$id|j})}>
+                       <div
+                         className="text-indigo-900 cursor-pointer hover:text-purple-600">
+                         name->str
+                       </div>
+                     </button>
+                   </div>
                  | _ => React.null
                  }
                | None => "No Subject"->str
@@ -51,7 +54,7 @@ let make = (~id) => {
             <div> subjectsList </div>
           </div>
         </div>;
-      | _ => React.null
+      | _ => "Missing Info"->str
       }
     }
   };
