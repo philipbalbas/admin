@@ -9,6 +9,7 @@ let make = () => {
     | ["subjects"] => <SubjectsList />
     | ["subjects", id] => <SubjectPage id />
     | ["topics"] => <TopicsList />
+    | ["topics", id] => <TopicPage id />
     | ["pages"] => <PagesList />
     | ["notes"] => <NotesList />
     | _ => "Page Not Found"->ReasonReact.string

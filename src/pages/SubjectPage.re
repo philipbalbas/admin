@@ -34,7 +34,7 @@ let make = (~id) => {
                switch (topic##id, topic##name) {
                | (Some(id), Some(name)) =>
                  <div>
-                   <button onClick={_ => push({j|/subjects/$id|j})}>
+                   <button onClick={_ => push({j|/topics/$id|j})}>
                      <div
                        className="text-indigo-900 cursor-pointer hover:text-purple-600">
                        name->str
