@@ -73,6 +73,20 @@ module GetPage = [%graphql
   |}
 ];
 
+module GetNote = [%graphql
+  {|
+    query note($id: ID!) {
+      note: note(id: $id) {
+        id
+        name
+        description
+        content
+        pageId
+      }
+    }
+  |}
+];
+
 module ListSubjects = [%graphql
   {|
     query subjects {

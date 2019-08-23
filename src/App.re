@@ -13,13 +13,14 @@ let make = () => {
     | ["pages"] => <PagesList />
     | ["pages", id] => <Page id />
     | ["notes"] => <NotesList />
+    | ["notes", id] => <Note id />
     | _ => "Page Not Found"->ReasonReact.string
     };
   <>
     <Header />
     <div className="flex h-screen">
       <Sidebar />
-      <div className="px-10 py-5"> container </div>
+      <div className="px-10 py-5 w-full"> container </div>
     </div>
   </>;
 };

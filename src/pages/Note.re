@@ -1,78 +1,38 @@
-module Editor = {
-  [@bs.module "for-editor"] [@react.component]
-  external make:
-    (
-      ~value: string,
-      ~onChange: (Js.String.t => Js.String.t) => unit,
-      ~onSave: (Js.String.t => Js.String.t) => unit,
-      ~placeholder: string=?
-    ) =>
-    React.element =
-    "default";
+open Utils;
+open ReasonUrql;
+open Hooks;
+open Queries;
+open Mutations;
+
+module Markdown = {
+  [@bs.module "react-markdown"] [@react.component]
+  external make: (~source: string) => React.element = "default";
 };
 
-let str = ReasonReact.string;
-
-let placeholderText = {j|# Live demo
-
-Changes are automatically rendered as you type.
-
-* Renders actual, "native" React DOM elements
-* Allows you to escape or skip HTML (try toggling the checkboxes above)
-* If you escape or skip the HTML, no `dangerouslySetInnerHTML` is used! Yay!
-
-## HTML block below
-
-<blockquote>
-  This blockquote will change based on the HTML settings above.
-</blockquote>
-
-## How about some code?
-```js
-var React = require('react');
-var Markdown = require('react-markdown');
-
-React.render(
-  <Markdown source="# Your markdown here" />,
-  document.getElementById('content')
-);
-```
-
-Pretty neat, eh?
-
-## Tables?
-
-| Feature   | Support |
-| --------- | ------- |
-| tables    | ✔ |
-| alignment | ✔ |
-| wewt      | ✔ ||j};
-
 [@react.component]
-let make = () => {
-  let (markdownText, setMarkdownText) = React.useState(() => placeholderText);
-  let (markdownText2, setMarkdownText2) = React.useState(() => "");
-  let (title, setTitle) = React.useState(() => "");
+let make = (~id) => {
+  let request = GetNote.make(~id, ());
+  let ({response}, _) = useQuery(~request, ());
 
-  Js.log(markdownText2);
+  switch (response) {
+  | Fetching => "Fetchin"->str
+  | NotFound => "No Data"->str
+  | Error(_e) => "Error"->str
+  | Data(data) =>
+    switch (data##note) {
+    | None => "No Note"->str
+    | Some(note) =>
+      let name =
+        Belt.Option.mapWithDefault(note##name, "Missing name", txt => txt);
+      let description =
+        Belt.Option.mapWithDefault(note##description, "Missing name", txt =>
+          txt
+        );
+      let content =
+        Belt.Option.mapWithDefault(note##content, "Missing name", txt => txt);
+      let pageId = Belt.Option.mapWithDefault(note##pageId, "", txt => txt);
 
-  <div className="App">
-    <div className="header">
-      <h3> "Lecture Notes Importer"->ReasonReact.string </h3>
-      <label>
-        "Title"->str
-        <input
-          type_="text"
-          value=title
-          onChange={e => setTitle(ReactEvent.Form.target(e)##value)}
-        />
-      </label>
-    </div>
-    <Editor
-      value=markdownText
-      onChange=setMarkdownText
-      placeholder="Type Here..."
-      onSave=setMarkdownText2
-    />
-  </div>;
+      <div> <div> <NoteEdit content id pageId name /> </div> </div>;
+    }
+  };
 };
