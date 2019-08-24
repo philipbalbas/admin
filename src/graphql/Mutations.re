@@ -23,3 +23,17 @@ module UpdateNote = [%graphql
     }
   |}
 ];
+
+let updateNote = {|
+    mutation updateNote($id: ID!, $name: String, $content: String, $pageId: ID!) {
+      updateNote(input: {
+        id: $id
+        content: $content
+        pageId: $pageId
+        name: $name
+      }) {
+        id
+        content
+      }
+    }
+  |};

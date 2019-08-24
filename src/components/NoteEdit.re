@@ -22,7 +22,7 @@ module Editor = {
       ~onChange: (Js.String.t => Js.String.t) => unit,
       ~onSave: (Js.String.t => Js.String.t) => unit=?,
       ~placeholder: string=?,
-      ~language: string
+      ~language: string=?
     ) =>
     React.element =
     "default";
@@ -46,9 +46,29 @@ let make = (~content, ~id, ~pageId, ~name) => {
       {title: name, editMode: false},
     );
 
+  // let (_, executeUpdateNote) =
+  //   useMutation(
+  //     ~request=UpdateNote.make(~id, ~content=markdownText, ~pageId, ()),
+  //   );
+
+  let payload =
+    React.useMemo1(
+      () => {
+        let variables = Js.Dict.empty();
+        Js.Dict.set(variables, "id", Js.Json.string(id));
+        Js.Dict.set(variables, "pageId", Js.Json.string(pageId));
+        Js.Dict.set(variables, "name", Js.Json.string(title));
+        Js.Dict.set(variables, "content", Js.Json.string(markdownText));
+        Js.Json.object_(variables);
+      },
+      [|title, markdownText|],
+    );
+
+  Js.log(payload);
+
   let (_, executeUpdateNote) =
     useMutation(
-      ~request=UpdateNote.make(~id, ~content=markdownText, ~pageId, ()),
+      ~request={"query": updateNote, "variables": payload, "parse": x => x},
     );
 
   let handleSave = _text => {
@@ -79,7 +99,10 @@ let make = (~content, ~id, ~pageId, ~name) => {
          ? <div>
              <button
                className="px-3 py-2 mr-3 bg-indigo-600 text-indigo-100 rounded-lg"
-               onClick={_ => dispatch(Save)}>
+               onClick={_ => {
+                 dispatch(Save);
+                 executeUpdateNote() |> ignore;
+               }}>
                "Save"->str
              </button>
              <button
@@ -100,7 +123,7 @@ let make = (~content, ~id, ~pageId, ~name) => {
         onChange=setMarkdownText
         placeholder="Type Here..."
         onSave=handleSave
-        language="en-US"
+        language="en"
       />
     </div>
   </div>;
