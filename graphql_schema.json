@@ -866,7 +866,18 @@
               }
             },
             {
-              "args": [],
+              "args": [
+                {
+                  "defaultValue": "ASC",
+                  "description": null,
+                  "name": "order",
+                  "type": {
+                    "kind": "ENUM",
+                    "name": "SortOrder",
+                    "ofType": null
+                  }
+                }
+              ],
               "deprecationReason": null,
               "description": "Get a list of modules",
               "isDeprecated": false,
@@ -909,7 +920,18 @@
               }
             },
             {
-              "args": [],
+              "args": [
+                {
+                  "defaultValue": "ASC",
+                  "description": null,
+                  "name": "order",
+                  "type": {
+                    "kind": "ENUM",
+                    "name": "SortOrder",
+                    "ofType": null
+                  }
+                }
+              ],
               "deprecationReason": null,
               "description": "Get a list of notes",
               "isDeprecated": false,
@@ -995,7 +1017,18 @@
               }
             },
             {
-              "args": [],
+              "args": [
+                {
+                  "defaultValue": "ASC",
+                  "description": null,
+                  "name": "order",
+                  "type": {
+                    "kind": "ENUM",
+                    "name": "SortOrder",
+                    "ofType": null
+                  }
+                }
+              ],
               "deprecationReason": null,
               "description": "Get a list of pages",
               "isDeprecated": false,
@@ -1038,7 +1071,18 @@
               }
             },
             {
-              "args": [],
+              "args": [
+                {
+                  "defaultValue": "ASC",
+                  "description": null,
+                  "name": "order",
+                  "type": {
+                    "kind": "ENUM",
+                    "name": "SortOrder",
+                    "ofType": null
+                  }
+                }
+              ],
               "deprecationReason": null,
               "description": "Get a list subjects",
               "isDeprecated": false,
@@ -1081,7 +1125,18 @@
               }
             },
             {
-              "args": [],
+              "args": [
+                {
+                  "defaultValue": "ASC",
+                  "description": null,
+                  "name": "order",
+                  "type": {
+                    "kind": "ENUM",
+                    "name": "SortOrder",
+                    "ofType": null
+                  }
+                }
+              ],
               "deprecationReason": null,
               "description": "Get a list topics",
               "isDeprecated": false,
@@ -1144,6 +1199,29 @@
           "interfaces": [],
           "kind": "OBJECT",
           "name": "RootQueryType",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": [
+            {
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "ASC"
+            },
+            {
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "DESC"
+            }
+          ],
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "kind": "ENUM",
+          "name": "SortOrder",
           "possibleTypes": null
         },
         {

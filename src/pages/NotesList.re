@@ -16,7 +16,7 @@ let make = () => {
   | Data(data) =>
     switch (data##notes) {
     | None => "No items"->str
-    | Some(notes) => <List items=notes entity=Subject />
+    | Some(notes) => <List items=notes entity=Note />
     }
   };
 };

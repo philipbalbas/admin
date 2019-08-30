@@ -117,7 +117,7 @@ let make = (~content, ~id, ~pageId, ~name) => {
              "Edit"->str
            </button>}
     </div>
-    <div className="w-full">
+    <div className="w-full markdown">
       <Editor
         value=markdownText
         onChange=setMarkdownText
