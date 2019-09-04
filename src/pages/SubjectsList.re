@@ -1,6 +1,7 @@
 open ReasonUrql;
 open Hooks;
 open Queries;
+open Utils;
 
 let str = ReasonReact.string;
 
@@ -16,7 +17,15 @@ let make = () => {
   | Data(data) =>
     switch (data##subjects) {
     | None => "No items"->str
-    | Some(subjects) => <List items=subjects entity=Subject />
+    | Some(subjects) =>
+      <div className="flex justify-between items-start">
+        <List items=subjects entity=Subject />
+        <button
+          className="p-2 bg-gray-500 rounded-lg"
+          onClick={_ => push("/subjects/create")}>
+          "+ Create Subject"->str
+        </button>
+      </div>
     }
   };
 };

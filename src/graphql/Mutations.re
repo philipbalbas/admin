@@ -9,6 +9,22 @@
 //   |}
 // ];
 
+module CreateSubject = [%graphql
+  {|
+    mutation createSubject($name: String!, $moduleId: ID!, $description: String) {
+      createSubject(input: {
+        name: $name
+        moduleId: $moduleId
+        description: $description
+      }) {
+        id
+        name
+        description
+      }
+    }
+|}
+];
+
 module UpdateNote = [%graphql
   {|
     mutation updateNote($id: ID!, $content: String, $pageId: ID!) {

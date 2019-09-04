@@ -64,8 +64,6 @@ let make = (~content, ~id, ~pageId, ~name) => {
       [|title, markdownText|],
     );
 
-  Js.log(payload);
-
   let (_, executeUpdateNote) =
     useMutation(
       ~request={"query": updateNote, "variables": payload, "parse": x => x},
