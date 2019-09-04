@@ -40,16 +40,25 @@ let make = (~id) => {
              )
           |> React.array;
 
-        <div>
-          <div className="text-4xl font-semibold text-indigo-800">
-            name->str
+        <div className="flex justify-between">
+          <div>
+            <div className="text-4xl font-semibold text-indigo-800">
+              name->str
+            </div>
+            <div className="text-lg font-semibold text-indigo-600">
+              description->str
+            </div>
+            <div className="mt-6">
+              <div className="text-lg"> "Subjects:"->str </div>
+              <div> subjectsList </div>
+            </div>
           </div>
-          <div className="text-lg font-semibold text-indigo-600">
-            description->str
-          </div>
-          <div className="mt-6">
-            <div className="text-lg"> "Subjects:"->str </div>
-            <div> subjectsList </div>
+          <div>
+            <button
+              className="p-2 bg-gray-500 rounded-lg"
+              onClick={_ => push({j|/modules/$id/subjects/create|j})}>
+              "+ Create Subject"->str
+            </button>
           </div>
         </div>;
       | _ => "Missing Info"->str

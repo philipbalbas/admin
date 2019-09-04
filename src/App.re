@@ -8,6 +8,7 @@ let make = () => {
     | ["modules", id] => <ModulePage id />
     | ["subjects"] => <SubjectsList />
     | ["subjects", "create"] => <SubjectsForm />
+    | ["modules", id, "subjects", "create"] => <SubjectsForm id />
     | ["subjects", id] => <SubjectPage id />
     | ["topics"] => <TopicsList />
     | ["topics", id] => <TopicPage id />

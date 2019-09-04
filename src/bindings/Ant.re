@@ -18,6 +18,7 @@ module Select = {
       ~showSearch: bool=?,
       ~size: string=?,
       ~inputValue: string=?,
+      ~value: string=?,
       ~defaultOpen: bool=?,
       ~loading: bool=?,
       ~mode: [@bs.string] [ | `multiple | `default | `tags]=?,

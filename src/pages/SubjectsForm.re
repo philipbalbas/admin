@@ -21,13 +21,15 @@ type input = {
 let objec1 = input(~name="Test", ~id="1");
 
 [@react.component]
-let make = () => {
+let make = (~id: string=?) => {
   let (name, setName) = React.useState(() => "");
-  let (moduleId, setModuleId) = React.useState(() => "");
+  let (moduleId, setModuleId) = React.useState(() => id);
   let (description, setDescription) = React.useState(() => "");
 
   let request = ListModules.make();
   let ({response}, _) = useQuery(~request, ());
+
+  Js.log(id);
 
   let mutation =
     Mutations.CreateSubject.make(~name, ~moduleId, ~description, ());
@@ -64,7 +66,9 @@ let make = () => {
           );
 
       <Ant.Select
-        className="w-full" onSelect={value => setModuleId(_ => value)}>
+        className="w-full"
+        value=moduleId
+        onSelect={value => setModuleId(_ => value)}>
         modules
       </Ant.Select>;
     };
@@ -89,7 +93,7 @@ let make = () => {
       <label>
         "Subject Description"->str
         <Ant.Input
-          value=name
+          value=description
           onChange={event =>
             setDescription(ReactEvent.Form.target(event)##value)
           }
