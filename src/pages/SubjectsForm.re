@@ -33,7 +33,7 @@ let make = (~id: string=?) => {
 
   let mutation =
     Mutations.CreateSubject.make(~name, ~moduleId, ~description, ());
-  let (_, executeMutation) = useMutation(mutation);
+  let (_, executeMutation) = useMutation(~request=mutation);
 
   let selectInput =
     switch (response) {

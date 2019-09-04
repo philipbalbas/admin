@@ -62,3 +62,7 @@ module Input = {
     React.element =
     "Input";
 };
+
+module Table = {
+  // bordered
+};

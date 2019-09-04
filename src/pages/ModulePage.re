@@ -25,14 +25,27 @@ let make = (~id) => {
                | Some(subject) =>
                  switch (subject##id, subject##name) {
                  | (Some(id), Some(name)) =>
-                   <div>
-                     <button onClick={_ => push({j|/subjects/$id|j})}>
-                       <div
-                         className="text-indigo-900 cursor-pointer hover:text-purple-600">
-                         name->str
-                       </div>
-                     </button>
-                   </div>
+                   <MaterialUi.TableRow>
+                     <MaterialUi.TableCell>
+                       <button onClick={_ => push({j|/subjects/$id|j})}>
+                         <div
+                           className="text-indigo-900 cursor-pointer hover:text-purple-600">
+                           id->str
+                         </div>
+                       </button>
+                     </MaterialUi.TableCell>
+                     <MaterialUi.TableCell>
+                       <button onClick={_ => push({j|/subjects/$id|j})}>
+                         <div
+                           className="text-indigo-900 cursor-pointer hover:text-purple-600">
+                           name->str
+                         </div>
+                       </button>
+                     </MaterialUi.TableCell>
+                     <MaterialUi.TableCell>
+                       "Desription"->str
+                     </MaterialUi.TableCell>
+                   </MaterialUi.TableRow>
                  | _ => React.null
                  }
                | None => "No Subject"->str
@@ -50,7 +63,18 @@ let make = (~id) => {
             </div>
             <div className="mt-6">
               <div className="text-lg"> "Subjects:"->str </div>
-              <div> subjectsList </div>
+              <MaterialUi.Table>
+                <MaterialUi.TableHead>
+                  <MaterialUi.TableRow>
+                    <MaterialUi.TableCell> "ID"->str </MaterialUi.TableCell>
+                    <MaterialUi.TableCell> "Name"->str </MaterialUi.TableCell>
+                    <MaterialUi.TableCell>
+                      "Description"->str
+                    </MaterialUi.TableCell>
+                  </MaterialUi.TableRow>
+                </MaterialUi.TableHead>
+                <MaterialUi.TableBody> subjectsList </MaterialUi.TableBody>
+              </MaterialUi.Table>
             </div>
           </div>
           <div>
