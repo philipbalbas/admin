@@ -36,18 +36,41 @@ let make = (~id) => {
         |> Array.map(note =>
              switch (note) {
              | Some(note) =>
-               switch (note##id, note##name) {
-               | (Some(id), Some(name)) =>
-                 <div>
+               let id =
+                 Belt.Option.mapWithDefault(note##id, "Missing id", txt =>
+                   txt
+                 );
+
+               let name =
+                 Belt.Option.mapWithDefault(note##name, "Missing name", txt =>
+                   txt
+                 );
+               let description =
+                 Belt.Option.mapWithDefault(
+                   note##description, "Missing description", txt =>
+                   txt
+                 );
+               <MaterialUi.TableRow key=id>
+                 <MaterialUi.TableCell>
+                   <button onClick={_ => push({j|/notes/$id|j})}>
+                     <div
+                       className="text-indigo-900 cursor-pointer hover:text-purple-600">
+                       id->str
+                     </div>
+                   </button>
+                 </MaterialUi.TableCell>
+                 <MaterialUi.TableCell>
                    <button onClick={_ => push({j|/notes/$id|j})}>
                      <div
                        className="text-indigo-900 cursor-pointer hover:text-purple-600">
                        name->str
                      </div>
                    </button>
-                 </div>
-               | _ => React.null
-               }
+                 </MaterialUi.TableCell>
+                 <MaterialUi.TableCell>
+                   description->str
+                 </MaterialUi.TableCell>
+               </MaterialUi.TableRow>;
              | None => "No item"->str
              }
            )
@@ -65,7 +88,18 @@ let make = (~id) => {
         </div>
         <div className="mt-6">
           <div className="text-lg"> "pages:"->str </div>
-          <div> pagesList </div>
+          <MaterialUi.Table>
+            <MaterialUi.TableHead>
+              <MaterialUi.TableRow>
+                <MaterialUi.TableCell> "ID"->str </MaterialUi.TableCell>
+                <MaterialUi.TableCell> "Name"->str </MaterialUi.TableCell>
+                <MaterialUi.TableCell>
+                  "Description"->str
+                </MaterialUi.TableCell>
+              </MaterialUi.TableRow>
+            </MaterialUi.TableHead>
+            <MaterialUi.TableBody> pagesList </MaterialUi.TableBody>
+          </MaterialUi.Table>
         </div>
       </div>;
     }

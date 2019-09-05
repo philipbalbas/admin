@@ -20,6 +20,7 @@ module GetModule = [%graphql
         subjects {
           id
           name
+          description
         }
       }
     }
@@ -36,6 +37,7 @@ module GetSubject = [%graphql
         topics {
           id
           name
+          description
         }
       }
     }
@@ -52,6 +54,7 @@ module GetTopic = [%graphql
         pages {
           id
           name
+          description
         }
       }
     }
@@ -68,6 +71,7 @@ module GetPage = [%graphql
         notes {
           id
           name
+          description
         }
       }
     }
