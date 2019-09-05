@@ -4,6 +4,7 @@ module ListModules = [%graphql
       modules {
         name
         id
+        description
       }
     }
   |}
@@ -93,6 +94,7 @@ module ListSubjects = [%graphql
       subjects {
         name
         id
+        description
       }
     }
   |}
@@ -104,6 +106,7 @@ module ListTopics = [%graphql
       topics {
         name
         id
+        description
       }
     }
   |}
@@ -115,6 +118,7 @@ module ListPages = [%graphql
       pages {
         name
         id
+        description
       }
     }
   |}
@@ -126,6 +130,7 @@ module ListNotes = [%graphql
       notes {
         name
         id
+        description
       }
     }
   |}

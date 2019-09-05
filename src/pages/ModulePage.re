@@ -53,38 +53,40 @@ let make = (~id) => {
              )
           |> React.array;
 
-        <div className="flex justify-between">
-          <div>
-            <div className="text-4xl font-semibold text-indigo-800">
-              name->str
+        <>
+          <div className="flex justify-between">
+            <div>
+              <div className="text-4xl font-semibold text-indigo-800">
+                name->str
+              </div>
+              <div className="text-lg font-semibold text-indigo-600">
+                description->str
+              </div>
             </div>
-            <div className="text-lg font-semibold text-indigo-600">
-              description->str
-            </div>
-            <div className="mt-6">
-              <div className="text-lg"> "Subjects:"->str </div>
-              <MaterialUi.Table>
-                <MaterialUi.TableHead>
-                  <MaterialUi.TableRow>
-                    <MaterialUi.TableCell> "ID"->str </MaterialUi.TableCell>
-                    <MaterialUi.TableCell> "Name"->str </MaterialUi.TableCell>
-                    <MaterialUi.TableCell>
-                      "Description"->str
-                    </MaterialUi.TableCell>
-                  </MaterialUi.TableRow>
-                </MaterialUi.TableHead>
-                <MaterialUi.TableBody> subjectsList </MaterialUi.TableBody>
-              </MaterialUi.Table>
+            <div>
+              <button
+                className="p-2 bg-gray-500 rounded-lg"
+                onClick={_ => push({j|/modules/$id/subjects/create|j})}>
+                "+ Create Subject"->str
+              </button>
             </div>
           </div>
-          <div>
-            <button
-              className="p-2 bg-gray-500 rounded-lg"
-              onClick={_ => push({j|/modules/$id/subjects/create|j})}>
-              "+ Create Subject"->str
-            </button>
+          <div className="mt-6">
+            <div className="text-lg"> "Subjects:"->str </div>
+            <MaterialUi.Table>
+              <MaterialUi.TableHead>
+                <MaterialUi.TableRow>
+                  <MaterialUi.TableCell> "ID"->str </MaterialUi.TableCell>
+                  <MaterialUi.TableCell> "Name"->str </MaterialUi.TableCell>
+                  <MaterialUi.TableCell>
+                    "Description"->str
+                  </MaterialUi.TableCell>
+                </MaterialUi.TableRow>
+              </MaterialUi.TableHead>
+              <MaterialUi.TableBody> subjectsList </MaterialUi.TableBody>
+            </MaterialUi.Table>
           </div>
-        </div>;
+        </>;
       | _ => "Missing Info"->str
       }
     }
