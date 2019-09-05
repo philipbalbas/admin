@@ -34,6 +34,7 @@ module GetSubject = [%graphql
         id
         name
         description
+        moduleId
         topics {
           id
           name
@@ -99,6 +100,7 @@ module ListSubjects = [%graphql
         name
         id
         description
+        moduleId
       }
     }
   |}

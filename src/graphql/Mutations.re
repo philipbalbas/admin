@@ -22,7 +22,23 @@ module CreateSubject = [%graphql
         description
       }
     }
-|}
+  |}
+];
+
+module CreateTopic = [%graphql
+  {|
+    mutation createTopic($name: String!, $subjectId: ID!, $description: String) {
+      createTopic(input: {
+        name: $name
+        subjectId: $subjectId
+        description: $description
+      }) {
+        id
+        name
+        description
+      }
+    }
+  |}
 ];
 
 module UpdateNote = [%graphql

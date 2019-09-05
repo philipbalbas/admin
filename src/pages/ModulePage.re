@@ -4,8 +4,8 @@ open Queries;
 open Utils;
 
 [@react.component]
-let make = (~id) => {
-  let request = GetModule.make(~id, ());
+let make = (~id as moduleId) => {
+  let request = GetModule.make(~id=moduleId, ());
   let ({response}, _) = useQuery(~request, ());
 
   switch (response) {
@@ -24,10 +24,13 @@ let make = (~id) => {
                switch (subject) {
                | Some(subject) =>
                  switch (subject##id, subject##name) {
-                 | (Some(id), Some(name)) =>
+                 | (Some(id as subjectId), Some(name)) =>
                    <MaterialUi.TableRow>
                      <MaterialUi.TableCell>
-                       <button onClick={_ => push({j|/subjects/$id|j})}>
+                       <button
+                         onClick={_ =>
+                           push({j|/modules/$moduleId/subjects/$subjectId|j})
+                         }>
                          <div
                            className="text-indigo-900 cursor-pointer hover:text-purple-600">
                            id->str
@@ -35,7 +38,10 @@ let make = (~id) => {
                        </button>
                      </MaterialUi.TableCell>
                      <MaterialUi.TableCell>
-                       <button onClick={_ => push({j|/subjects/$id|j})}>
+                       <button
+                         onClick={_ =>
+                           push({j|/modules/$moduleId/subjects/$subjectId|j})
+                         }>
                          <div
                            className="text-indigo-900 cursor-pointer hover:text-purple-600">
                            name->str
@@ -65,8 +71,8 @@ let make = (~id) => {
             </div>
             <div>
               <button
-                className="p-2 bg-gray-500 rounded-lg"
-                onClick={_ => push({j|/modules/$id/subjects/create|j})}>
+                className="p-2 bg-indigo-800 text-blue-100 rounded-lg"
+                onClick={_ => push({j|/modules/$moduleId/subjects/create|j})}>
                 "+ Create Subject"->str
               </button>
             </div>

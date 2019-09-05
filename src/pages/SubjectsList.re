@@ -21,7 +21,7 @@ let make = () => {
       <div className="flex justify-between items-start">
         <List items=subjects entity=Subject />
         <button
-          className="p-2 bg-gray-500 rounded-lg"
+          className="p-2 bg-indigo-800 text-blue-100 rounded-lg"
           onClick={_ => push("/subjects/create")}>
           "+ Create Subject"->str
         </button>

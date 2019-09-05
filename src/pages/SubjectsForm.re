@@ -29,8 +29,6 @@ let make = (~id: string=?) => {
   let request = ListModules.make();
   let ({response}, _) = useQuery(~request, ());
 
-  Js.log(id);
-
   let mutation =
     Mutations.CreateSubject.make(~name, ~moduleId, ~description, ());
   let (_, executeMutation) = useMutation(~request=mutation);

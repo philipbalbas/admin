@@ -1267,6 +1267,18 @@
               "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
+              "name": "moduleId",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
               "name": "name",
               "type": {
                 "kind": "SCALAR",

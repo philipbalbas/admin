@@ -8,9 +8,13 @@ let make = () => {
     | ["modules", id] => <ModulePage id />
     | ["subjects"] => <SubjectsList />
     | ["subjects", "create"] => <SubjectsForm />
-    | ["modules", id, "subjects", "create"] => <SubjectsForm id />
     | ["subjects", id] => <SubjectPage id />
+    | ["modules", id, "subjects", "create"] => <SubjectsForm id />
+    | ["modules", _moduleId, "subjects", id] => <SubjectPage id />
     | ["topics"] => <TopicsList />
+    | ["topics", "create"] => <TopicsForm />
+    | ["modules", moduleId, "subjects", subjectId, "topics", "create"] =>
+      <TopicsForm moduleIdProp=moduleId subjectIdProp=subjectId />
     | ["topics", id] => <TopicPage id />
     | ["pages"] => <PagesList />
     | ["pages", id] => <Page id />
