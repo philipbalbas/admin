@@ -767,6 +767,18 @@
                   "ofType": null
                 }
               }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "topicId",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
             }
           ],
           "inputFields": null,
@@ -1424,6 +1436,18 @@
                   "name": "Page",
                   "ofType": null
                 }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "subjectId",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
               }
             }
           ],

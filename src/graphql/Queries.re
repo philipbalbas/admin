@@ -52,6 +52,7 @@ module GetTopic = [%graphql
         id
         name
         description
+        subjectId
         pages {
           id
           name

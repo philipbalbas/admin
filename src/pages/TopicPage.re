@@ -26,6 +26,12 @@ let make = (~id) => {
           txt
         );
 
+      let parentId =
+        Belt.Option.mapWithDefault(
+          topic##subjectId, "Missing description", txt =>
+          txt
+        );
+
       let pagesList =
         topic##pages->Belt.Option.getWithDefault([||])
         |> Array.map(page =>
@@ -70,13 +76,25 @@ let make = (~id) => {
              }
            )
         |> React.array;
-
-      <div>
-        <div className="text-4xl font-semibold text-indigo-800">
-          name->str
-        </div>
-        <div className="text-lg font-semibold text-indigo-600">
-          description->str
+      <>
+        <div className="flex justify-between">
+          <div>
+            <div className="text-4xl font-semibold text-indigo-800">
+              name->str
+            </div>
+            <div className="text-lg font-semibold text-indigo-600">
+              description->str
+            </div>
+          </div>
+          <div>
+            <button
+              className="p-2 bg-indigo-800 text-blue-100 rounded-lg"
+              onClick={_ =>
+                push({j|/subjects/$parentId/topics/$id/pages/create|j})
+              }>
+              "+ Create Page"->str
+            </button>
+          </div>
         </div>
         <div className="mt-6">
           <div className="text-lg"> "Topics:"->str </div>
@@ -93,7 +111,7 @@ let make = (~id) => {
             <MaterialUi.TableBody> pagesList </MaterialUi.TableBody>
           </MaterialUi.Table>
         </div>
-      </div>;
+      </>;
     }
   };
 };

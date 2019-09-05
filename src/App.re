@@ -17,6 +17,9 @@ let make = () => {
       <TopicsForm moduleIdProp=moduleId subjectIdProp=subjectId />
     | ["topics", id] => <TopicPage id />
     | ["pages"] => <PagesList />
+    | ["pages", "create"] => <PagesForm />
+    | ["subjects", subjectId, "topics", topicId, "pages", "create"] =>
+      <PagesForm subjectIdProp=subjectId topicIdProp=topicId />
     | ["pages", id] => <Page id />
     | ["notes"] => <NotesList />
     | ["notes", id] => <Note id />
