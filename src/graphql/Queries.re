@@ -125,6 +125,7 @@ module ListPages = [%graphql
         name
         id
         description
+        content
       }
     }
   |}

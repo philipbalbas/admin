@@ -54,26 +54,14 @@ let make = (~items, ~entity) => {
        )
     |> React.array;
 
-  let title =
-    switch (entity) {
-    | Module => "Modules"
-    | Subject => "Subjects"
-    | Topic => "Topic"
-    | Page => "Page"
-    | Note => "Note"
-    };
-
-  <div>
-    <p className="font-bold text-4xl mb-8"> title->str </p>
-    <MaterialUi.Table>
-      <MaterialUi.TableHead>
-        <MaterialUi.TableRow>
-          <MaterialUi.TableCell> "ID"->str </MaterialUi.TableCell>
-          <MaterialUi.TableCell> "Name"->str </MaterialUi.TableCell>
-          <MaterialUi.TableCell> "Description"->str </MaterialUi.TableCell>
-        </MaterialUi.TableRow>
-      </MaterialUi.TableHead>
-      <MaterialUi.TableBody> itemsList </MaterialUi.TableBody>
-    </MaterialUi.Table>
-  </div>;
+  <MaterialUi.Table>
+    <MaterialUi.TableHead>
+      <MaterialUi.TableRow>
+        <MaterialUi.TableCell> "ID"->str </MaterialUi.TableCell>
+        <MaterialUi.TableCell> "Name"->str </MaterialUi.TableCell>
+        <MaterialUi.TableCell> "Description"->str </MaterialUi.TableCell>
+      </MaterialUi.TableRow>
+    </MaterialUi.TableHead>
+    <MaterialUi.TableBody> itemsList </MaterialUi.TableBody>
+  </MaterialUi.Table>;
 };

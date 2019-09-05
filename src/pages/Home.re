@@ -15,7 +15,13 @@ let make = () => {
   | Data(data) =>
     switch (data##modules) {
     | None => "No items"->str
-    | Some(modules) => <List items=modules entity=Module />
+    | Some(modules) =>
+      <>
+        <div className="flex justify-between items-start">
+          <p className="font-bold text-4xl mb-8"> "Modules"->str </p>
+        </div>
+        <List items=modules entity=Module />
+      </>
     }
   };
 };

@@ -16,14 +16,17 @@ let make = () => {
     switch (data##topics) {
     | None => "No items"->str
     | Some(topics) =>
-      <div className="flex justify-between items-start">
+      <>
+        <div className="flex justify-between items-start">
+          <p className="font-bold text-4xl mb-8"> "Topics"->str </p>
+          <button
+            className="p-2 bg-indigo-800 text-blue-100 rounded-lg"
+            onClick={_ => push("/topics/create")}>
+            "+ Create Topic"->str
+          </button>
+        </div>
         <List items=topics entity=Topic />
-        <button
-          className="p-2 bg-indigo-800 text-blue-100 rounded-lg"
-          onClick={_ => push("/topics/create")}>
-          "+ Create Topic"->str
-        </button>
-      </div>
+      </>
     }
   };
 };
