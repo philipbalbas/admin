@@ -70,6 +70,7 @@ module GetPage = [%graphql
         name
         description
         content
+        topicId
         notes {
           id
           name

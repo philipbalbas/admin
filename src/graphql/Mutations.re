@@ -59,6 +59,24 @@ module CreatePage = [%graphql
   |}
 ];
 
+module CreateNote = [%graphql
+  {|
+    mutation createNote($name: String!, $pageId: ID!, $description: String, $content: String) {
+      createNote(input: {
+        name: $name
+        pageId: $pageId
+        description: $description
+        content: $content
+      }) {
+        id
+        name
+        description
+        content
+      }
+    }
+  |}
+];
+
 module UpdateNote = [%graphql
   {|
     mutation updateNote($id: ID!, $content: String, $pageId: ID!) {

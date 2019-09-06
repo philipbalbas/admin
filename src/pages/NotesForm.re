@@ -4,44 +4,46 @@ open ReasonUrql;
 open Hooks;
 
 [@react.component]
-let make = (~subjectIdProp: string=?, ~topicIdProp: string=?) => {
+let make = (~topicIdProp: string=?, ~pageIdProp: string=?) => {
   let (name, setName) = React.useState(() => "");
-  let (subjectId, setSubjectId) = React.useState(() => subjectIdProp);
   let (topicId, setTopicId) = React.useState(() => topicIdProp);
+  let (pageId, setPageId) = React.useState(() => pageIdProp);
   let (description, setDescription) = React.useState(() => "");
+  let (content, setContent) = React.useState(() => "");
 
-  let subjectsListRequest = ListSubjects.make();
-  let ({response: subjectsListQueryResponse}, _) =
-    useQuery(~request=subjectsListRequest, ());
+  let topicsListRequest = ListTopics.make();
+  let ({response: topicsListQueryResponse}, _) =
+    useQuery(~request=topicsListRequest, ());
 
-  let subjectQuery = GetSubject.make(~id=subjectId, ());
-  let ({response: subjectQueryResponse}, _) =
-    useQuery(~request=subjectQuery, ());
+  let topicQuery = GetTopic.make(~id=topicId, ());
+  let ({response: topicQueryResponse}, _) =
+    useQuery(~request=topicQuery, ());
 
-  let mutation = Mutations.CreatePage.make(~name, ~topicId, ~description, ());
+  let mutation =
+    Mutations.CreateNote.make(~name, ~pageId, ~description, ~content, ());
   let (_, executeMutation) = useMutation(~request=mutation);
 
-  let subjectsSelect =
-    switch (subjectsListQueryResponse) {
+  let topicsSelect =
+    switch (topicsListQueryResponse) {
     | Fetching => "Loading"->str
     | Error(_) => "Error"->str
     | NotFound => "Not Found"->str
     | Data(data) =>
-      let subjects =
-        data##subjects
+      let topics =
+        data##topics
         ->Belt.Option.getWithDefault([||])
-        ->Belt.Array.map(subject =>
-            subject->Belt.Option.mapWithDefault(
+        ->Belt.Array.map(topic =>
+            topic->Belt.Option.mapWithDefault(
               React.null,
-              subject => {
+              topic => {
                 let id =
                   Belt.Option.mapWithDefault(
-                    subject##id, "Missing description", txt =>
+                    topic##id, "Missing description", txt =>
                     txt
                   );
                 let name =
                   Belt.Option.mapWithDefault(
-                    subject##name, "Missing description", txt =>
+                    topic##name, "Missing description", txt =>
                     txt
                   );
                 <Ant.Select.Option key=id value=id>
@@ -53,37 +55,36 @@ let make = (~subjectIdProp: string=?, ~topicIdProp: string=?) => {
 
       <Ant.Select
         className="w-full"
-        value=subjectId
+        value=topicId
         onSelect={value => {
-          setSubjectId(_ => value);
-          setTopicId(_ => "");
+          setTopicId(_ => value);
+          setPageId(_ => "");
         }}>
-        subjects
+        topics
       </Ant.Select>;
     };
 
-  let topicsSelect =
-    switch (subjectQueryResponse) {
+  let pageSelect =
+    switch (topicQueryResponse) {
     | Fetching => "Loading"->str
     | Error(_) => <div> "Please Select a subject"->str </div>
     | NotFound => "Not Found"->str
     | Data(data) =>
-      let topics =
-        data##subject
-        ->Belt.Option.flatMap(subject => subject##topics)
+      let pages =
+        data##topic
+        ->Belt.Option.flatMap(topic => topic##pages)
         ->Belt.Option.getWithDefault([||])
-        ->Belt.Array.map(subject =>
-            subject->Belt.Option.mapWithDefault(
+        ->Belt.Array.map(pages =>
+            pages->Belt.Option.mapWithDefault(
               React.null,
-              subject => {
+              pages => {
                 let id =
-                  Belt.Option.mapWithDefault(subject##id, "Missing id", txt =>
+                  Belt.Option.mapWithDefault(pages##id, "Missing id", txt =>
                     txt
                   );
 
                 let name =
-                  Belt.Option.mapWithDefault(
-                    subject##name, "Missing name", txt =>
+                  Belt.Option.mapWithDefault(pages##name, "Missing name", txt =>
                     txt
                   );
 
@@ -97,25 +98,25 @@ let make = (~subjectIdProp: string=?, ~topicIdProp: string=?) => {
 
       <Ant.Select
         className="w-full"
-        value=topicId
-        onSelect={value => setTopicId(_ => value)}>
-        topics
+        value=pageId
+        onSelect={value => setPageId(_ => value)}>
+        pages
       </Ant.Select>;
     };
 
   <div>
-    <div className="text-xl font-bold pb-3"> "Create Page"->str </div>
+    <div className="text-xl font-bold pb-3"> "Create Note"->str </div>
     <div className="flex flex-row">
       <div className="flex-1 pr-2">
-        <label> "Select Subject"->str subjectsSelect </label>
+        <label> "Select Topic"->str topicsSelect </label>
       </div>
       <div className="flex-1 pr-2">
-        <label> "Select Topic"->str topicsSelect </label>
+        <label> "Select Page"->str pageSelect </label>
       </div>
     </div>
     <div className="mt-3">
       <label>
-        "Page Name"->str
+        "Name"->str
         <Ant.Input
           value=name
           onChange={event => setName(ReactEvent.Form.target(event)##value)}
@@ -124,7 +125,7 @@ let make = (~subjectIdProp: string=?, ~topicIdProp: string=?) => {
     </div>
     <div className="mt-3">
       <label>
-        "Page Description"->str
+        "Description"->str
         <Ant.Input
           value=description
           onChange={event =>
@@ -132,6 +133,14 @@ let make = (~subjectIdProp: string=?, ~topicIdProp: string=?) => {
           }
         />
       </label>
+    </div>
+    <div className="mt-3 markdown">
+      <ForEditor.Editor
+        value=content
+        onChange=setContent
+        language="en"
+        toolbar=ForEditor.defaultOption
+      />
     </div>
     <div className="mt-4">
       <button
