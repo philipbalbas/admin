@@ -45,7 +45,7 @@ let make = (~id, ~name, ~description) => {
     );
 
   let mutation =
-    Mutations.UpdateModule.make(~id, ~name=title, ~description, ());
+    Mutations.UpdateSubject.make(~id, ~name=title, ~description, ());
 
   let (_response, executeMutation) = useMutation(~request=mutation);
 

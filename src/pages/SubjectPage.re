@@ -16,12 +16,12 @@ let make = (~id) => {
     switch (data##subject) {
     | None => "No Subject"->str
     | Some(subject) =>
-      let description =
+      let subjectDescription =
         Belt.Option.mapWithDefault(subject##description, "Missing name", txt =>
           txt
         );
 
-      let name =
+      let subjectName =
         Belt.Option.mapWithDefault(subject##name, "Missing description", txt =>
           txt
         );
@@ -34,40 +34,40 @@ let make = (~id) => {
         |> Array.map(topic =>
              switch (topic) {
              | Some(topic) =>
-               let id =
+               let topicId =
                  Belt.Option.mapWithDefault(topic##id, "Missing id", txt =>
                    txt
                  );
 
-               let name =
+               let topicName =
                  Belt.Option.mapWithDefault(topic##name, "Missing name", txt =>
                    txt
                  );
-               let description =
+               let topicDescription =
                  Belt.Option.mapWithDefault(
                    topic##description, "Missing description", txt =>
                    txt
                  );
 
-               <MaterialUi.TableRow key=id>
+               <MaterialUi.TableRow key=topicId>
                  <MaterialUi.TableCell>
-                   <button onClick={_ => push({j|/topics/$id|j})}>
+                   <button onClick={_ => push({j|/topics/$topicId|j})}>
                      <div
                        className="text-indigo-900 cursor-pointer hover:text-purple-600">
-                       id->str
+                       topicId->str
                      </div>
                    </button>
                  </MaterialUi.TableCell>
                  <MaterialUi.TableCell>
-                   <button onClick={_ => push({j|/topics/$id|j})}>
+                   <button onClick={_ => push({j|/topics/$topicId|j})}>
                      <div
                        className="text-indigo-900 cursor-pointer hover:text-purple-600">
-                       name->str
+                       topicName->str
                      </div>
                    </button>
                  </MaterialUi.TableCell>
                  <MaterialUi.TableCell>
-                   description->str
+                   topicDescription->str
                  </MaterialUi.TableCell>
                </MaterialUi.TableRow>;
              | None => "No item"->str
@@ -77,14 +77,11 @@ let make = (~id) => {
 
       <>
         <div className="flex justify-between">
-          <div>
-            <div className="text-4xl font-semibold text-indigo-800">
-              name->str
-            </div>
-            <div className="text-lg font-semibold text-indigo-600">
-              description->str
-            </div>
-          </div>
+          <EditSubjectForm
+            name=subjectName
+            description=subjectDescription
+            id
+          />
           <div>
             <button
               className="p-2 bg-indigo-800 text-blue-100 rounded-lg"
