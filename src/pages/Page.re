@@ -16,64 +16,64 @@ let make = (~id) => {
     switch (data##page) {
     | None => "No page"->str
     | Some(page) =>
-      let description =
+      let pageDescription =
         Belt.Option.mapWithDefault(page##description, "Missing name", txt =>
           txt
         );
 
-      let name =
+      let pageName =
         Belt.Option.mapWithDefault(page##name, "Missing description", txt =>
           txt
         );
 
-      let content =
-        Belt.Option.mapWithDefault(page##content, "Missing description", txt =>
-          txt
-        );
+      // let pageContent =
+      //   Belt.Option.mapWithDefault(page##content, "Missing description", txt =>
+      //     txt
+      //   );
 
       let parentId =
         Belt.Option.mapWithDefault(page##topicId, "Missing description", txt =>
           txt
         );
 
-      let pagesList =
+      let notesList =
         page##notes->Belt.Option.getWithDefault([||])
         |> Array.map(note =>
              switch (note) {
              | Some(note) =>
-               let id =
+               let noteId =
                  Belt.Option.mapWithDefault(note##id, "Missing id", txt =>
                    txt
                  );
 
-               let name =
+               let noteName =
                  Belt.Option.mapWithDefault(note##name, "Missing name", txt =>
                    txt
                  );
-               let description =
+               let noteDescription =
                  Belt.Option.mapWithDefault(
                    note##description, "Missing description", txt =>
                    txt
                  );
-               <MaterialUi.TableRow key=id>
+               <MaterialUi.TableRow key=noteId>
                  <MaterialUi.TableCell>
-                   <button onClick={_ => push({j|/notes/$id|j})}>
+                   <button onClick={_ => push({j|/notes/$noteId|j})}>
                      <div
                        className="text-indigo-900 cursor-pointer hover:text-purple-600">
-                       id->str
+                       noteId->str
                      </div>
                    </button>
                  </MaterialUi.TableCell>
                  <MaterialUi.TableCell>
-                   <button onClick={_ => push({j|/notes/$id|j})}>
+                   <button onClick={_ => push({j|/notes/$noteId|j})}>
                      <div
                        className="text-indigo-900 cursor-pointer hover:text-purple-600">
-                       name->str
+                       noteName->str
                      </div>
                    </button>
                  </MaterialUi.TableCell>
                  <MaterialUi.TableCell>
-                   description->str
+                   noteDescription->str
                  </MaterialUi.TableCell>
                </MaterialUi.TableRow>;
              | None => "No item"->str
@@ -83,18 +83,11 @@ let make = (~id) => {
 
       <>
         <div className="flex justify-between">
-          <div>
-            <div className="text-4xl font-semibold text-indigo-800">
-              name->str
-            </div>
-            <div className="text-lg font-semibold text-indigo-600">
-              description->str
-            </div>
-            <div className="text-md font-normal text-indigo-500">
-              content->str
-            </div>
-          </div>
-          <div>
+          <EditPageForm name=pageName description=pageDescription id />
+        </div>
+        <div className="mt-6">
+          <div className="flex justify-between items-center">
+            <div className="text-lg"> "Notes:"->str </div>
             <button
               className="p-2 bg-indigo-800 text-blue-100 rounded-lg"
               onClick={_ =>
@@ -103,9 +96,6 @@ let make = (~id) => {
               "+ Create Note"->str
             </button>
           </div>
-        </div>
-        <div className="mt-6">
-          <div className="text-lg"> "pages:"->str </div>
           <MaterialUi.Table>
             <MaterialUi.TableHead>
               <MaterialUi.TableRow>
@@ -116,7 +106,7 @@ let make = (~id) => {
                 </MaterialUi.TableCell>
               </MaterialUi.TableRow>
             </MaterialUi.TableHead>
-            <MaterialUi.TableBody> pagesList </MaterialUi.TableBody>
+            <MaterialUi.TableBody> notesList </MaterialUi.TableBody>
           </MaterialUi.Table>
         </div>
       </>;

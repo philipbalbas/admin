@@ -2,7 +2,7 @@ open Utils;
 open ReasonUrql;
 open Hooks;
 open Queries;
-open Mutations;
+// open Mutations;
 
 module Markdown = {
   [@bs.module "react-markdown"] [@react.component]
@@ -24,10 +24,10 @@ let make = (~id) => {
     | Some(note) =>
       let name =
         Belt.Option.mapWithDefault(note##name, "Missing name", txt => txt);
-      let description =
-        Belt.Option.mapWithDefault(note##description, "Missing name", txt =>
-          txt
-        );
+      // let description =
+      //   Belt.Option.mapWithDefault(note##description, "Missing name", txt =>
+      //     txt
+      //   );
       let content =
         Belt.Option.mapWithDefault(note##content, "Missing name", txt => txt);
       let pageId = Belt.Option.mapWithDefault(note##pageId, "", txt => txt);

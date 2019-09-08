@@ -77,7 +77,7 @@ let make = (~id) => {
         |> React.array;
       <>
         <div className="flex justify-between">
-          <EditSubjectForm name=topicName description=topicDescription id />
+          <EditTopicForm name=topicName description=topicDescription id />
         </div>
         <div className="mt-6">
           <div className="flex justify-between items-center">

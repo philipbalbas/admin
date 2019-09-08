@@ -95,12 +95,11 @@ module UpdateModule = [%graphql
 
 module UpdateSubject = [%graphql
   {|
-    mutation updateSubject($id: ID!, $name: String!, $description: String, $moduleId: ID) {
+    mutation updateSubject($id: ID!, $name: String!, $description: String) {
       updateSubject(input: {
         id: $id
         name: $name
         description: $description
-        moduleId: $moduleId
       }) {
         id
         name
@@ -112,12 +111,27 @@ module UpdateSubject = [%graphql
 
 module UpdateTopic = [%graphql
   {|
-    mutation updateTopic($id: ID!, $name: String!, $description: String, $subjectId: ID) {
+    mutation updateTopic($id: ID!, $name: String!, $description: String) {
       updateTopic(input: {
         id: $id
         name: $name
         description: $description
-        subjectId: $subjectId
+      }) {
+        id
+        name
+        description
+      }
+    }
+  |}
+];
+
+module UpdatePage = [%graphql
+  {|
+    mutation updatePage($id: ID!, $name: String!, $description: String) {
+      updatePage(input: {
+        id: $id
+        name: $name
+        description: $description
       }) {
         id
         name
