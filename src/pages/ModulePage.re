@@ -3,6 +3,19 @@ open Hooks;
 open Queries;
 open Utils;
 
+type state = {
+  title: string,
+  description: string,
+  editMode: bool,
+};
+
+type action =
+  | Edit
+  | Cancel
+  | Save
+  | TypeTitle(string)
+  | TypeDesc(string);
+
 [@react.component]
 let make = (~id as moduleId) => {
   let request = GetModule.make(~id=moduleId, ());
@@ -16,85 +29,93 @@ let make = (~id as moduleId) => {
     switch (data##module_) {
     | None => "No Item"->str
     | Some(module_) =>
-      switch (module_##name, module_##description, module_##subjects) {
-      | (Some(name), Some(description), Some(subjects)) =>
-        let subjectsList =
-          subjects
-          |> Array.map(subject =>
-               switch (subject) {
-               | Some(subject) =>
-                 switch (subject##id, subject##name) {
-                 | (Some(id as subjectId), Some(name)) =>
-                   <MaterialUi.TableRow>
-                     <MaterialUi.TableCell>
-                       <button
-                         onClick={_ =>
-                           push({j|/modules/$moduleId/subjects/$subjectId|j})
-                         }>
-                         <div
-                           className="text-indigo-900 cursor-pointer hover:text-purple-600">
-                           id->str
-                         </div>
-                       </button>
-                     </MaterialUi.TableCell>
-                     <MaterialUi.TableCell>
-                       <button
-                         onClick={_ =>
-                           push({j|/modules/$moduleId/subjects/$subjectId|j})
-                         }>
-                         <div
-                           className="text-indigo-900 cursor-pointer hover:text-purple-600">
-                           name->str
-                         </div>
-                       </button>
-                     </MaterialUi.TableCell>
-                     <MaterialUi.TableCell>
-                       "Desription"->str
-                     </MaterialUi.TableCell>
-                   </MaterialUi.TableRow>
-                 | _ => React.null
-                 }
-               | None => "No Subject"->str
-               }
-             )
-          |> React.array;
+      let moduleDescription =
+        Belt.Option.mapWithDefault(module_##description, "Missing name", txt =>
+          txt
+        );
 
-        <>
-          <div className="flex justify-between">
-            <div>
-              <div className="text-4xl font-semibold text-indigo-800">
-                name->str
-              </div>
-              <div className="text-lg font-semibold text-indigo-600">
-                description->str
-              </div>
-            </div>
-            <div>
-              <button
-                className="p-2 bg-indigo-800 text-blue-100 rounded-lg"
-                onClick={_ => push({j|/modules/$moduleId/subjects/create|j})}>
-                "+ Create Subject"->str
-              </button>
-            </div>
-          </div>
-          <div className="mt-6">
+      let moduleName =
+        Belt.Option.mapWithDefault(module_##name, "Missing description", txt =>
+          txt
+        );
+
+      let subjectsList =
+        module_##subjects->Belt.Option.getWithDefault([||])
+        |> Array.map(topic =>
+             switch (topic) {
+             | Some(topic) =>
+               let sujbectId =
+                 Belt.Option.mapWithDefault(topic##id, "Missing id", txt =>
+                   txt
+                 );
+
+               let subjectName =
+                 Belt.Option.mapWithDefault(topic##name, "Missing name", txt =>
+                   txt
+                 );
+               let subjectDescription =
+                 Belt.Option.mapWithDefault(
+                   topic##description, "Missing description", txt =>
+                   txt
+                 );
+
+               <MaterialUi.TableRow key=sujbectId>
+                 <MaterialUi.TableCell>
+                   <button onClick={_ => push({j|/topics/$sujbectId|j})}>
+                     <div
+                       className="text-indigo-900 cursor-pointer hover:text-purple-600">
+                       sujbectId->str
+                     </div>
+                   </button>
+                 </MaterialUi.TableCell>
+                 <MaterialUi.TableCell>
+                   <button onClick={_ => push({j|/topics/$sujbectId|j})}>
+                     <div
+                       className="text-indigo-900 cursor-pointer hover:text-purple-600">
+                       subjectName->str
+                     </div>
+                   </button>
+                 </MaterialUi.TableCell>
+                 <MaterialUi.TableCell>
+                   subjectDescription->str
+                 </MaterialUi.TableCell>
+               </MaterialUi.TableRow>;
+             | None => "No item"->str
+             }
+           )
+        |> React.array;
+
+      <>
+        <div className="flex justify-between">
+          <EditModuleForm
+            name=moduleName
+            description=moduleDescription
+            id=moduleId
+          />
+        </div>
+        <div className="mt-6">
+          <div className="flex justify-between items-center">
             <div className="text-lg"> "Subjects:"->str </div>
-            <MaterialUi.Table>
-              <MaterialUi.TableHead>
-                <MaterialUi.TableRow>
-                  <MaterialUi.TableCell> "ID"->str </MaterialUi.TableCell>
-                  <MaterialUi.TableCell> "Name"->str </MaterialUi.TableCell>
-                  <MaterialUi.TableCell>
-                    "Description"->str
-                  </MaterialUi.TableCell>
-                </MaterialUi.TableRow>
-              </MaterialUi.TableHead>
-              <MaterialUi.TableBody> subjectsList </MaterialUi.TableBody>
-            </MaterialUi.Table>
+            <button
+              className="p-2 bg-indigo-800 text-blue-100 rounded-lg"
+              onClick={_ => push({j|/modules/$moduleId/subjects/create|j})}>
+              "+ Create Subject"->str
+            </button>
           </div>
-        </>;
-      | _ => "Missing Info"->str
-      }
+          <MaterialUi.Table>
+            <MaterialUi.TableHead>
+              <MaterialUi.TableRow>
+                <MaterialUi.TableCell> "ID"->str </MaterialUi.TableCell>
+                <MaterialUi.TableCell> "Name"->str </MaterialUi.TableCell>
+                <MaterialUi.TableCell>
+                  "Description"->str
+                </MaterialUi.TableCell>
+              </MaterialUi.TableRow>
+            </MaterialUi.TableHead>
+            <MaterialUi.TableBody> subjectsList </MaterialUi.TableBody>
+          </MaterialUi.Table>
+        </div>
+      </>;
     }
   };
 };
