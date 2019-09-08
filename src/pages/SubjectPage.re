@@ -17,14 +17,13 @@ let make = (~id) => {
     | None => "No Subject"->str
     | Some(subject) =>
       let subjectDescription =
-        Belt.Option.mapWithDefault(subject##description, "Missing name", txt =>
+        Belt.Option.mapWithDefault(
+          subject##description, "Missing description", txt =>
           txt
         );
 
       let subjectName =
-        Belt.Option.mapWithDefault(subject##name, "Missing description", txt =>
-          txt
-        );
+        Belt.Option.mapWithDefault(subject##name, "Missing name", txt => txt);
 
       let parentId =
         Belt.Option.mapWithDefault(subject##moduleId, "", txt => txt);
@@ -82,7 +81,10 @@ let make = (~id) => {
             description=subjectDescription
             id
           />
-          <div>
+        </div>
+        <div className="mt-6">
+          <div className="flex justify-between items-center">
+            <div className="text-lg"> "Topics:"->str </div>
             <button
               className="p-2 bg-indigo-800 text-blue-100 rounded-lg"
               onClick={_ =>
@@ -91,9 +93,6 @@ let make = (~id) => {
               "+ Create Topic"->str
             </button>
           </div>
-        </div>
-        <div className="mt-6">
-          <div className="text-lg"> "Topics:"->str </div>
           <MaterialUi.Table>
             <MaterialUi.TableHead>
               <MaterialUi.TableRow>
