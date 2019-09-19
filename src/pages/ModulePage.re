@@ -61,7 +61,7 @@ let make = (~id as moduleId) => {
 
                <MaterialUi.TableRow key=sujbectId>
                  <MaterialUi.TableCell>
-                   <button onClick={_ => push({j|/topics/$sujbectId|j})}>
+                   <button onClick={_ => push({j|/subjects/$sujbectId|j})}>
                      <div
                        className="text-indigo-900 cursor-pointer hover:text-purple-600">
                        sujbectId->str
@@ -69,7 +69,7 @@ let make = (~id as moduleId) => {
                    </button>
                  </MaterialUi.TableCell>
                  <MaterialUi.TableCell>
-                   <button onClick={_ => push({j|/topics/$sujbectId|j})}>
+                   <button onClick={_ => push({j|/subjects/$sujbectId|j})}>
                      <div
                        className="text-indigo-900 cursor-pointer hover:text-purple-600">
                        subjectName->str
