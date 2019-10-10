@@ -124,5 +124,6 @@ let make = (~content, ~id, ~pageId, ~name) => {
         language="en"
       />
     </div>
+    <MarkdownRender source=markdownText />
   </div>;
 };

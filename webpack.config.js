@@ -1,9 +1,9 @@
-const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const outputDir = path.join(__dirname, 'build/')
-const Dotenv = require('dotenv-webpack')
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const outputDir = path.join(__dirname, 'build/');
+const Dotenv = require('dotenv-webpack');
 
-const isProd = process.env.NODE_ENV === 'production'
+const isProd = process.env.NODE_ENV === 'production';
 
 module.exports = {
   entry: './src/Index.bs.js',
@@ -25,6 +25,10 @@ module.exports = {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader'],
       },
+      {
+        test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,
+        loader: 'file-loader',
+      },
     ],
   },
   devServer: {
@@ -33,4 +37,4 @@ module.exports = {
     port: process.env.PORT || 8000,
     historyApiFallback: true,
   },
-}
+};
