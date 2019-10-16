@@ -3,13 +3,13 @@ open Queries;
 open ReasonUrql;
 open Hooks;
 
-module StateLenses = [%lenses
-  type state = {
-    name: string,
-    moduleId: string,
-    description: string,
-  }
-];
+// module StateLenses = [%lenses
+//   type state = {
+//     name: string,
+//     moduleId: string,
+//     description: string,
+//   }
+// ];
 
 [@bs.deriving abstract]
 type input = {
