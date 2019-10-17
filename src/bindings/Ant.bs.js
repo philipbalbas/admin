@@ -7,11 +7,24 @@ var Select = /* module */[/* Option */$$Option];
 
 var Input = /* module */[];
 
+var Item = /* module */[];
+
+var SubMenu = /* module */[];
+
+var ItemGroup = /* module */[];
+
+var Menu = /* module */[
+  /* Item */Item,
+  /* SubMenu */SubMenu,
+  /* ItemGroup */ItemGroup
+];
+
 var Table = /* module */[];
 
 export {
   Select ,
   Input ,
+  Menu ,
   Table ,
   
 }

@@ -7,7 +7,7 @@
 %bs.raw
 {|import 'katex/dist/katex.min.css';|};
 
-[@bs.val] external apiUrl: string = "process.env.API_PROD";
+[@bs.val] external apiUrl: string = "process.env.API_DEV";
 
 open ReasonUrql;
 

@@ -16,7 +16,7 @@ import "antd/dist/antd.css"
 import 'katex/dist/katex.min.css';
 ;
 
-var client = Curry._4(ReasonUrql.Client[/* make */3], process.env.API_PROD, undefined, undefined, /* () */0);
+var client = Curry._4(ReasonUrql.Client[/* make */3], process.env.API_DEV, undefined, undefined, /* () */0);
 
 ReactDOMRe.renderToElementWithId(React.createElement(Urql.Provider, {
           value: client,
