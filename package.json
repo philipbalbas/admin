@@ -35,15 +35,15 @@
     "react-katex": "^2.0.2",
     "react-markdown": "^4.2.2",
     "reason-react": "^0.7.0",
-    "reason-urql": "^1.0.2",
+    "reason-urql": "^1.4.0",
     "remark-math": "^2.0.0"
   },
   "devDependencies": {
+    "@baransu/graphql_ppx_re": "^0.4.6",
     "autoprefixer": "^9.6.1",
-    "bs-platform": "^5.0.6",
+    "bs-platform": "^7.0.1",
     "css-loader": "^3.2.0",
     "dotenv-webpack": "^1.7.0",
-    "graphql_ppx": "^0.2.8",
     "html-webpack-plugin": "^3.2.0",
     "lenses-ppx": "4.0.0",
     "postcss-cli": "^6.1.3",

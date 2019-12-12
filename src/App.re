@@ -26,6 +26,9 @@ let make = () => {
     | ["topics", topicId, "pages", pageId, "notes", "create"] =>
       <NotesForm topicIdProp=topicId pageIdProp=pageId />
     | ["notes", id] => <Note id />
+    | ["exams"] => <ExamsList />
+    | ["exams", id] => <ExamPage id />
+    | ["cards"] => <CardsList />
     | _ => "Page Not Found"->ReasonReact.string
     };
   <>

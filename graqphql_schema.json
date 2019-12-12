@@ -1,0 +1,6 @@
+{
+  "scripts": {
+    "sync-schema": "graphql get-schema && node ./generateFragmentTypes.js",
+    "generate-ppx-schema": "node ./node_modules/gql-tools/cli/gqlschema.js -o graphql_schema.json schema.graphql"
+  }
+}

@@ -1,3 +1,7 @@
+type stringOrElement =
+  | Str(string)
+  | Elem(React.element);
+
 module Select = {
   [@bs.module "antd"] [@react.component]
   external make:
@@ -26,6 +30,7 @@ module Select = {
       ~onBlur: unit => unit=?,
       ~onFocus: unit => unit=?,
       ~tokenSeparators: array(string)=?,
+      ~placeholder: stringOrElement=?,
       ~children: 'b
     ) =>
     React.element =
@@ -119,6 +124,18 @@ module Menu = {
   };
 };
 
-module Table = {
-  // bordered
+module Modal = {
+  [@bs.module "antd"] [@react.component]
+  external make:
+    (
+      ~afterClose: unit => unit=?,
+      ~bodyStyle: Js.t('a),
+      ~cancelText: string=?,
+      ~centered: bool=?,
+      ~className: string=?,
+      ~content: stringOrElement=?,
+      ~icon: stringOrElement=?
+    ) =>
+    React.element =
+    "Modal";
 };

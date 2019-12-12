@@ -8,6 +8,9 @@ let make = () => {
       onClick={_e => push("/")}>
       "Reviewer Admin"->str
     </a>
-    <nav> <a className="text-white"> "Hello User"->str </a> </nav>
+    <nav className="flex justify-between">
+      <CategorySelect />
+      <a className="text-white"> "Hello User"->str </a>
+    </nav>
   </header>;
 };
