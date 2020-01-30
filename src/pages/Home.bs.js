@@ -3,7 +3,7 @@
 import * as Curry from "bs-platform/lib/es6/curry.js";
 import * as React from "react";
 import * as ReasonUrql from "reason-urql/src/ReasonUrql.bs.js";
-import * as List$ReactHooksTemplate from "../components/List.bs.js";
+import * as Table$ReactHooksTemplate from "../components/Table.bs.js";
 import * as Queries$ReactHooksTemplate from "../graphql/Queries.bs.js";
 
 function str(prim) {
@@ -12,7 +12,7 @@ function str(prim) {
 
 function Home(Props) {
   var request = Queries$ReactHooksTemplate.ListModules.make(/* () */0);
-  var match = Curry._4(ReasonUrql.Hooks.useQuery, request, undefined, undefined, /* () */0);
+  var match = Curry._5(ReasonUrql.Hooks.useQuery, request, undefined, undefined, undefined, /* () */0);
   var response = match[0].response;
   if (typeof response === "number") {
     if (response === /* Fetching */0) {
@@ -29,7 +29,7 @@ function Home(Props) {
                       className: "flex justify-between items-start"
                     }, React.createElement("p", {
                           className: "font-bold text-4xl mb-8"
-                        }, "Modules")), React.createElement(List$ReactHooksTemplate.make, {
+                        }, "Modules")), React.createElement(Table$ReactHooksTemplate.make, {
                       items: match$1,
                       entity: /* Module */0
                     }));

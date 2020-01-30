@@ -14,7 +14,7 @@ import * as EditTopicForm$ReactHooksTemplate from "../components/EditTopicForm.b
 function TopicPage(Props) {
   var id = Props.id;
   var request = Queries$ReactHooksTemplate.GetTopic.make(id, /* () */0);
-  var match = Curry._4(ReasonUrql.Hooks.useQuery, request, undefined, undefined, /* () */0);
+  var match = Curry._5(ReasonUrql.Hooks.useQuery, request, undefined, undefined, undefined, /* () */0);
   var response = match[0].response;
   if (typeof response === "number") {
     if (response === /* Fetching */0) {

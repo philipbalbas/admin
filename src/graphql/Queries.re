@@ -84,7 +84,7 @@ module GetPage = [%graphql
 module GetNote = [%graphql
   {|
     query note($id: ID!) {
-      note: note(id: $id) {
+      note(id: $id) {
         id
         name
         description
@@ -145,9 +145,98 @@ module ListNotes = [%graphql
   |}
 ];
 
+type card = {
+  id: string,
+  question: string,
+  rationale: option(string),
+  examId: option(string),
+  topicId: option(string),
+};
+
+type cards = card;
+
+type exam = {
+  name: string,
+  id: string,
+  categoryId: string,
+  type_: [ | `COMPREHENSIVE | `MOCK | `PRACTICE],
+  cards: option(array(option(card))),
+};
+
+let stringifyExamType = type_ =>
+  switch (type_) {
+  | `COMPREHENSIVE => "Comprehensive"
+  | `MOCK => "Mock"
+  | `PRACTICE => "Practice"
+  };
+
+type listExams = exam;
+type getExam = exam;
+
+module ListExams = [%graphql
+  {|
+   query listExams {
+     listExams @bsRecord {
+       id
+       categoryId
+       name
+       type_ : type
+      cards @bsRecord {
+        id
+        question
+        rationale
+         examId
+         topicId
+        }
+     }
+   }
+ |}
+];
+
+module GetExam = [%graphql
+  {|
+  query getExam($id: ID!) {
+    getExam(id: $id) @bsRecord {
+      id
+      categoryId
+      name
+      type_ : type
+      cards @bsRecord {
+        id
+        question
+        rationale
+         examId
+        topicId
+      }
+    }
+  }
+  |}
+];
+
+type category = {
+  id: string,
+  description: string,
+  name: string,
+};
+
+type listCategories = category;
+
+module ListCategories = [%graphql
+  {|
+  query listCategories {
+    listCategories @bsRecord {
+      id
+      description
+      name
+    }
+  }
+  |}
+];
+
 type entity =
   | Module
   | Subject
   | Topic
   | Page
-  | Note;
+  | Note
+  | Exam;

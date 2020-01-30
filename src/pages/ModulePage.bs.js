@@ -14,7 +14,7 @@ import * as EditModuleForm$ReactHooksTemplate from "../components/EditModuleForm
 function ModulePage(Props) {
   var moduleId = Props.id;
   var request = Queries$ReactHooksTemplate.GetModule.make(moduleId, /* () */0);
-  var match = Curry._4(ReasonUrql.Hooks.useQuery, request, undefined, undefined, /* () */0);
+  var match = Curry._5(ReasonUrql.Hooks.useQuery, request, undefined, undefined, undefined, /* () */0);
   var response = match[0].response;
   if (typeof response === "number") {
     if (response === /* Fetching */0) {

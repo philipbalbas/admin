@@ -995,7 +995,7 @@ var GetPage = {
   MT_Ret: MT_Ret$4
 };
 
-var ppx_printed_query$5 = "query note($id: ID!)  {\nnote: note(id: $id)  {\nid  \nname  \ndescription  \ncontent  \npageId  \n}\n\n}\n";
+var ppx_printed_query$5 = "query note($id: ID!)  {\nnote(id: $id)  {\nid  \nname  \ndescription  \ncontent  \npageId  \n}\n\n}\n";
 
 function parse$5(value) {
   var value$1 = Js_option.getExn(Js_json.decodeObject(value));
@@ -1673,6 +1673,594 @@ var ListNotes = {
   MT_Ret: MT_Ret$9
 };
 
+function stringifyExamType(type_) {
+  if (type_ !== -93548357) {
+    if (type_ >= 857840266) {
+      return "Mock";
+    } else {
+      return "Comprehensive";
+    }
+  } else {
+    return "Practice";
+  }
+}
+
+var ppx_printed_query$10 = "query listExams  {\nlistExams  {\nid  \ncategoryId  \nname  \ntype_: type  \ncards  {\nid  \nquestion  \nrationale  \nexamId  \ntopicId  \n}\n\n}\n\n}\n";
+
+function parse$10(value) {
+  var value$1 = Js_option.getExn(Js_json.decodeObject(value));
+  var match = Js_dict.get(value$1, "listExams");
+  var tmp;
+  if (match !== undefined) {
+    var value$2 = Caml_option.valFromOption(match);
+    var match$1 = Js_json.decodeNull(value$2);
+    tmp = match$1 !== undefined ? undefined : Js_option.getExn(Js_json.decodeArray(value$2)).map((function (value) {
+              var match = Js_json.decodeObject(value);
+              if (match !== undefined) {
+                var value$1 = Caml_option.valFromOption(match);
+                var match$1 = Js_dict.get(value$1, "id");
+                var field_id;
+                if (match$1 !== undefined) {
+                  var value$2 = Caml_option.valFromOption(match$1);
+                  var match$2 = Js_json.decodeString(value$2);
+                  field_id = match$2 !== undefined ? match$2 : Js_exn.raiseError("graphql_ppx: Expected string, got " + JSON.stringify(value$2));
+                } else {
+                  field_id = Js_exn.raiseError("graphql_ppx: Field id on type Exam is missing");
+                }
+                var match$3 = Js_dict.get(value$1, "categoryId");
+                var field_categoryId;
+                if (match$3 !== undefined) {
+                  var value$3 = Caml_option.valFromOption(match$3);
+                  var match$4 = Js_json.decodeString(value$3);
+                  field_categoryId = match$4 !== undefined ? match$4 : Js_exn.raiseError("graphql_ppx: Expected string, got " + JSON.stringify(value$3));
+                } else {
+                  field_categoryId = Js_exn.raiseError("graphql_ppx: Field categoryId on type Exam is missing");
+                }
+                var match$5 = Js_dict.get(value$1, "name");
+                var field_name;
+                if (match$5 !== undefined) {
+                  var value$4 = Caml_option.valFromOption(match$5);
+                  var match$6 = Js_json.decodeString(value$4);
+                  field_name = match$6 !== undefined ? match$6 : Js_exn.raiseError("graphql_ppx: Expected string, got " + JSON.stringify(value$4));
+                } else {
+                  field_name = Js_exn.raiseError("graphql_ppx: Field name on type Exam is missing");
+                }
+                var match$7 = Js_dict.get(value$1, "type_");
+                var field_type_;
+                if (match$7 !== undefined) {
+                  var value$5 = Caml_option.valFromOption(match$7);
+                  var match$8 = Js_json.decodeString(value$5);
+                  if (match$8 !== undefined) {
+                    var value$6 = match$8;
+                    switch (value$6) {
+                      case "COMPREHENSIVE" :
+                          field_type_ = /* COMPREHENSIVE */-896878028;
+                          break;
+                      case "MOCK" :
+                          field_type_ = /* MOCK */857840266;
+                          break;
+                      case "PRACTICE" :
+                          field_type_ = /* PRACTICE */-93548357;
+                          break;
+                      default:
+                        field_type_ = Js_exn.raiseError("graphql_ppx: Unknown enum variant for ExamType: " + value$6);
+                    }
+                  } else {
+                    field_type_ = Js_exn.raiseError("graphql_ppx: Expected enum value for ExamType, got " + JSON.stringify(value$5));
+                  }
+                } else {
+                  field_type_ = Js_exn.raiseError("graphql_ppx: Field type_ on type Exam is missing");
+                }
+                var match$9 = Js_dict.get(value$1, "cards");
+                var field_cards;
+                if (match$9 !== undefined) {
+                  var value$7 = Caml_option.valFromOption(match$9);
+                  var match$10 = Js_json.decodeNull(value$7);
+                  field_cards = match$10 !== undefined ? undefined : Js_option.getExn(Js_json.decodeArray(value$7)).map((function (value) {
+                            var match = Js_json.decodeNull(value);
+                            if (match !== undefined) {
+                              return ;
+                            } else {
+                              var match$1 = Js_json.decodeObject(value);
+                              var tmp;
+                              if (match$1 !== undefined) {
+                                var value$1 = Caml_option.valFromOption(match$1);
+                                var match$2 = Js_dict.get(value$1, "id");
+                                var field_id;
+                                if (match$2 !== undefined) {
+                                  var value$2 = Caml_option.valFromOption(match$2);
+                                  var match$3 = Js_json.decodeString(value$2);
+                                  field_id = match$3 !== undefined ? match$3 : Js_exn.raiseError("graphql_ppx: Expected string, got " + JSON.stringify(value$2));
+                                } else {
+                                  field_id = Js_exn.raiseError("graphql_ppx: Field id on type Card is missing");
+                                }
+                                var match$4 = Js_dict.get(value$1, "question");
+                                var field_question;
+                                if (match$4 !== undefined) {
+                                  var value$3 = Caml_option.valFromOption(match$4);
+                                  var match$5 = Js_json.decodeString(value$3);
+                                  field_question = match$5 !== undefined ? match$5 : Js_exn.raiseError("graphql_ppx: Expected string, got " + JSON.stringify(value$3));
+                                } else {
+                                  field_question = Js_exn.raiseError("graphql_ppx: Field question on type Card is missing");
+                                }
+                                var match$6 = Js_dict.get(value$1, "rationale");
+                                var field_rationale;
+                                if (match$6 !== undefined) {
+                                  var value$4 = Caml_option.valFromOption(match$6);
+                                  var match$7 = Js_json.decodeNull(value$4);
+                                  if (match$7 !== undefined) {
+                                    field_rationale = undefined;
+                                  } else {
+                                    var match$8 = Js_json.decodeString(value$4);
+                                    field_rationale = match$8 !== undefined ? match$8 : Js_exn.raiseError("graphql_ppx: Expected string, got " + JSON.stringify(value$4));
+                                  }
+                                } else {
+                                  field_rationale = undefined;
+                                }
+                                var match$9 = Js_dict.get(value$1, "examId");
+                                var field_examId;
+                                if (match$9 !== undefined) {
+                                  var value$5 = Caml_option.valFromOption(match$9);
+                                  var match$10 = Js_json.decodeNull(value$5);
+                                  if (match$10 !== undefined) {
+                                    field_examId = undefined;
+                                  } else {
+                                    var match$11 = Js_json.decodeString(value$5);
+                                    field_examId = match$11 !== undefined ? match$11 : Js_exn.raiseError("graphql_ppx: Expected string, got " + JSON.stringify(value$5));
+                                  }
+                                } else {
+                                  field_examId = undefined;
+                                }
+                                var match$12 = Js_dict.get(value$1, "topicId");
+                                var field_topicId;
+                                if (match$12 !== undefined) {
+                                  var value$6 = Caml_option.valFromOption(match$12);
+                                  var match$13 = Js_json.decodeNull(value$6);
+                                  if (match$13 !== undefined) {
+                                    field_topicId = undefined;
+                                  } else {
+                                    var match$14 = Js_json.decodeString(value$6);
+                                    field_topicId = match$14 !== undefined ? match$14 : Js_exn.raiseError("graphql_ppx: Expected string, got " + JSON.stringify(value$6));
+                                  }
+                                } else {
+                                  field_topicId = undefined;
+                                }
+                                tmp = {
+                                  id: field_id,
+                                  question: field_question,
+                                  rationale: field_rationale,
+                                  examId: field_examId,
+                                  topicId: field_topicId
+                                };
+                              } else {
+                                tmp = Js_exn.raiseError("graphql_ppx: Expected object of type Card, got " + JSON.stringify(value));
+                              }
+                              return tmp;
+                            }
+                          }));
+                } else {
+                  field_cards = undefined;
+                }
+                return {
+                        name: field_name,
+                        id: field_id,
+                        categoryId: field_categoryId,
+                        type_: field_type_,
+                        cards: field_cards
+                      };
+              } else {
+                return Js_exn.raiseError("graphql_ppx: Expected object of type Exam, got " + JSON.stringify(value));
+              }
+            }));
+  } else {
+    tmp = undefined;
+  }
+  return {
+          listExams: tmp
+        };
+}
+
+function make$10(param) {
+  return {
+          query: ppx_printed_query$10,
+          variables: null,
+          parse: parse$10
+        };
+}
+
+function makeWithVariables$10(param) {
+  return {
+          query: ppx_printed_query$10,
+          variables: null,
+          parse: parse$10
+        };
+}
+
+function makeVariables$10(param) {
+  return null;
+}
+
+function definition_002$10(graphql_ppx_use_json_variables_fn) {
+  return 0;
+}
+
+var definition$10 = /* tuple */[
+  parse$10,
+  ppx_printed_query$10,
+  definition_002$10
+];
+
+function ret_type$10(f) {
+  return { };
+}
+
+var MT_Ret$10 = { };
+
+var ListExams = {
+  ppx_printed_query: ppx_printed_query$10,
+  query: ppx_printed_query$10,
+  parse: parse$10,
+  make: make$10,
+  makeWithVariables: makeWithVariables$10,
+  makeVariables: makeVariables$10,
+  definition: definition$10,
+  ret_type: ret_type$10,
+  MT_Ret: MT_Ret$10
+};
+
+var ppx_printed_query$11 = "query getExam($id: ID!)  {\ngetExam(id: $id)  {\nid  \ncategoryId  \nname  \ntype_: type  \ncards  {\nid  \nquestion  \nrationale  \nexamId  \ntopicId  \n}\n\n}\n\n}\n";
+
+function parse$11(value) {
+  var value$1 = Js_option.getExn(Js_json.decodeObject(value));
+  var match = Js_dict.get(value$1, "getExam");
+  var tmp;
+  if (match !== undefined) {
+    var value$2 = Caml_option.valFromOption(match);
+    var match$1 = Js_json.decodeNull(value$2);
+    if (match$1 !== undefined) {
+      tmp = undefined;
+    } else {
+      var match$2 = Js_json.decodeObject(value$2);
+      var tmp$1;
+      if (match$2 !== undefined) {
+        var value$3 = Caml_option.valFromOption(match$2);
+        var match$3 = Js_dict.get(value$3, "id");
+        var field_id;
+        if (match$3 !== undefined) {
+          var value$4 = Caml_option.valFromOption(match$3);
+          var match$4 = Js_json.decodeString(value$4);
+          field_id = match$4 !== undefined ? match$4 : Js_exn.raiseError("graphql_ppx: Expected string, got " + JSON.stringify(value$4));
+        } else {
+          field_id = Js_exn.raiseError("graphql_ppx: Field id on type Exam is missing");
+        }
+        var match$5 = Js_dict.get(value$3, "categoryId");
+        var field_categoryId;
+        if (match$5 !== undefined) {
+          var value$5 = Caml_option.valFromOption(match$5);
+          var match$6 = Js_json.decodeString(value$5);
+          field_categoryId = match$6 !== undefined ? match$6 : Js_exn.raiseError("graphql_ppx: Expected string, got " + JSON.stringify(value$5));
+        } else {
+          field_categoryId = Js_exn.raiseError("graphql_ppx: Field categoryId on type Exam is missing");
+        }
+        var match$7 = Js_dict.get(value$3, "name");
+        var field_name;
+        if (match$7 !== undefined) {
+          var value$6 = Caml_option.valFromOption(match$7);
+          var match$8 = Js_json.decodeString(value$6);
+          field_name = match$8 !== undefined ? match$8 : Js_exn.raiseError("graphql_ppx: Expected string, got " + JSON.stringify(value$6));
+        } else {
+          field_name = Js_exn.raiseError("graphql_ppx: Field name on type Exam is missing");
+        }
+        var match$9 = Js_dict.get(value$3, "type_");
+        var field_type_;
+        if (match$9 !== undefined) {
+          var value$7 = Caml_option.valFromOption(match$9);
+          var match$10 = Js_json.decodeString(value$7);
+          if (match$10 !== undefined) {
+            var value$8 = match$10;
+            switch (value$8) {
+              case "COMPREHENSIVE" :
+                  field_type_ = /* COMPREHENSIVE */-896878028;
+                  break;
+              case "MOCK" :
+                  field_type_ = /* MOCK */857840266;
+                  break;
+              case "PRACTICE" :
+                  field_type_ = /* PRACTICE */-93548357;
+                  break;
+              default:
+                field_type_ = Js_exn.raiseError("graphql_ppx: Unknown enum variant for ExamType: " + value$8);
+            }
+          } else {
+            field_type_ = Js_exn.raiseError("graphql_ppx: Expected enum value for ExamType, got " + JSON.stringify(value$7));
+          }
+        } else {
+          field_type_ = Js_exn.raiseError("graphql_ppx: Field type_ on type Exam is missing");
+        }
+        var match$11 = Js_dict.get(value$3, "cards");
+        var field_cards;
+        if (match$11 !== undefined) {
+          var value$9 = Caml_option.valFromOption(match$11);
+          var match$12 = Js_json.decodeNull(value$9);
+          field_cards = match$12 !== undefined ? undefined : Js_option.getExn(Js_json.decodeArray(value$9)).map((function (value) {
+                    var match = Js_json.decodeNull(value);
+                    if (match !== undefined) {
+                      return ;
+                    } else {
+                      var match$1 = Js_json.decodeObject(value);
+                      var tmp;
+                      if (match$1 !== undefined) {
+                        var value$1 = Caml_option.valFromOption(match$1);
+                        var match$2 = Js_dict.get(value$1, "id");
+                        var field_id;
+                        if (match$2 !== undefined) {
+                          var value$2 = Caml_option.valFromOption(match$2);
+                          var match$3 = Js_json.decodeString(value$2);
+                          field_id = match$3 !== undefined ? match$3 : Js_exn.raiseError("graphql_ppx: Expected string, got " + JSON.stringify(value$2));
+                        } else {
+                          field_id = Js_exn.raiseError("graphql_ppx: Field id on type Card is missing");
+                        }
+                        var match$4 = Js_dict.get(value$1, "question");
+                        var field_question;
+                        if (match$4 !== undefined) {
+                          var value$3 = Caml_option.valFromOption(match$4);
+                          var match$5 = Js_json.decodeString(value$3);
+                          field_question = match$5 !== undefined ? match$5 : Js_exn.raiseError("graphql_ppx: Expected string, got " + JSON.stringify(value$3));
+                        } else {
+                          field_question = Js_exn.raiseError("graphql_ppx: Field question on type Card is missing");
+                        }
+                        var match$6 = Js_dict.get(value$1, "rationale");
+                        var field_rationale;
+                        if (match$6 !== undefined) {
+                          var value$4 = Caml_option.valFromOption(match$6);
+                          var match$7 = Js_json.decodeNull(value$4);
+                          if (match$7 !== undefined) {
+                            field_rationale = undefined;
+                          } else {
+                            var match$8 = Js_json.decodeString(value$4);
+                            field_rationale = match$8 !== undefined ? match$8 : Js_exn.raiseError("graphql_ppx: Expected string, got " + JSON.stringify(value$4));
+                          }
+                        } else {
+                          field_rationale = undefined;
+                        }
+                        var match$9 = Js_dict.get(value$1, "examId");
+                        var field_examId;
+                        if (match$9 !== undefined) {
+                          var value$5 = Caml_option.valFromOption(match$9);
+                          var match$10 = Js_json.decodeNull(value$5);
+                          if (match$10 !== undefined) {
+                            field_examId = undefined;
+                          } else {
+                            var match$11 = Js_json.decodeString(value$5);
+                            field_examId = match$11 !== undefined ? match$11 : Js_exn.raiseError("graphql_ppx: Expected string, got " + JSON.stringify(value$5));
+                          }
+                        } else {
+                          field_examId = undefined;
+                        }
+                        var match$12 = Js_dict.get(value$1, "topicId");
+                        var field_topicId;
+                        if (match$12 !== undefined) {
+                          var value$6 = Caml_option.valFromOption(match$12);
+                          var match$13 = Js_json.decodeNull(value$6);
+                          if (match$13 !== undefined) {
+                            field_topicId = undefined;
+                          } else {
+                            var match$14 = Js_json.decodeString(value$6);
+                            field_topicId = match$14 !== undefined ? match$14 : Js_exn.raiseError("graphql_ppx: Expected string, got " + JSON.stringify(value$6));
+                          }
+                        } else {
+                          field_topicId = undefined;
+                        }
+                        tmp = {
+                          id: field_id,
+                          question: field_question,
+                          rationale: field_rationale,
+                          examId: field_examId,
+                          topicId: field_topicId
+                        };
+                      } else {
+                        tmp = Js_exn.raiseError("graphql_ppx: Expected object of type Card, got " + JSON.stringify(value));
+                      }
+                      return tmp;
+                    }
+                  }));
+        } else {
+          field_cards = undefined;
+        }
+        tmp$1 = {
+          name: field_name,
+          id: field_id,
+          categoryId: field_categoryId,
+          type_: field_type_,
+          cards: field_cards
+        };
+      } else {
+        tmp$1 = Js_exn.raiseError("graphql_ppx: Expected object of type Exam, got " + JSON.stringify(value$2));
+      }
+      tmp = tmp$1;
+    }
+  } else {
+    tmp = undefined;
+  }
+  return {
+          getExam: tmp
+        };
+}
+
+function make$11(id, param) {
+  return {
+          query: ppx_printed_query$11,
+          variables: Js_dict.fromArray(/* array */[/* tuple */[
+                    "id",
+                    id
+                  ]].filter((function (param) {
+                      return !Js_json.test(param[1], /* Null */5);
+                    }))),
+          parse: parse$11
+        };
+}
+
+function makeWithVariables$11(variables) {
+  var id = variables.id;
+  return {
+          query: ppx_printed_query$11,
+          variables: Js_dict.fromArray(/* array */[/* tuple */[
+                    "id",
+                    id
+                  ]].filter((function (param) {
+                      return !Js_json.test(param[1], /* Null */5);
+                    }))),
+          parse: parse$11
+        };
+}
+
+function makeVariables$11(id, param) {
+  return Js_dict.fromArray(/* array */[/* tuple */[
+                  "id",
+                  id
+                ]].filter((function (param) {
+                    return !Js_json.test(param[1], /* Null */5);
+                  })));
+}
+
+function definition_002$11(graphql_ppx_use_json_variables_fn, id, param) {
+  return Curry._1(graphql_ppx_use_json_variables_fn, Js_dict.fromArray(/* array */[/* tuple */[
+                      "id",
+                      id
+                    ]].filter((function (param) {
+                        return !Js_json.test(param[1], /* Null */5);
+                      }))));
+}
+
+var definition$11 = /* tuple */[
+  parse$11,
+  ppx_printed_query$11,
+  definition_002$11
+];
+
+function ret_type$11(f) {
+  return { };
+}
+
+var MT_Ret$11 = { };
+
+var GetExam = {
+  ppx_printed_query: ppx_printed_query$11,
+  query: ppx_printed_query$11,
+  parse: parse$11,
+  make: make$11,
+  makeWithVariables: makeWithVariables$11,
+  makeVariables: makeVariables$11,
+  definition: definition$11,
+  ret_type: ret_type$11,
+  MT_Ret: MT_Ret$11
+};
+
+var ppx_printed_query$12 = "query listCategories  {\nlistCategories  {\nid  \ndescription  \nname  \n}\n\n}\n";
+
+function parse$12(value) {
+  var value$1 = Js_option.getExn(Js_json.decodeObject(value));
+  var match = Js_dict.get(value$1, "listCategories");
+  var tmp;
+  if (match !== undefined) {
+    var value$2 = Caml_option.valFromOption(match);
+    var match$1 = Js_json.decodeNull(value$2);
+    tmp = match$1 !== undefined ? undefined : Js_option.getExn(Js_json.decodeArray(value$2)).map((function (value) {
+              var match = Js_json.decodeObject(value);
+              if (match !== undefined) {
+                var value$1 = Caml_option.valFromOption(match);
+                var match$1 = Js_dict.get(value$1, "id");
+                var field_id;
+                if (match$1 !== undefined) {
+                  var value$2 = Caml_option.valFromOption(match$1);
+                  var match$2 = Js_json.decodeString(value$2);
+                  field_id = match$2 !== undefined ? match$2 : Js_exn.raiseError("graphql_ppx: Expected string, got " + JSON.stringify(value$2));
+                } else {
+                  field_id = Js_exn.raiseError("graphql_ppx: Field id on type Category is missing");
+                }
+                var match$3 = Js_dict.get(value$1, "description");
+                var field_description;
+                if (match$3 !== undefined) {
+                  var value$3 = Caml_option.valFromOption(match$3);
+                  var match$4 = Js_json.decodeString(value$3);
+                  field_description = match$4 !== undefined ? match$4 : Js_exn.raiseError("graphql_ppx: Expected string, got " + JSON.stringify(value$3));
+                } else {
+                  field_description = Js_exn.raiseError("graphql_ppx: Field description on type Category is missing");
+                }
+                var match$5 = Js_dict.get(value$1, "name");
+                var field_name;
+                if (match$5 !== undefined) {
+                  var value$4 = Caml_option.valFromOption(match$5);
+                  var match$6 = Js_json.decodeString(value$4);
+                  field_name = match$6 !== undefined ? match$6 : Js_exn.raiseError("graphql_ppx: Expected string, got " + JSON.stringify(value$4));
+                } else {
+                  field_name = Js_exn.raiseError("graphql_ppx: Field name on type Category is missing");
+                }
+                return {
+                        id: field_id,
+                        description: field_description,
+                        name: field_name
+                      };
+              } else {
+                return Js_exn.raiseError("graphql_ppx: Expected object of type Category, got " + JSON.stringify(value));
+              }
+            }));
+  } else {
+    tmp = undefined;
+  }
+  return {
+          listCategories: tmp
+        };
+}
+
+function make$12(param) {
+  return {
+          query: ppx_printed_query$12,
+          variables: null,
+          parse: parse$12
+        };
+}
+
+function makeWithVariables$12(param) {
+  return {
+          query: ppx_printed_query$12,
+          variables: null,
+          parse: parse$12
+        };
+}
+
+function makeVariables$12(param) {
+  return null;
+}
+
+function definition_002$12(graphql_ppx_use_json_variables_fn) {
+  return 0;
+}
+
+var definition$12 = /* tuple */[
+  parse$12,
+  ppx_printed_query$12,
+  definition_002$12
+];
+
+function ret_type$12(f) {
+  return { };
+}
+
+var MT_Ret$12 = { };
+
+var ListCategories = {
+  ppx_printed_query: ppx_printed_query$12,
+  query: ppx_printed_query$12,
+  parse: parse$12,
+  make: make$12,
+  makeWithVariables: makeWithVariables$12,
+  makeVariables: makeVariables$12,
+  definition: definition$12,
+  ret_type: ret_type$12,
+  MT_Ret: MT_Ret$12
+};
+
 export {
   ListModules ,
   GetModule ,
@@ -1684,6 +2272,10 @@ export {
   ListTopics ,
   ListPages ,
   ListNotes ,
+  stringifyExamType ,
+  ListExams ,
+  GetExam ,
+  ListCategories ,
   
 }
 /* No side effect */

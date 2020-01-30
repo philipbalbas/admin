@@ -34,10 +34,10 @@ function PagesForm(Props) {
   var setDescription = match$3[1];
   var description = match$3[0];
   var subjectsListRequest = Queries$ReactHooksTemplate.ListSubjects.make(/* () */0);
-  var match$4 = Curry._4(ReasonUrql.Hooks.useQuery, subjectsListRequest, undefined, undefined, /* () */0);
+  var match$4 = Curry._5(ReasonUrql.Hooks.useQuery, subjectsListRequest, undefined, undefined, undefined, /* () */0);
   var subjectsListQueryResponse = match$4[0].response;
   var subjectQuery = Queries$ReactHooksTemplate.GetSubject.make(subjectId, /* () */0);
-  var match$5 = Curry._4(ReasonUrql.Hooks.useQuery, subjectQuery, undefined, undefined, /* () */0);
+  var match$5 = Curry._5(ReasonUrql.Hooks.useQuery, subjectQuery, undefined, undefined, undefined, /* () */0);
   var subjectQueryResponse = match$5[0].response;
   var mutation = Mutations$ReactHooksTemplate.CreatePage.make(name, topicId, description, undefined, /* () */0);
   var match$6 = Curry._1(ReasonUrql.Hooks.useMutation, mutation);
@@ -143,7 +143,7 @@ function PagesForm(Props) {
                     }, Utils$ReactHooksTemplate.str("Cancel")), React.createElement("button", {
                       className: "rounded-sm px-3 py-2 bg-green-500 text-white rounded-lg",
                       onClick: (function (param) {
-                          Curry._1(executeMutation, /* () */0);
+                          Curry._2(executeMutation, undefined, /* () */0);
                           return /* () */0;
                         })
                     }, Utils$ReactHooksTemplate.str("Save"))));

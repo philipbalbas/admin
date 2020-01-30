@@ -23,11 +23,21 @@ var Menu = {
 
 var Modal = { };
 
+var Column = { };
+
+var ColumnGroup = { };
+
+var Table = {
+  Column: Column,
+  ColumnGroup: ColumnGroup
+};
+
 export {
   Select ,
   Input ,
   Menu ,
   Modal ,
+  Table ,
   
 }
 /* No side effect */

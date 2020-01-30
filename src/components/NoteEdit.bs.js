@@ -75,7 +75,7 @@ function NoteEdit(Props) {
       });
   var executeUpdateNote = match$3[1];
   var handleSave = function (_text) {
-    Curry._1(executeUpdateNote, /* () */0);
+    Curry._2(executeUpdateNote, undefined, /* () */0);
     return /* () */0;
   };
   var handleTitleChange = function ($$event) {
@@ -92,7 +92,7 @@ function NoteEdit(Props) {
                             className: "px-3 py-2 mr-3 bg-indigo-600 text-indigo-100 rounded-lg",
                             onClick: (function (param) {
                                 Curry._1(dispatch, /* Save */2);
-                                Curry._1(executeUpdateNote, /* () */0);
+                                Curry._2(executeUpdateNote, undefined, /* () */0);
                                 return /* () */0;
                               })
                           }, Utils$ReactHooksTemplate.str("Save")), React.createElement("button", {

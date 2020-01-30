@@ -25,7 +25,7 @@ let make = () => {
             "+ Create Topic"->str
           </button>
         </div>
-        <List items=topics entity=Topic />
+        <Table items=topics entity=Topic />
       </>
     }
   };

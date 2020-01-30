@@ -40,10 +40,10 @@ function NotesForm(Props) {
         }));
   var content = match$4[0];
   var topicsListRequest = Queries$ReactHooksTemplate.ListTopics.make(/* () */0);
-  var match$5 = Curry._4(ReasonUrql.Hooks.useQuery, topicsListRequest, undefined, undefined, /* () */0);
+  var match$5 = Curry._5(ReasonUrql.Hooks.useQuery, topicsListRequest, undefined, undefined, undefined, /* () */0);
   var topicsListQueryResponse = match$5[0].response;
   var topicQuery = Queries$ReactHooksTemplate.GetTopic.make(topicId, /* () */0);
-  var match$6 = Curry._4(ReasonUrql.Hooks.useQuery, topicQuery, undefined, undefined, /* () */0);
+  var match$6 = Curry._5(ReasonUrql.Hooks.useQuery, topicQuery, undefined, undefined, undefined, /* () */0);
   var topicQueryResponse = match$6[0].response;
   var mutation = Mutations$ReactHooksTemplate.CreateNote.make(name, pageId, description, content, /* () */0);
   var match$7 = Curry._1(ReasonUrql.Hooks.useMutation, mutation);
@@ -156,7 +156,7 @@ function NotesForm(Props) {
                     }, Utils$ReactHooksTemplate.str("Cancel")), React.createElement("button", {
                       className: "rounded-sm px-3 py-2 bg-green-500 text-white rounded-lg",
                       onClick: (function (param) {
-                          Curry._1(executeMutation, /* () */0);
+                          Curry._2(executeMutation, undefined, /* () */0);
                           return /* () */0;
                         })
                     }, Utils$ReactHooksTemplate.str("Save"))));

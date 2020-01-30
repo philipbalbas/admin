@@ -62,6 +62,193 @@
       "subscriptionType": null,
       "types": [
         {
+          "description": null,
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "description",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "id",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "moduleId",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "name",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "topics",
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Topic",
+                  "ofType": null
+                }
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "Subject",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "examId",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "question",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "rationale",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "topicId",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "type",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "CardType",
+                  "ofType": null
+                }
+              }
+            }
+          ],
+          "interfaces": null,
+          "kind": "INPUT_OBJECT",
+          "name": "CreateCardInput",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "cardIds",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "examId",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              }
+            }
+          ],
+          "interfaces": null,
+          "kind": "INPUT_OBJECT",
+          "name": "UpsertExamCardsInput",
+          "possibleTypes": null
+        },
+        {
           "description": "The `String` scalar type represents textual data, represented as UTF-8\ncharacter sequences. The String type is most often used by GraphQL to\nrepresent free-form human-readable text.",
           "enumValues": null,
           "fields": null,
@@ -80,67 +267,7 @@
               "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
-              "name": "answers",
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Choice",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "choices",
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Choice",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "examId",
-              "type": {
-                "kind": "SCALAR",
-                "name": "ID",
-                "ofType": null
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "id",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "question",
+              "name": "description",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -156,89 +283,6 @@
               "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
-              "name": "rationale",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "topicId",
-              "type": {
-                "kind": "SCALAR",
-                "name": "ID",
-                "ofType": null
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "type",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "ENUM",
-                  "name": "CardType",
-                  "ofType": null
-                }
-              }
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [],
-          "kind": "OBJECT",
-          "name": "Card",
-          "possibleTypes": null
-        },
-        {
-          "description": null,
-          "enumValues": null,
-          "fields": [
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "cards",
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Card",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "categoryId",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
               "name": "id",
               "type": {
                 "kind": "NON_NULL",
@@ -247,6 +291,26 @@
                   "kind": "SCALAR",
                   "name": "ID",
                   "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "modules",
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "Module",
+                    "ofType": null
+                  }
                 }
               }
             },
@@ -265,19 +329,264 @@
                   "ofType": null
                 }
               }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "Category",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "content",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "description",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "id",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "name",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "topicId",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
+            }
+          ],
+          "interfaces": null,
+          "kind": "INPUT_OBJECT",
+          "name": "UpdatePageInput",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": [
+            {
+              "deprecationReason": null,
+              "description": "Multiple Answers",
+              "isDeprecated": false,
+              "name": "MULTIPLE"
+            },
+            {
+              "deprecationReason": null,
+              "description": "Single Answer",
+              "isDeprecated": false,
+              "name": "SINGLE"
+            }
+          ],
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "kind": "ENUM",
+          "name": "CardType",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "cardId",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "content",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            }
+          ],
+          "interfaces": null,
+          "kind": "INPUT_OBJECT",
+          "name": "CreateChoiceInput",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "categoryId",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "description",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "id",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "name",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            }
+          ],
+          "interfaces": null,
+          "kind": "INPUT_OBJECT",
+          "name": "UpdateModuleInput",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "categoryId",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
             },
             {
               "args": [],
               "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
-              "name": "type",
+              "name": "description",
               "type": {
-                "kind": "NON_NULL",
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "id",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "name",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "subjects",
+              "type": {
+                "kind": "LIST",
                 "name": null,
                 "ofType": {
-                  "kind": "ENUM",
-                  "name": "ExamType",
+                  "kind": "OBJECT",
+                  "name": "Subject",
                   "ofType": null
                 }
               }
@@ -286,17 +595,278 @@
           "inputFields": null,
           "interfaces": [],
           "kind": "OBJECT",
-          "name": "Exam",
+          "name": "Module",
           "possibleTypes": null
         },
         {
-          "description": "The `ID` scalar type represents a unique identifier, often used to\nrefetch an object or as key for a cache. The ID type appears in a JSON\nresponse as a String; however, it is not intended to be human-readable.\nWhen expected as an input type, any string (such as `\"4\"`) or integer\n(such as `4`) input value will be accepted as an ID.",
+          "description": null,
           "enumValues": null,
           "fields": null,
-          "inputFields": null,
+          "inputFields": [
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "cardId",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "choiceIds",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  }
+                }
+              }
+            }
+          ],
           "interfaces": null,
-          "kind": "SCALAR",
-          "name": "ID",
+          "kind": "INPUT_OBJECT",
+          "name": "UpsertQuestionAnswersInput",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "description",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "id",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "name",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "subjectId",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
+            }
+          ],
+          "interfaces": null,
+          "kind": "INPUT_OBJECT",
+          "name": "UpdateTopicInput",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "content",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "description",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "name",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "subjectId",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              }
+            }
+          ],
+          "interfaces": null,
+          "kind": "INPUT_OBJECT",
+          "name": "TopicInput",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "content",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "description",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "id",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "name",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "pageId",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "Note",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "description",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "name",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            }
+          ],
+          "interfaces": null,
+          "kind": "INPUT_OBJECT",
+          "name": "CreateCategoryInput",
           "possibleTypes": null
         },
         {
@@ -362,7 +932,194 @@
             {
               "defaultValue": null,
               "description": null,
-              "name": "cardId",
+              "name": "content",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "description",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "name",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "pageId",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              }
+            }
+          ],
+          "interfaces": null,
+          "kind": "INPUT_OBJECT",
+          "name": "NoteInput",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": [
+            {
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "ASC"
+            },
+            {
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "DESC"
+            }
+          ],
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "kind": "ENUM",
+          "name": "SortOrder",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "email",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "firstName",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "id",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "lastName",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "organizationId",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "role",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "username",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "User",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "categoryId",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "id",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -376,31 +1133,226 @@
             {
               "defaultValue": null,
               "description": null,
-              "name": "choiceIds",
+              "name": "name",
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "LIST",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "ID",
-                    "ofType": null
-                  }
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "type",
+              "type": {
+                "kind": "ENUM",
+                "name": "ExamType",
+                "ofType": null
               }
             }
           ],
           "interfaces": null,
           "kind": "INPUT_OBJECT",
-          "name": "UpsertQuestionAnswersInput",
+          "name": "UpdateExamInput",
           "possibleTypes": null
         },
         {
           "description": null,
           "enumValues": null,
           "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "cards",
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Card",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "content",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "description",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "id",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "name",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "pages",
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Page",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "subjectId",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "Topic",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "categoryId",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "name",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "type",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "ExamType",
+                  "ofType": null
+                }
+              }
+            }
+          ],
+          "interfaces": null,
+          "kind": "INPUT_OBJECT",
+          "name": "CreateExamInput",
+          "possibleTypes": null
+        },
+        {
+          "description": "The `ID` scalar type represents a unique identifier, often used to\nrefetch an object or as key for a cache. The ID type appears in a JSON\nresponse as a String; however, it is not intended to be human-readable.\nWhen expected as an input type, any string (such as `\"4\"`) or integer\n(such as `4`) input value will be accepted as an ID.",
+          "enumValues": null,
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "kind": "SCALAR",
+          "name": "ID",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "id",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "ID",
+                      "ofType": null
+                    }
+                  }
+                }
+              ],
+              "deprecationReason": null,
+              "description": "Get a single exam",
+              "isDeprecated": false,
+              "name": "getExam",
+              "type": {
+                "kind": "OBJECT",
+                "name": "Exam",
+                "ofType": null
+              }
+            },
             {
               "args": [
                 {
@@ -442,9 +1394,13 @@
                 "kind": "LIST",
                 "name": null,
                 "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Category",
-                  "ofType": null
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "Category",
+                    "ofType": null
+                  }
                 }
               }
             },
@@ -844,78 +1800,31 @@
         },
         {
           "description": null,
-          "enumValues": null,
-          "fields": null,
-          "inputFields": [
-            {
-              "defaultValue": null,
-              "description": null,
-              "name": "categoryId",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": null,
-              "name": "name",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": null,
-              "name": "type",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "ENUM",
-                  "name": "ExamType",
-                  "ofType": null
-                }
-              }
-            }
-          ],
-          "interfaces": null,
-          "kind": "INPUT_OBJECT",
-          "name": "CreateExamInput",
-          "possibleTypes": null
-        },
-        {
-          "description": null,
           "enumValues": [
             {
               "deprecationReason": null,
-              "description": "Multiple Answers",
+              "description": "Comprehensive Exam",
               "isDeprecated": false,
-              "name": "MULTIPLE"
+              "name": "COMPREHENSIVE"
             },
             {
               "deprecationReason": null,
-              "description": "Single Answer",
+              "description": "Mock Exam",
               "isDeprecated": false,
-              "name": "SINGLE"
+              "name": "MOCK"
+            },
+            {
+              "deprecationReason": null,
+              "description": "Practice Test",
+              "isDeprecated": false,
+              "name": "PRACTICE"
             }
           ],
           "fields": null,
           "inputFields": null,
           "interfaces": null,
           "kind": "ENUM",
-          "name": "CardType",
+          "name": "ExamType",
           "possibleTypes": null
         },
         {
@@ -929,35 +1838,8 @@
               "isDeprecated": false,
               "name": "content",
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              }
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [],
-          "kind": "OBJECT",
-          "name": "Choice",
-          "possibleTypes": null
-        },
-        {
-          "description": null,
-          "enumValues": null,
-          "fields": [
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "categoryId",
-              "type": {
                 "kind": "SCALAR",
-                "name": "ID",
+                "name": "String",
                 "ofType": null
               }
             },
@@ -1002,150 +1884,22 @@
               "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
-              "name": "subjects",
+              "name": "notes",
               "type": {
                 "kind": "LIST",
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "Subject",
-                  "ofType": null
-                }
-              }
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [],
-          "kind": "OBJECT",
-          "name": "Module",
-          "possibleTypes": null
-        },
-        {
-          "description": null,
-          "enumValues": null,
-          "fields": null,
-          "inputFields": [
-            {
-              "defaultValue": null,
-              "description": null,
-              "name": "description",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": null,
-              "name": "moduleId",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
+                  "name": "Note",
                   "ofType": null
                 }
               }
             },
             {
-              "defaultValue": null,
+              "args": [],
+              "deprecationReason": null,
               "description": null,
-              "name": "name",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              }
-            }
-          ],
-          "interfaces": null,
-          "kind": "INPUT_OBJECT",
-          "name": "SubjectInput",
-          "possibleTypes": null
-        },
-        {
-          "description": null,
-          "enumValues": null,
-          "fields": null,
-          "inputFields": [
-            {
-              "defaultValue": null,
-              "description": null,
-              "name": "description",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": null,
-              "name": "id",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": null,
-              "name": "name",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": null,
-              "name": "subjectId",
-              "type": {
-                "kind": "SCALAR",
-                "name": "ID",
-                "ofType": null
-              }
-            }
-          ],
-          "interfaces": null,
-          "kind": "INPUT_OBJECT",
-          "name": "UpdateTopicInput",
-          "possibleTypes": null
-        },
-        {
-          "description": null,
-          "enumValues": null,
-          "fields": null,
-          "inputFields": [
-            {
-              "defaultValue": null,
-              "description": null,
-              "name": "examId",
-              "type": {
-                "kind": "SCALAR",
-                "name": "ID",
-                "ofType": null
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": null,
+              "isDeprecated": false,
               "name": "topicId",
               "type": {
                 "kind": "SCALAR",
@@ -1154,9 +1908,53 @@
               }
             }
           ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "Page",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "cardId",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "choiceIds",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  }
+                }
+              }
+            }
+          ],
           "interfaces": null,
           "kind": "INPUT_OBJECT",
-          "name": "CardFilter",
+          "name": "UpsertCardChoicesInput",
           "possibleTypes": null
         },
         {
@@ -1169,13 +1967,33 @@
               "description": null,
               "name": "description",
               "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "id",
+              "type": {
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "String",
+                  "name": "ID",
                   "ofType": null
                 }
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": null,
+              "name": "moduleId",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
               }
             },
             {
@@ -1195,7 +2013,7 @@
           ],
           "interfaces": null,
           "kind": "INPUT_OBJECT",
-          "name": "CreateCategoryInput",
+          "name": "UpdateSubjectInput",
           "possibleTypes": null
         },
         {
@@ -1232,30 +2050,29 @@
         {
           "description": null,
           "enumValues": null,
-          "fields": null,
-          "inputFields": [
+          "fields": [
             {
-              "defaultValue": null,
+              "args": [],
+              "deprecationReason": null,
               "description": null,
-              "name": "cardIds",
+              "isDeprecated": false,
+              "name": "cards",
               "type": {
-                "kind": "NON_NULL",
+                "kind": "LIST",
                 "name": null,
                 "ofType": {
-                  "kind": "LIST",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "ID",
-                    "ofType": null
-                  }
+                  "kind": "OBJECT",
+                  "name": "Card",
+                  "ofType": null
                 }
               }
             },
             {
-              "defaultValue": null,
+              "args": [],
+              "deprecationReason": null,
               "description": null,
-              "name": "examId",
+              "isDeprecated": false,
+              "name": "categoryId",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -1265,11 +2082,60 @@
                   "ofType": null
                 }
               }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "id",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "name",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "type",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "ExamType",
+                  "ofType": null
+                }
+              }
             }
           ],
-          "interfaces": null,
-          "kind": "INPUT_OBJECT",
-          "name": "UpsertExamCardsInput",
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "Exam",
           "possibleTypes": null
         },
         {
@@ -1329,124 +2195,6 @@
             {
               "defaultValue": null,
               "description": null,
-              "name": "categoryId",
-              "type": {
-                "kind": "SCALAR",
-                "name": "ID",
-                "ofType": null
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": null,
-              "name": "description",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": null,
-              "name": "id",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": null,
-              "name": "name",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              }
-            }
-          ],
-          "interfaces": null,
-          "kind": "INPUT_OBJECT",
-          "name": "UpdateModuleInput",
-          "possibleTypes": null
-        },
-        {
-          "description": null,
-          "enumValues": null,
-          "fields": null,
-          "inputFields": [
-            {
-              "defaultValue": null,
-              "description": null,
-              "name": "content",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": null,
-              "name": "description",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": null,
-              "name": "name",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": null,
-              "name": "pageId",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              }
-            }
-          ],
-          "interfaces": null,
-          "kind": "INPUT_OBJECT",
-          "name": "NoteInput",
-          "possibleTypes": null
-        },
-        {
-          "description": null,
-          "enumValues": null,
-          "fields": null,
-          "inputFields": [
-            {
-              "defaultValue": null,
-              "description": null,
               "name": "description",
               "type": {
                 "kind": "SCALAR",
@@ -1490,36 +2238,12 @@
         },
         {
           "description": null,
-          "enumValues": [
-            {
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "ASC"
-            },
-            {
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "DESC"
-            }
-          ],
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "kind": "ENUM",
-          "name": "SortOrder",
-          "possibleTypes": null
-        },
-        {
-          "description": null,
           "enumValues": null,
-          "fields": [
+          "fields": null,
+          "inputFields": [
             {
-              "args": [],
-              "deprecationReason": null,
+              "defaultValue": null,
               "description": null,
-              "isDeprecated": false,
               "name": "content",
               "type": {
                 "kind": "SCALAR",
@@ -1528,10 +2252,8 @@
               }
             },
             {
-              "args": [],
-              "deprecationReason": null,
+              "defaultValue": null,
               "description": null,
-              "isDeprecated": false,
               "name": "description",
               "type": {
                 "kind": "SCALAR",
@@ -1540,67 +2262,23 @@
               }
             },
             {
-              "args": [],
-              "deprecationReason": null,
+              "defaultValue": null,
               "description": null,
-              "isDeprecated": false,
-              "name": "id",
-              "type": {
-                "kind": "SCALAR",
-                "name": "ID",
-                "ofType": null
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
               "name": "name",
               "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "pageId",
-              "type": {
-                "kind": "SCALAR",
-                "name": "ID",
-                "ofType": null
-              }
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [],
-          "kind": "OBJECT",
-          "name": "Note",
-          "possibleTypes": null
-        },
-        {
-          "description": null,
-          "enumValues": null,
-          "fields": null,
-          "inputFields": [
-            {
-              "defaultValue": null,
-              "description": null,
-              "name": "categoryId",
-              "type": {
-                "kind": "SCALAR",
-                "name": "ID",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
               }
             },
             {
               "defaultValue": null,
               "description": null,
-              "name": "id",
+              "name": "topicId",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -1610,163 +2288,11 @@
                   "ofType": null
                 }
               }
-            },
-            {
-              "defaultValue": null,
-              "description": null,
-              "name": "name",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": null,
-              "name": "type",
-              "type": {
-                "kind": "ENUM",
-                "name": "ExamType",
-                "ofType": null
-              }
             }
           ],
           "interfaces": null,
           "kind": "INPUT_OBJECT",
-          "name": "UpdateExamInput",
-          "possibleTypes": null
-        },
-        {
-          "description": null,
-          "enumValues": null,
-          "fields": [
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "cards",
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Card",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "content",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "description",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "id",
-              "type": {
-                "kind": "SCALAR",
-                "name": "ID",
-                "ofType": null
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "name",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "pages",
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Page",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "subjectId",
-              "type": {
-                "kind": "SCALAR",
-                "name": "ID",
-                "ofType": null
-              }
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [],
-          "kind": "OBJECT",
-          "name": "Topic",
-          "possibleTypes": null
-        },
-        {
-          "description": null,
-          "enumValues": [
-            {
-              "deprecationReason": null,
-              "description": "Comprehensive Exam",
-              "isDeprecated": false,
-              "name": "COMPREHENSIVE"
-            },
-            {
-              "deprecationReason": null,
-              "description": "Mock Exam",
-              "isDeprecated": false,
-              "name": "MOCK"
-            },
-            {
-              "deprecationReason": null,
-              "description": "Practice Test",
-              "isDeprecated": false,
-              "name": "PRACTICE"
-            }
-          ],
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "kind": "ENUM",
-          "name": "ExamType",
+          "name": "PageInput",
           "possibleTypes": null
         },
         {
@@ -1855,18 +2381,145 @@
         {
           "description": null,
           "enumValues": null,
-          "fields": null,
-          "inputFields": [
+          "fields": [
             {
-              "defaultValue": null,
+              "args": [],
+              "deprecationReason": null,
               "description": null,
-              "name": "content",
+              "isDeprecated": false,
+              "name": "answers",
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Choice",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "choices",
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Choice",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "examId",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "id",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "question",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "rationale",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
                 "ofType": null
               }
             },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "topicId",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "type",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "CardType",
+                  "ofType": null
+                }
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "Card",
+          "possibleTypes": null
+        },
+        {
+          "description": "The `Boolean` scalar type represents `true` or `false`.",
+          "enumValues": null,
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "kind": "SCALAR",
+          "name": "Boolean",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": null,
+          "inputFields": [
             {
               "defaultValue": null,
               "description": null,
@@ -1880,13 +2533,13 @@
             {
               "defaultValue": null,
               "description": null,
-              "name": "name",
+              "name": "moduleId",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "String",
+                  "name": "ID",
                   "ofType": null
                 }
               }
@@ -1894,13 +2547,13 @@
             {
               "defaultValue": null,
               "description": null,
-              "name": "topicId",
+              "name": "name",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "ID",
+                  "name": "String",
                   "ofType": null
                 }
               }
@@ -1908,181 +2561,7 @@
           ],
           "interfaces": null,
           "kind": "INPUT_OBJECT",
-          "name": "PageInput",
-          "possibleTypes": null
-        },
-        {
-          "description": null,
-          "enumValues": null,
-          "fields": [
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "description",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "id",
-              "type": {
-                "kind": "SCALAR",
-                "name": "ID",
-                "ofType": null
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "moduleId",
-              "type": {
-                "kind": "SCALAR",
-                "name": "ID",
-                "ofType": null
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "name",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "topics",
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Topic",
-                  "ofType": null
-                }
-              }
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [],
-          "kind": "OBJECT",
-          "name": "Subject",
-          "possibleTypes": null
-        },
-        {
-          "description": null,
-          "enumValues": null,
-          "fields": [
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "description",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "exams",
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "Exam",
-                    "ofType": null
-                  }
-                }
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "id",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "modules",
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "Module",
-                    "ofType": null
-                  }
-                }
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "name",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              }
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [],
-          "kind": "OBJECT",
-          "name": "Category",
+          "name": "SubjectInput",
           "possibleTypes": null
         },
         {
@@ -2155,49 +2634,6 @@
         {
           "description": null,
           "enumValues": null,
-          "fields": [
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "token",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "user",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "User",
-                  "ofType": null
-                }
-              }
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [],
-          "kind": "OBJECT",
-          "name": "Session",
-          "possibleTypes": null
-        },
-        {
-          "description": null,
-          "enumValues": null,
           "fields": null,
           "inputFields": [
             {
@@ -2213,86 +2649,29 @@
             {
               "defaultValue": null,
               "description": null,
-              "name": "question",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": null,
-              "name": "rationale",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": null,
               "name": "topicId",
               "type": {
                 "kind": "SCALAR",
                 "name": "ID",
                 "ofType": null
               }
-            },
-            {
-              "defaultValue": null,
-              "description": null,
-              "name": "type",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "ENUM",
-                  "name": "CardType",
-                  "ofType": null
-                }
-              }
             }
           ],
           "interfaces": null,
           "kind": "INPUT_OBJECT",
-          "name": "CreateCardInput",
+          "name": "CardFilter",
           "possibleTypes": null
         },
         {
           "description": null,
           "enumValues": null,
-          "fields": null,
-          "inputFields": [
+          "fields": [
             {
-              "defaultValue": null,
+              "args": [],
+              "deprecationReason": null,
               "description": null,
+              "isDeprecated": false,
               "name": "content",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": null,
-              "name": "description",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": null,
-              "name": "name",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2302,25 +2681,12 @@
                   "ofType": null
                 }
               }
-            },
-            {
-              "defaultValue": null,
-              "description": null,
-              "name": "subjectId",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              }
             }
           ],
-          "interfaces": null,
-          "kind": "INPUT_OBJECT",
-          "name": "TopicInput",
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "Choice",
           "possibleTypes": null
         },
         {
@@ -2991,233 +3357,21 @@
         {
           "description": null,
           "enumValues": null,
-          "fields": null,
-          "inputFields": [
-            {
-              "defaultValue": null,
-              "description": null,
-              "name": "cardId",
-              "type": {
-                "kind": "SCALAR",
-                "name": "ID",
-                "ofType": null
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": null,
-              "name": "content",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              }
-            }
-          ],
-          "interfaces": null,
-          "kind": "INPUT_OBJECT",
-          "name": "CreateChoiceInput",
-          "possibleTypes": null
-        },
-        {
-          "description": null,
-          "enumValues": null,
-          "fields": null,
-          "inputFields": [
-            {
-              "defaultValue": null,
-              "description": null,
-              "name": "content",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": null,
-              "name": "description",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": null,
-              "name": "id",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": null,
-              "name": "name",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": null,
-              "name": "topicId",
-              "type": {
-                "kind": "SCALAR",
-                "name": "ID",
-                "ofType": null
-              }
-            }
-          ],
-          "interfaces": null,
-          "kind": "INPUT_OBJECT",
-          "name": "UpdatePageInput",
-          "possibleTypes": null
-        },
-        {
-          "description": null,
-          "enumValues": null,
-          "fields": null,
-          "inputFields": [
-            {
-              "defaultValue": null,
-              "description": null,
-              "name": "cardId",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": null,
-              "name": "choiceIds",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "LIST",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "ID",
-                    "ofType": null
-                  }
-                }
-              }
-            }
-          ],
-          "interfaces": null,
-          "kind": "INPUT_OBJECT",
-          "name": "UpsertCardChoicesInput",
-          "possibleTypes": null
-        },
-        {
-          "description": "The `Boolean` scalar type represents `true` or `false`.",
-          "enumValues": null,
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "kind": "SCALAR",
-          "name": "Boolean",
-          "possibleTypes": null
-        },
-        {
-          "description": null,
-          "enumValues": null,
-          "fields": null,
-          "inputFields": [
-            {
-              "defaultValue": null,
-              "description": null,
-              "name": "description",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": null,
-              "name": "id",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": null,
-              "name": "moduleId",
-              "type": {
-                "kind": "SCALAR",
-                "name": "ID",
-                "ofType": null
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": null,
-              "name": "name",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              }
-            }
-          ],
-          "interfaces": null,
-          "kind": "INPUT_OBJECT",
-          "name": "UpdateSubjectInput",
-          "possibleTypes": null
-        },
-        {
-          "description": null,
-          "enumValues": null,
           "fields": [
             {
               "args": [],
               "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
-              "name": "email",
+              "name": "token",
               "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
               }
             },
             {
@@ -3225,165 +3379,22 @@
               "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
-              "name": "firstName",
+              "name": "user",
               "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "id",
-              "type": {
-                "kind": "SCALAR",
-                "name": "ID",
-                "ofType": null
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "lastName",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "organizationId",
-              "type": {
-                "kind": "SCALAR",
-                "name": "ID",
-                "ofType": null
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "role",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "username",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [],
-          "kind": "OBJECT",
-          "name": "User",
-          "possibleTypes": null
-        },
-        {
-          "description": null,
-          "enumValues": null,
-          "fields": [
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "content",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "description",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "id",
-              "type": {
-                "kind": "SCALAR",
-                "name": "ID",
-                "ofType": null
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "name",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "notes",
-              "type": {
-                "kind": "LIST",
+                "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "Note",
+                  "name": "User",
                   "ofType": null
                 }
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "topicId",
-              "type": {
-                "kind": "SCALAR",
-                "name": "ID",
-                "ofType": null
               }
             }
           ],
           "inputFields": null,
           "interfaces": [],
           "kind": "OBJECT",
-          "name": "Page",
+          "name": "Session",
           "possibleTypes": null
         },
         {
@@ -3463,118 +3474,6 @@
           "interfaces": [],
           "kind": "OBJECT",
           "name": "__Schema",
-          "possibleTypes": null
-        },
-        {
-          "description": null,
-          "enumValues": null,
-          "fields": [
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "deprecationReason",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "description",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "isDeprecated",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Boolean",
-                "ofType": null
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "name",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [],
-          "kind": "OBJECT",
-          "name": "__EnumValue",
-          "possibleTypes": null
-        },
-        {
-          "description": null,
-          "enumValues": [
-            {
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "FIELD"
-            },
-            {
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "FRAGMENT_DEFINITION"
-            },
-            {
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "FRAGMENT_SPREAD"
-            },
-            {
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "INLINE_FRAGMENT"
-            },
-            {
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "MUTATION"
-            },
-            {
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "QUERY"
-            },
-            {
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "SUBSCRIPTION"
-            }
-          ],
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "kind": "ENUM",
-          "name": "__DirectiveLocation",
           "possibleTypes": null
         },
         {
@@ -3834,6 +3733,65 @@
               "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
+              "name": "deprecationReason",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "description",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "isDeprecated",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "name",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "__EnumValue",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
               "name": "defaultValue",
               "type": {
                 "kind": "SCALAR",
@@ -3985,6 +3943,59 @@
           "interfaces": [],
           "kind": "OBJECT",
           "name": "__Directive",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": [
+            {
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "FIELD"
+            },
+            {
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "FRAGMENT_DEFINITION"
+            },
+            {
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "FRAGMENT_SPREAD"
+            },
+            {
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "INLINE_FRAGMENT"
+            },
+            {
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "MUTATION"
+            },
+            {
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "QUERY"
+            },
+            {
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "SUBSCRIPTION"
+            }
+          ],
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "kind": "ENUM",
+          "name": "__DirectiveLocation",
           "possibleTypes": null
         }
       ]

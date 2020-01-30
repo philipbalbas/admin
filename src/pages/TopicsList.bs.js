@@ -3,13 +3,13 @@
 import * as Curry from "bs-platform/lib/es6/curry.js";
 import * as React from "react";
 import * as ReasonUrql from "reason-urql/src/ReasonUrql.bs.js";
-import * as List$ReactHooksTemplate from "../components/List.bs.js";
+import * as Table$ReactHooksTemplate from "../components/Table.bs.js";
 import * as Utils$ReactHooksTemplate from "../Utils.bs.js";
 import * as Queries$ReactHooksTemplate from "../graphql/Queries.bs.js";
 
 function TopicsList(Props) {
   var request = Queries$ReactHooksTemplate.ListTopics.make(/* () */0);
-  var match = Curry._4(ReasonUrql.Hooks.useQuery, request, undefined, undefined, /* () */0);
+  var match = Curry._5(ReasonUrql.Hooks.useQuery, request, undefined, undefined, undefined, /* () */0);
   var response = match[0].response;
   if (typeof response === "number") {
     if (response === /* Fetching */0) {
@@ -31,7 +31,7 @@ function TopicsList(Props) {
                           onClick: (function (param) {
                               return Utils$ReactHooksTemplate.push("/topics/create");
                             })
-                        }, Utils$ReactHooksTemplate.str("+ Create Topic"))), React.createElement(List$ReactHooksTemplate.make, {
+                        }, Utils$ReactHooksTemplate.str("+ Create Topic"))), React.createElement(Table$ReactHooksTemplate.make, {
                       items: match$1,
                       entity: /* Topic */2
                     }));

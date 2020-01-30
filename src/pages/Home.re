@@ -20,7 +20,7 @@ let make = () => {
         <div className="flex justify-between items-start">
           <p className="font-bold text-4xl mb-8"> "Modules"->str </p>
         </div>
-        <List items=modules entity=Module />
+        <Table items=modules entity=Module />
       </>
     }
   };

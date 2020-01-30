@@ -1,67 +1,69 @@
-open Utils;
+open ReasonUrql;
+open Hooks;
 open Queries;
+open Utils;
 
 [@react.component]
-let make = (~items, ~entity) => {
-  let entityString =
-    switch (entity) {
-    | Module => "modules"
-    | Subject => "subjects"
-    | Topic => "topics"
-    | Page => "pages"
-    | Note => "notes"
-    };
+let make = (~query) => {
+  let request = query();
+  let ({response}, _) = useQuery(~request, ());
 
-  let itemsList =
-    items
-    |> Array.map(item =>
-         switch (item) {
-         | Some(item) =>
-           let id =
-             Belt.Option.mapWithDefault(item##id, "Missing id", txt => txt);
-
-           let name =
-             Belt.Option.mapWithDefault(item##name, "Missing name", txt =>
-               txt
-             );
-           let description =
-             Belt.Option.mapWithDefault(
-               item##description, "Missing description", txt =>
-               txt
-             );
-           <MaterialUi.TableRow key=id>
-             <MaterialUi.TableCell>
-               <button onClick={_ => push({j|/$entityString/$id|j})}>
-                 <div
-                   className="text-indigo-900 cursor-pointer hover:text-purple-600">
-                   id->str
-                 </div>
-               </button>
-             </MaterialUi.TableCell>
-             <MaterialUi.TableCell>
-               <button onClick={_ => push({j|/$entityString/$id|j})}>
-                 <div
-                   className="text-indigo-900 cursor-pointer hover:text-purple-600">
-                   name->str
-                 </div>
-               </button>
-             </MaterialUi.TableCell>
-             <MaterialUi.TableCell> description->str </MaterialUi.TableCell>
-           </MaterialUi.TableRow>;
-
-         | None => "None"->str
-         }
-       )
-    |> React.array;
-
-  <MaterialUi.Table>
-    <MaterialUi.TableHead>
-      <MaterialUi.TableRow>
-        <MaterialUi.TableCell> "ID"->str </MaterialUi.TableCell>
-        <MaterialUi.TableCell> "Name"->str </MaterialUi.TableCell>
-        <MaterialUi.TableCell> "Description"->str </MaterialUi.TableCell>
-      </MaterialUi.TableRow>
-    </MaterialUi.TableHead>
-    <MaterialUi.TableBody> itemsList </MaterialUi.TableBody>
-  </MaterialUi.Table>;
+  switch (response) {
+  | Fetching => "Fetching"->str
+  | NotFound => "No Data"->str
+  | Error(_e) => "Error"->str
+  | Data(data) =>
+    switch (data##listExams) {
+    | None => "No items"->str
+    | Some(exams) =>
+      let itemsList =
+        exams
+        |> Array.map(exam => {
+             let examType =
+               switch (exam.type_) {
+               | `PRACTICE => "Practice"
+               | `COMPREHENSIVE => "Comprehensive"
+               | `MOCK => "Mock"
+               };
+             let examId = exam.id;
+             <>
+               <MaterialUi.TableRow key=examId>
+                 <MaterialUi.TableCell>
+                   <button>
+                     <div
+                       className="text-indigo-900 cursor-pointer hover:text-purple-600">
+                       examId->str
+                     </div>
+                   </button>
+                 </MaterialUi.TableCell>
+                 <MaterialUi.TableCell>
+                   <button onClick={_ => push({j|/exams/$examId|j})}>
+                     <div
+                       className="text-indigo-900 cursor-pointer hover:text-purple-600">
+                       exam.name->str
+                     </div>
+                   </button>
+                 </MaterialUi.TableCell>
+                 <MaterialUi.TableCell> examType->str </MaterialUi.TableCell>
+               </MaterialUi.TableRow>
+             </>;
+           })
+        |> React.array;
+      <>
+        <div className="flex justify-between items-start">
+          <p className="font-bold text-4xl mb-8"> "Exams"->str </p>
+        </div>
+        <MaterialUi.Table>
+          <MaterialUi.TableHead>
+            <MaterialUi.TableRow>
+              <MaterialUi.TableCell> "ID"->str </MaterialUi.TableCell>
+              <MaterialUi.TableCell> "Name"->str </MaterialUi.TableCell>
+              <MaterialUi.TableCell> "Type"->str </MaterialUi.TableCell>
+            </MaterialUi.TableRow>
+          </MaterialUi.TableHead>
+          <MaterialUi.TableBody> itemsList </MaterialUi.TableBody>
+        </MaterialUi.Table>
+      </>;
+    }
+  };
 };

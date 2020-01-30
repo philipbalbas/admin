@@ -95,7 +95,7 @@ function EditSubjectForm(Props) {
                             className: "px-3 py-2 bg-green-600 text-indigo-100 rounded-lg",
                             onClick: (function (param) {
                                 Curry._1(dispatch, /* Save */2);
-                                Curry._1(executeMutation, /* () */0);
+                                Curry._2(executeMutation, undefined, /* () */0);
                                 return /* () */0;
                               })
                           }, Utils$ReactHooksTemplate.str("Save")))) : React.createElement(React.Fragment, undefined, React.createElement("div", {
