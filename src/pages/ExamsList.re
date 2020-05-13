@@ -1,4 +1,4 @@
 open Queries;
 
 [@react.component]
-let make = () => <div> <List query=ListExams.make /> </div>;
+let make = () => <div> <ItemList query=ListExams.make /> </div>;

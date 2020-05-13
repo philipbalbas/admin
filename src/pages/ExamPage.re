@@ -44,7 +44,6 @@ let make = (~id) => {
     | Some(data) =>
       let examType = stringifyExamType(data.type_);
 
-      Js.log(data);
       <>
         <div className="text-4xl font-semibold text-indigo-800">
           data.name->str
@@ -52,7 +51,9 @@ let make = (~id) => {
         <div className="text-xl text-indigo-800"> examType->str </div>
         <div className="mt-6">
           <div className="flex justify-between items-center">
-            <button className="p-2 bg-indigo-800 text-blue-100 rounded-lg">
+            <button
+              className="p-2 bg-indigo-800 text-blue-100 rounded-lg"
+              onClick={_ => push("/cards/create")}>
               "+ Add Card"->str
             </button>
           </div>

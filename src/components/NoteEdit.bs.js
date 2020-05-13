@@ -8,8 +8,6 @@ import * as Utils$ReactHooksTemplate from "../Utils.bs.js";
 import * as Mutations$ReactHooksTemplate from "../graphql/Mutations.bs.js";
 import * as MarkdownRender$ReactHooksTemplate from "../bindings/MarkdownRender.bs.js";
 
-var Editor = { };
-
 function NoteEdit(Props) {
   var content = Props.content;
   var id = Props.id;
@@ -121,7 +119,6 @@ function NoteEdit(Props) {
 var make = NoteEdit;
 
 export {
-  Editor ,
   make ,
   
 }

@@ -51,7 +51,6 @@ function ExamPage(Props) {
     if (match$1 !== undefined) {
       var data = match$1;
       var examType = Queries$ReactHooksTemplate.stringifyExamType(data.type_);
-      console.log(data);
       return React.createElement(React.Fragment, undefined, React.createElement("div", {
                       className: "text-4xl font-semibold text-indigo-800"
                     }, Utils$ReactHooksTemplate.str(data.name)), React.createElement("div", {
@@ -61,7 +60,10 @@ function ExamPage(Props) {
                     }, React.createElement("div", {
                           className: "flex justify-between items-center"
                         }, React.createElement("button", {
-                              className: "p-2 bg-indigo-800 text-blue-100 rounded-lg"
+                              className: "p-2 bg-indigo-800 text-blue-100 rounded-lg",
+                              onClick: (function (param) {
+                                  return Utils$ReactHooksTemplate.push("/cards/create");
+                                })
                             }, Utils$ReactHooksTemplate.str("+ Add Card"))), React.createElement(Antd.Table, {
                           columns: columnHeads,
                           dataSource: testData

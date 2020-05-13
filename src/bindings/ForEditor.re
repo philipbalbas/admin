@@ -32,17 +32,15 @@ let defaultOption =
     subfield: true,
   });
 
-module Editor = {
-  [@bs.module "for-editor"] [@react.component]
-  external make:
-    (
-      ~value: string,
-      ~onChange: (Js.String.t => Js.String.t) => unit,
-      ~onSave: (Js.String.t => Js.String.t) => unit=?,
-      ~placeholder: string=?,
-      ~language: string=?,
-      ~toolbar: Js.t('a)=?
-    ) =>
-    React.element =
-    "default";
-};
+[@bs.module "for-editor"] [@react.component]
+external make:
+  (
+    ~value: string,
+    ~onChange: (Js.String.t => Js.String.t) => unit,
+    ~onSave: (Js.String.t => Js.String.t) => unit=?,
+    ~placeholder: string=?,
+    ~language: string=?,
+    ~toolbar: Js.t('a)=?
+  ) =>
+  React.element =
+  "default";

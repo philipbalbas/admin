@@ -135,7 +135,7 @@ let make = (~topicIdProp: string=?, ~pageIdProp: string=?) => {
       </label>
     </div>
     <div className="mt-3 markdown">
-      <ForEditor.Editor
+      <ForEditor
         value=content
         onChange=setContent
         language="en"

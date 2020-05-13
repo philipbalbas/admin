@@ -56,9 +56,17 @@ module Input = {
   [@bs.module "antd"] [@react.component]
   external make:
     (
+      ~addonAfter: string=?,
+      ~addonBefore: string=?,
+      ~defaultValue: string=?,
       ~disabled: bool=?,
       ~id: string=?,
+      ~maxLength: int=?,
+      ~placeholder: string=?,
+      ~prefix: string=?,
       ~size: string=?,
+      ~suffix: string=?,
+      ~_type: string=?,
       ~value: string=?,
       ~onChange: ReactEvent.Form.t => unit=?,
       ~onPressEnter: string => unit=?,
@@ -66,6 +74,13 @@ module Input = {
     ) =>
     React.element =
     "Input";
+
+  module TextArea = {
+    [@bs.module "antd"] [@bs.scope "Input"] [@react.component]
+    external make:
+      (~autosize: bool=?, ~defaultValue: string=?) => React.element =
+      "TextArea";
+  };
 };
 
 module Menu = {
@@ -247,4 +262,42 @@ module Table = {
     [@bs.module "antd"] [@bs.scope "Table"] [@react.component]
     external make: (~title: string=?) => React.element = "ColumnGroup";
   };
+};
+
+module Alert = {
+  [@bs.module "antd"] [@react.component]
+  external make:
+    (
+      ~banner: bool=?,
+      ~closable: bool=?,
+      ~closeText: string=?,
+      ~description: string=?,
+      ~icon: React.element=?,
+      ~message: string=?,
+      ~_type: [@bs.string] [ | `success | `error]=?,
+      ~onClose: unit => unit=?
+    ) =>
+    React.element =
+    "Alert";
+};
+
+module Button = {
+  [@bs.module "antd"] [@react.component]
+  external make:
+    (
+      ~disabled: bool=?,
+      ~ghost: bool=?,
+      ~href: string=?,
+      ~htmlType: string=?,
+      ~icon: string=?,
+      ~loading: bool=?,
+      ~shape: [@bs.string] [ | `circle | `round]=?,
+      ~size: [@bs.string] [ | `small | `large]=?,
+      ~target: string=?,
+      ~_type: [@bs.string] [ | `primary | `ghost | `dashed | `danger | `link]=?,
+      ~onClick: unit => unit=?,
+      ~block: bool=?
+    ) =>
+    React.element =
+    "Button";
 };

@@ -7,7 +7,11 @@ var Select = {
   $$Option: $$Option
 };
 
-var Input = { };
+var TextArea = { };
+
+var Input = {
+  TextArea: TextArea
+};
 
 var Item = { };
 
@@ -32,12 +36,18 @@ var Table = {
   ColumnGroup: ColumnGroup
 };
 
+var Alert = { };
+
+var Button = { };
+
 export {
   Select ,
   Input ,
   Menu ,
   Modal ,
   Table ,
+  Alert ,
+  Button ,
   
 }
 /* No side effect */

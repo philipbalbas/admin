@@ -53,13 +53,10 @@ var defaultOption = toolbarToJs({
       subfield: true
     });
 
-var Editor = { };
-
 export {
   toolbarToJs ,
   toolbarFromJs ,
   defaultOption ,
-  Editor ,
   
 }
 /* defaultOption Not a pure module */

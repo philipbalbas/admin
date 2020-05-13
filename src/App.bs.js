@@ -8,6 +8,7 @@ import * as Page$ReactHooksTemplate from "./pages/Page.bs.js";
 import * as Header$ReactHooksTemplate from "./components/Header.bs.js";
 import * as Sidebar$ReactHooksTemplate from "./components/Sidebar.bs.js";
 import * as ExamPage$ReactHooksTemplate from "./pages/ExamPage.bs.js";
+import * as CardsForm$ReactHooksTemplate from "./pages/CardsForm.bs.js";
 import * as CardsList$ReactHooksTemplate from "./pages/CardsList.bs.js";
 import * as ExamsList$ReactHooksTemplate from "./pages/ExamsList.bs.js";
 import * as NotesForm$ReactHooksTemplate from "./pages/NotesForm.bs.js";
@@ -29,28 +30,31 @@ function App(Props) {
   if (match) {
     switch (match[0]) {
       case "cards" :
-          container = match[1] ? "Page Not Found" : React.createElement(CardsList$ReactHooksTemplate.make, { });
-          break;
-      case "exams" :
           var match$1 = match[1];
           container = match$1 ? (
-              match$1[1] ? "Page Not Found" : React.createElement(ExamPage$ReactHooksTemplate.make, {
-                      id: match$1[0]
+              match$1[0] === "create" && !match$1[1] ? React.createElement(CardsForm$ReactHooksTemplate.make, { }) : "Page Not Found"
+            ) : React.createElement(CardsList$ReactHooksTemplate.make, { });
+          break;
+      case "exams" :
+          var match$2 = match[1];
+          container = match$2 ? (
+              match$2[1] ? "Page Not Found" : React.createElement(ExamPage$ReactHooksTemplate.make, {
+                      id: match$2[0]
                     })
             ) : React.createElement(ExamsList$ReactHooksTemplate.make, { });
           break;
       case "modules" :
-          var match$2 = match[1];
-          if (match$2) {
-            var match$3 = match$2[1];
-            var id = match$2[0];
-            if (match$3) {
-              if (match$3[0] === "subjects") {
-                var match$4 = match$3[1];
-                if (match$4) {
-                  var id$1 = match$4[0];
+          var match$3 = match[1];
+          if (match$3) {
+            var match$4 = match$3[1];
+            var id = match$3[0];
+            if (match$4) {
+              if (match$4[0] === "subjects") {
+                var match$5 = match$4[1];
+                if (match$5) {
+                  var id$1 = match$5[0];
                   var exit = 0;
-                  if (id$1 === "create" && !match$4[1]) {
+                  if (id$1 === "create" && !match$5[1]) {
                     container = React.createElement(SubjectsForm$ReactHooksTemplate.make, {
                           id: id
                         });
@@ -58,11 +62,11 @@ function App(Props) {
                     exit = 1;
                   }
                   if (exit === 1) {
-                    var match$5 = match$4[1];
-                    if (match$5) {
-                      if (match$5[0] === "topics") {
-                        var match$6 = match$5[1];
-                        container = match$6 && match$6[0] === "create" && !match$6[1] ? React.createElement(TopicsForm$ReactHooksTemplate.make, {
+                    var match$6 = match$5[1];
+                    if (match$6) {
+                      if (match$6[0] === "topics") {
+                        var match$7 = match$6[1];
+                        container = match$7 && match$7[0] === "create" && !match$7[1] ? React.createElement(TopicsForm$ReactHooksTemplate.make, {
                                 moduleIdProp: id,
                                 subjectIdProp: id$1
                               }) : "Page Not Found";
@@ -92,13 +96,13 @@ function App(Props) {
           }
           break;
       case "notes" :
-          var match$7 = match[1];
-          if (match$7) {
-            var id$2 = match$7[0];
+          var match$8 = match[1];
+          if (match$8) {
+            var id$2 = match$8[0];
             container = id$2 === "create" ? (
-                match$7[1] ? "Page Not Found" : React.createElement(NotesForm$ReactHooksTemplate.make, { })
+                match$8[1] ? "Page Not Found" : React.createElement(NotesForm$ReactHooksTemplate.make, { })
               ) : (
-                match$7[1] ? "Page Not Found" : React.createElement(Note$ReactHooksTemplate.make, {
+                match$8[1] ? "Page Not Found" : React.createElement(Note$ReactHooksTemplate.make, {
                         id: id$2
                       })
               );
@@ -107,13 +111,13 @@ function App(Props) {
           }
           break;
       case "pages" :
-          var match$8 = match[1];
-          if (match$8) {
-            var id$3 = match$8[0];
+          var match$9 = match[1];
+          if (match$9) {
+            var id$3 = match$9[0];
             container = id$3 === "create" ? (
-                match$8[1] ? "Page Not Found" : React.createElement(PagesForm$ReactHooksTemplate.make, { })
+                match$9[1] ? "Page Not Found" : React.createElement(PagesForm$ReactHooksTemplate.make, { })
               ) : (
-                match$8[1] ? "Page Not Found" : React.createElement(Page$ReactHooksTemplate.make, {
+                match$9[1] ? "Page Not Found" : React.createElement(Page$ReactHooksTemplate.make, {
                         id: id$3
                       })
               );
@@ -122,27 +126,27 @@ function App(Props) {
           }
           break;
       case "subjects" :
-          var match$9 = match[1];
-          if (match$9) {
-            var id$4 = match$9[0];
+          var match$10 = match[1];
+          if (match$10) {
+            var id$4 = match$10[0];
             var exit$1 = 0;
-            if (id$4 === "create" && !match$9[1]) {
+            if (id$4 === "create" && !match$10[1]) {
               container = React.createElement(SubjectsForm$ReactHooksTemplate.make, { });
             } else {
               exit$1 = 1;
             }
             if (exit$1 === 1) {
-              var match$10 = match$9[1];
-              if (match$10) {
-                if (match$10[0] === "topics") {
-                  var match$11 = match$10[1];
-                  if (match$11) {
-                    var match$12 = match$11[1];
-                    if (match$12 && match$12[0] === "pages") {
-                      var match$13 = match$12[1];
-                      container = match$13 && match$13[0] === "create" && !match$13[1] ? React.createElement(PagesForm$ReactHooksTemplate.make, {
+              var match$11 = match$10[1];
+              if (match$11) {
+                if (match$11[0] === "topics") {
+                  var match$12 = match$11[1];
+                  if (match$12) {
+                    var match$13 = match$12[1];
+                    if (match$13 && match$13[0] === "pages") {
+                      var match$14 = match$13[1];
+                      container = match$14 && match$14[0] === "create" && !match$14[1] ? React.createElement(PagesForm$ReactHooksTemplate.make, {
                               subjectIdProp: id$4,
-                              topicIdProp: match$11[0]
+                              topicIdProp: match$12[0]
                             }) : "Page Not Found";
                     } else {
                       container = "Page Not Found";
@@ -165,27 +169,27 @@ function App(Props) {
           }
           break;
       case "topics" :
-          var match$14 = match[1];
-          if (match$14) {
-            var id$5 = match$14[0];
+          var match$15 = match[1];
+          if (match$15) {
+            var id$5 = match$15[0];
             var exit$2 = 0;
-            if (id$5 === "create" && !match$14[1]) {
+            if (id$5 === "create" && !match$15[1]) {
               container = React.createElement(TopicsForm$ReactHooksTemplate.make, { });
             } else {
               exit$2 = 1;
             }
             if (exit$2 === 1) {
-              var match$15 = match$14[1];
-              if (match$15) {
-                if (match$15[0] === "pages") {
-                  var match$16 = match$15[1];
-                  if (match$16) {
-                    var match$17 = match$16[1];
-                    if (match$17 && match$17[0] === "notes") {
-                      var match$18 = match$17[1];
-                      container = match$18 && match$18[0] === "create" && !match$18[1] ? React.createElement(NotesForm$ReactHooksTemplate.make, {
+              var match$16 = match$15[1];
+              if (match$16) {
+                if (match$16[0] === "pages") {
+                  var match$17 = match$16[1];
+                  if (match$17) {
+                    var match$18 = match$17[1];
+                    if (match$18 && match$18[0] === "notes") {
+                      var match$19 = match$18[1];
+                      container = match$19 && match$19[0] === "create" && !match$19[1] ? React.createElement(NotesForm$ReactHooksTemplate.make, {
                               topicIdProp: id$5,
-                              pageIdProp: match$16[0]
+                              pageIdProp: match$17[0]
                             }) : "Page Not Found";
                     } else {
                       container = "Page Not Found";

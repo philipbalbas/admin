@@ -7,7 +7,7 @@ import * as ReasonUrql from "reason-urql/src/ReasonUrql.bs.js";
 import * as Core from "@material-ui/core";
 import * as Utils$ReactHooksTemplate from "../Utils.bs.js";
 
-function List(Props) {
+function ItemList(Props) {
   var query = Props.query;
   var request = Curry._1(query, /* () */0);
   var match = Curry._5(ReasonUrql.Hooks.useQuery, request, undefined, undefined, undefined, /* () */0);
@@ -73,7 +73,7 @@ function List(Props) {
   }
 }
 
-var make = List;
+var make = ItemList;
 
 export {
   make ,

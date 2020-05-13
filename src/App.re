@@ -29,6 +29,7 @@ let make = () => {
     | ["exams"] => <ExamsList />
     | ["exams", id] => <ExamPage id />
     | ["cards"] => <CardsList />
+    | ["cards", "create"] => <CardsForm />
     | _ => "Page Not Found"->ReasonReact.string
     };
   <>

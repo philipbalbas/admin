@@ -14,20 +14,6 @@ type action =
   | Save
   | Type(string);
 
-module Editor = {
-  [@bs.module "for-editor"] [@react.component]
-  external make:
-    (
-      ~value: string,
-      ~onChange: (Js.String.t => Js.String.t) => unit,
-      ~onSave: (Js.String.t => Js.String.t) => unit=?,
-      ~placeholder: string=?,
-      ~language: string=?
-    ) =>
-    React.element =
-    "default";
-};
-
 [@react.component]
 let make = (~content, ~id, ~pageId, ~name) => {
   let (markdownText, setMarkdownText) = React.useState(() => content);
@@ -89,9 +75,7 @@ let make = (~content, ~id, ~pageId, ~name) => {
              />
            </div>
          : <div className="text-indigo-600 text-4xl font-bold">
-             {
-               title;
-             }->str
+             {title}->str
            </div>}
       {editMode
          ? <div>
@@ -116,7 +100,7 @@ let make = (~content, ~id, ~pageId, ~name) => {
            </button>}
     </div>
     <div className="w-full markdown">
-      <Editor
+      <ForEditor
         value=markdownText
         onChange=setMarkdownText
         placeholder="Type Here..."

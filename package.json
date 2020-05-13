@@ -41,7 +41,7 @@
     "remark-math": "^2.0.0"
   },
   "devDependencies": {
-    "@baransu/graphql_ppx_re": "^0.6.1",
+    "@baransu/graphql_ppx_re": "^0.7.1",
     "autoprefixer": "^9.6.1",
     "css-loader": "^3.2.0",
     "dotenv-webpack": "^1.7.0",
