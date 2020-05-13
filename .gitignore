@@ -6,3 +6,4 @@ npm-debug.log
 /node_modules/
 .graphql_ppx_cache/
 .yarn/
+*.bs.js
