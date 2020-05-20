@@ -1,0 +1,1 @@
+[@bs.module "ramda"] external isEmpty: 'a => bool = "isEmpty";

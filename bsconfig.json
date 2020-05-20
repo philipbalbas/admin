@@ -1,21 +1,32 @@
 {
-  "name": "react-hooks-template",
-  "reason": {
-    "react-jsx": 3
-  },
-  "sources": {
-    "dir": "src",
-    "subdirs": true
-  },
-  "package-specs": [
-    {
-      "module": "es6",
-      "in-source": true
-    }
-  ],
-  "suffix": ".bs.js",
+  "name": "nextjs-default",
   "namespace": true,
-  "bs-dependencies": ["reason-react", "reason-urql"],
-  "ppx-flags": ["@baransu/graphql_ppx_re/ppx6"],
-  "refmt": 3
+  "reason": { "react-jsx": 3 },
+  "refmt": 3,
+  "bs-dependencies": [
+    "bs-fetch",
+    "@glennsl/bs-json",
+    "reason-react",
+    "reason-relay",
+    "reason-promise"
+  ],
+  "ppx-flags": ["reason-relay/ppx"],
+  "sources": [
+    { "dir": "common", "subdirs": true },
+    { "dir": "bindings" },
+    { "dir": "pages", "subdirs": true },
+    { "dir": "components", "subdirs": true },
+    "layouts"
+  ],
+  "package-specs": {
+    "module": "es6",
+    "in-source": true
+  },
+  "suffix": ".bs.js",
+  "bsc-flags": ["-bs-no-version-header", "-bs-super-errors", "-bs-g"],
+  "gentypeconfig": {
+    "language": "untyped",
+    "shims": [],
+    "module": "es6"
+  }
 }

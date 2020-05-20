@@ -1,0 +1,429 @@
+schema {
+  query: RootQueryType
+  mutation: RootMutationType
+}
+
+type Card implements Node {
+  answers: [Choice]
+  choices: [Choice]
+  examId: ID
+
+  """The ID of an object"""
+  id: ID!
+  question: String!
+  rationale: String
+  topicId: ID
+  type: CardType!
+}
+
+input CardFilter {
+  examId: ID
+  topicId: ID
+}
+
+enum CardType {
+  """Multiple Answers"""
+  MULTIPLE
+
+  """Single Answer"""
+  SINGLE
+}
+
+type Category implements Node {
+  description: String!
+  exams: [Exam!]
+
+  """The ID of an object"""
+  id: ID!
+  modules: [Module!]
+  name: String!
+}
+
+type Choice implements Node {
+  content: String!
+
+  """The ID of an object"""
+  id: ID!
+}
+
+input CreateCardInput {
+  examId: ID
+  question: String!
+  rationale: String
+  topicId: ID
+  type: CardType!
+}
+
+input CreateCategoryInput {
+  description: String!
+  name: String!
+}
+
+input CreateChoiceInput {
+  cardId: ID
+  content: String!
+}
+
+input CreateExamInput {
+  categoryId: ID!
+  name: String!
+  type: ExamType!
+}
+
+type Exam implements Node {
+  cards: [Card]
+  categoryId: ID!
+
+  """The ID of an object"""
+  id: ID!
+  name: String!
+  type: ExamType!
+}
+
+input ExamFilter {
+  categoryId: ID
+  type: ExamType
+}
+
+enum ExamType {
+  """Comprehensive Exam"""
+  COMPREHENSIVE
+
+  """Mock Exam"""
+  MOCK
+
+  """Practice Test"""
+  PRACTICE
+}
+
+type Module implements Node {
+  categoryId: ID
+  description: String!
+
+  """The ID of an object"""
+  id: ID!
+  name: String!
+  subjects: [Subject]
+}
+
+input ModuleInput {
+  categoryId: ID!
+  description: String
+  name: String!
+}
+
+"""An object with an ID"""
+interface Node {
+  """The id of the object."""
+  id: ID!
+}
+
+type Note implements Node {
+  content: String
+  description: String
+
+  """The ID of an object"""
+  id: ID!
+  name: String
+  pageId: ID
+}
+
+input NoteInput {
+  content: String
+  description: String
+  name: String!
+  pageId: ID!
+}
+
+type Organization implements Node {
+  city: String
+  email: String
+
+  """The ID of an object"""
+  id: ID!
+  name: String
+  role: String
+  street: String
+}
+
+type Page implements Node {
+  content: String
+  description: String
+
+  """The ID of an object"""
+  id: ID!
+  name: String
+  notes: [Note]
+  topicId: ID
+}
+
+input PageInput {
+  content: String
+  description: String
+  name: String!
+  topicId: ID!
+}
+
+type RootMutationType {
+  """Create a card"""
+  createCard(input: CreateCardInput!): Card
+
+  """Create a category"""
+  createCategory(input: CreateCategoryInput!): Category
+
+  """Create a choice"""
+  createChoice(input: CreateChoiceInput!): Choice
+
+  """Create an exam"""
+  createExam(input: CreateExamInput!): Exam
+
+  """Create a module"""
+  createModule(input: ModuleInput!): Module
+
+  """Create a note"""
+  createNote(input: NoteInput!): Note
+
+  """Create an organization"""
+  createOrganization(city: String, email: String, name: String!, phone: String, role: String!, street: String): Organization
+
+  """Create a page"""
+  createPage(input: PageInput!): Page
+
+  """Create a subject"""
+  createSubject(input: SubjectInput!): Subject
+
+  """Create a topic"""
+  createTopic(input: TopicInput!): Topic
+
+  """Signin a user"""
+  signin(email: String, password: String): Session
+
+  """Signup a user"""
+  signup(input: UserInput!): User
+
+  """Update a category"""
+  updateCategory(input: UpdateCategoryInput!): Category
+
+  """Update an exam"""
+  updateExam(input: UpdateExamInput!): Exam
+
+  """Update a module"""
+  updateModule(input: UpdateModuleInput!): Module
+
+  """Update a note"""
+  updateNote(input: UpdateNoteInput!): Note
+
+  """Update a page"""
+  updatePage(input: UpdatePageInput!): Page
+
+  """Update a subject"""
+  updateSubject(input: UpdateSubjectInput!): Subject
+
+  """Update a topic"""
+  updateTopic(input: UpdateTopicInput!): Topic
+
+  """Add choices to card"""
+  upsertCardChoices(input: UpsertCardChoicesInput!): Card
+
+  """Add cards to exam"""
+  upsertExamCards(input: UpsertExamCardsInput!): Exam
+
+  """Add answers to question"""
+  upsertQuestionAnswers(input: UpsertQuestionAnswersInput!): Card
+}
+
+type RootQueryType {
+  """Get a single category"""
+  getCategory(id: ID!): Category
+
+  """Get a single exam"""
+  getExam(id: ID!): Exam
+
+  """Get a list of cards"""
+  listCards(filter: CardFilter): [Card!]
+
+  """Get a list of categories"""
+  listCategories: [Category!]
+
+  """Get a list of exams"""
+  listExams(filter: ExamFilter): [Exam!]
+
+  """Get a single module"""
+  module(id: ID!): Module
+
+  """Get a list of modules"""
+  modules(order: SortOrder = ASC): [Module]
+
+  """Fetches an object given its ID"""
+  node(
+    """The id of an object."""
+    id: ID!
+  ): Node
+
+  """Get a single note"""
+  note(id: ID!): Note
+
+  """Get a list of notes"""
+  notes(order: SortOrder = ASC): [Note]
+
+  """Get an organization"""
+  organization(id: ID!): Organization
+
+  """Get a list of organizations"""
+  organizations: [Organization]
+
+  """Get a single page"""
+  page(id: ID!): Page
+
+  """Get a list of pages"""
+  pages(order: SortOrder = ASC): [Page]
+
+  """Get a single subject"""
+  subject(id: ID!): Subject
+
+  """Get a list subjects"""
+  subjects(order: SortOrder = ASC): [Subject]
+
+  """Get a single topic"""
+  topic(id: ID!): Topic
+
+  """Get a list topics"""
+  topics(order: SortOrder = ASC): [Topic]
+
+  """Get a user"""
+  user(id: ID!): User
+
+  """Get a list of users"""
+  users: [User]
+}
+
+type Session implements Node {
+  """The ID of an object"""
+  id: ID!
+  token: String!
+  user: User!
+}
+
+enum SortOrder {
+  ASC
+  DESC
+}
+
+type Subject implements Node {
+  description: String
+
+  """The ID of an object"""
+  id: ID!
+  moduleId: ID
+  name: String
+  topics: [Topic]
+}
+
+input SubjectInput {
+  description: String
+  moduleId: ID!
+  name: String!
+}
+
+type Topic implements Node {
+  cards: [Card]
+  content: String
+  description: String
+
+  """The ID of an object"""
+  id: ID!
+  name: String
+  pages: [Page]
+  subjectId: ID
+}
+
+input TopicInput {
+  content: String
+  description: String
+  name: String!
+  subjectId: ID!
+}
+
+input UpdateCategoryInput {
+  description: String
+  id: ID!
+  name: String!
+}
+
+input UpdateExamInput {
+  categoryId: ID
+  id: ID!
+  name: String
+  type: ExamType
+}
+
+input UpdateModuleInput {
+  categoryId: ID
+  description: String
+  id: ID!
+  name: String!
+}
+
+input UpdateNoteInput {
+  content: String
+  id: ID!
+  name: String
+  pageId: ID
+}
+
+input UpdatePageInput {
+  content: String
+  description: String
+  id: ID!
+  name: String!
+  topicId: ID
+}
+
+input UpdateSubjectInput {
+  description: String
+  id: ID!
+  moduleId: ID
+  name: String!
+}
+
+input UpdateTopicInput {
+  description: String
+  id: ID!
+  name: String!
+  subjectId: ID
+}
+
+input UpsertCardChoicesInput {
+  cardId: ID!
+  choiceIds: [ID]!
+}
+
+input UpsertExamCardsInput {
+  cardIds: [ID]!
+  examId: ID!
+}
+
+input UpsertQuestionAnswersInput {
+  cardId: ID!
+  choiceIds: [ID]!
+}
+
+type User implements Node {
+  email: String
+  firstName: String
+
+  """The ID of an object"""
+  id: ID!
+  lastName: String
+  organizationId: ID
+  role: String
+  username: String
+}
+
+input UserInput {
+  email: String!
+  organizationId: ID!
+  password: String!
+  username: String!
+}
+
