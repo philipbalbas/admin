@@ -7,3 +7,4 @@ npm-debug.log
 .graphql_ppx_cache/
 .yarn/
 *.bs.js
+/.next
