@@ -17,13 +17,11 @@ let make = () => {
   let content =
     switch (queryData.listCategories) {
     | Some(categories) =>
-      categories
-      |> Array.mapi(
-           (i, cat: CategorySelectQuery_graphql.Types.response_listCategories) => {
-           <Select.Option key={i->string_of_int} value={cat.id}>
-             cat.name->React.string
-           </Select.Option>
-         })
+      categories->Belt.Array.mapWithIndex((i, cat) => {
+        <Select.Option key={i->string_of_int} value={cat.id}>
+          cat.name->React.string
+        </Select.Option>
+      })
       |> React.array
     | _ =>
       <Select.Option key="0" value="0"> "Nada"->React.string </Select.Option>

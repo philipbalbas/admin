@@ -6,7 +6,5 @@ let make = () => {
 
   let fallback = <div> "Loading..."->React.string </div>;
 
-  <div> <Suspense fallback> <ModulesList id /> </Suspense> </div>;
+  <div> <Suspense fallback> <ExamsList id /> </Suspense> </div>;
 };
-
-let default = make;

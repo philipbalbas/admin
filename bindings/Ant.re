@@ -156,11 +156,11 @@ module Modal = {
 };
 
 module Table = {
-  type column('a) = {
+  type column('a, 'b) = {
     title: string,
     dataIndex: string,
     key: string,
-    render: option((string, 'a, int) => React.element) ///
+    render: option(('a, 'b, int) => React.element) ///
     // align: option([ | `left | `right | `center]),
     // ellipsis: option(bool),
     // filters: ColumnFilterItem[];
@@ -191,9 +191,9 @@ module Table = {
       ~tableLayout: [@bs.string] [ | `auto | `fixed]=?,
       ~bordered: bool=?,
       ~childrenColumnName: array(string)=?,
-      ~columns: array(column('a))=?,
+      ~columns: array(column('a, 'b))=?,
       // ~components: TableComponents=?,
-      ~dataSource: array('a)=?,
+      ~dataSource: array('c)=?,
       ~defaultExpandAllRows: bool=?,
       ~defaultExpandedRowKeys: array(string)=?,
       ~expandedRowKeys: array(string)=?,
@@ -203,12 +203,12 @@ module Table = {
       // ~footer: Function(currentPageData)=?,
       ~indentSize: int=?,
       ~loading: bool=?,
-      ~locale: 'b=?,
-      ~pagination: 'b=?,
+      ~locale: 'd=?,
+      ~pagination: 'e=?,
       // ~rowClassName: Function(record, index):string=?,
       // ~rowKey: string|Function(record):string=?,
-      ~rowSelection: 'b=?,
-      ~scroll: 'b=?,
+      ~rowSelection: 'f=?,
+      ~scroll: 'g=?,
       ~showHeader: bool=?,
       ~size: [@bs.string] [ | `default | `middle | `small]=?,
       // ~title: Function(currentPageData)=?,

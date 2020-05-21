@@ -9,11 +9,11 @@ let make = () => {
   open! Next;
   let (state, dispatch) = EntityProvider.useEntity();
   let categoryId = state.categoryId;
-  Js.log(state);
+  // Js.log(state);
   <Menu style mode=`inline defaultOpenKeys=[|"sub1", "sub2"|]>
     <Menu.SubMenu title="Lectures" key="sub1">
       <Menu.Item key="1">
-        <Link href="/[categoryId]" _as={j|/$categoryId|j}>
+        <Link href="/[categoryId]/modules" _as={j|/$categoryId/modules|j}>
           <a> "Modules"->React.string </a>
         </Link>
       </Menu.Item>

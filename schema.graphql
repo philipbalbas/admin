@@ -66,6 +66,7 @@ input CreateChoiceInput {
 
 input CreateExamInput {
   categoryId: ID!
+  description: String!
   name: String!
   type: ExamType!
 }
@@ -73,6 +74,7 @@ input CreateExamInput {
 type Exam implements Node {
   cards: [Card]
   categoryId: ID!
+  description: String!
 
   """The ID of an object"""
   id: ID!

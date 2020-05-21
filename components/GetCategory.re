@@ -22,24 +22,26 @@ let make = (~id="") => {
 
   let content =
     switch (queryData.getCategory) {
-    | Some((category: GetCategoryQuery_graphql.Types.response_getCategory)) =>
+    | Some(category) =>
       let dataSource =
         switch (category.modules) {
         | Some(mods) => mods
         | None => [||]
         };
-      let columns: array(Table.column('a)) = [|
+      let columns:
+        array(
+          Table.column(
+            string,
+            GetCategoryQuery_graphql.Types.response_getCategory_modules,
+          ),
+        ) = [|
         {
           title: "Name",
           dataIndex: "name",
           key: "name",
           render:
             Some(
-              (
-                text,
-                row: GetCategoryQuery_graphql.Types.response_getCategory_modules,
-                _,
-              ) => {
+              (text, row, _) => {
                 let moduleId = row.id;
                 <Link
                   href="/[categoryId]/modules/[moduleId]"
