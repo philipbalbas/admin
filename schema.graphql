@@ -6,13 +6,25 @@ schema {
 type Card implements Node {
   answers: [Choice]
   choices: [Choice]
-  examId: ID
+  exams: [Exam]
 
   """The ID of an object"""
   id: ID!
   question: String!
   rationale: String
-  topicId: ID
+  topic: Topic
+  type: CardType!
+}
+
+input CardChoicesUpsertInput {
+  cardId: ID!
+  choiceIds: [ID]!
+}
+
+input CardCreateInput {
+  question: String!
+  rationale: String
+  topicId: ID!
   type: CardType!
 }
 
@@ -39,45 +51,133 @@ type Category implements Node {
   name: String!
 }
 
+input CategoryInputCreate {
+  description: String!
+  name: String!
+}
+
+input CategoryInputUpdate {
+  description: String
+  id: ID!
+  name: String
+}
+
 type Choice implements Node {
+  cards: [Card]
   content: String!
 
   """The ID of an object"""
   id: ID!
 }
 
-input CreateCardInput {
-  examId: ID
-  question: String!
-  rationale: String
-  topicId: ID
-  type: CardType!
-}
-
-input CreateCategoryInput {
-  description: String!
-  name: String!
-}
-
-input CreateChoiceInput {
-  cardId: ID
+input ChoiceCreateInput {
   content: String!
 }
 
+input ChoiceFilter {
+  cardId: ID
+  searchTerm: String
+}
+
+input CreateCardInput {
+  inputData: CardCreateInput!
+}
+
+type CreateCardPayload {
+  result: Card
+}
+
+input CreateCategoryInput {
+  inputData: CategoryInputCreate!
+}
+
+type CreateCategoryPayload {
+  result: Category
+}
+
+input CreateChoiceInput {
+  inputData: ChoiceCreateInput!
+}
+
+type CreateChoicePayload {
+  result: Choice
+}
+
 input CreateExamInput {
-  categoryId: ID!
-  description: String!
-  name: String!
-  type: ExamType!
+  inputData: ExamCreateInput!
+}
+
+type CreateExamPayload {
+  result: Exam
+}
+
+input CreateModuleInput {
+  inputData: ModuleInput!
+}
+
+type CreateModulePayload {
+  result: Module
+}
+
+input CreateNoteInput {
+  inputData: NoteCreateInput!
+}
+
+type CreateNotePayload {
+  result: Note
+}
+
+input CreateOrganizationInput {
+  inputData: OrganizationInput!
+}
+
+type CreateOrganizationPayload {
+  result: Organization
+}
+
+input CreatePageInput {
+  inputData: PageCreateInput!
+}
+
+type CreatePagePayload {
+  result: Page
+}
+
+input CreateSubjectInput {
+  inputData: SubjectCreateInput!
+}
+
+type CreateSubjectPayload {
+  result: Subject
+}
+
+input CreateTopicInput {
+  inputData: TopicCreateInput!
+}
+
+type CreateTopicPayload {
+  result: Topic
 }
 
 type Exam implements Node {
   cards: [Card]
-  categoryId: ID!
+  category: Category
   description: String!
 
   """The ID of an object"""
   id: ID!
+  name: String!
+  type: ExamType!
+}
+
+input ExamCardsUpsertInput {
+  cardIds: [ID]!
+  examId: ID!
+}
+
+input ExamCreateInput {
+  categoryId: ID!
+  description: String!
   name: String!
   type: ExamType!
 }
@@ -98,8 +198,15 @@ enum ExamType {
   PRACTICE
 }
 
+input ExamUpdateInput {
+  description: String
+  id: ID!
+  name: String
+  type: ExamType
+}
+
 type Module implements Node {
-  categoryId: ID
+  category: Category
   description: String!
 
   """The ID of an object"""
@@ -110,8 +217,15 @@ type Module implements Node {
 
 input ModuleInput {
   categoryId: ID!
-  description: String
+  description: String!
   name: String!
+}
+
+input ModuleInputUpdate {
+  categoryId: ID
+  description: String
+  id: ID!
+  name: String
 }
 
 """An object with an ID"""
@@ -127,14 +241,21 @@ type Note implements Node {
   """The ID of an object"""
   id: ID!
   name: String
-  pageId: ID
+  page: Page
 }
 
-input NoteInput {
+input NoteCreateInput {
   content: String
   description: String
   name: String!
   pageId: ID!
+}
+
+input NoteUpdateInput {
+  content: String
+  id: ID!
+  name: String
+  pageId: ID
 }
 
 type Organization implements Node {
@@ -144,8 +265,22 @@ type Organization implements Node {
   """The ID of an object"""
   id: ID!
   name: String
-  role: String
+  role: OrganizationRole
   street: String
+}
+
+input OrganizationInput {
+  city: String
+  email: String
+  name: String!
+  role: OrganizationRole
+  street: String
+}
+
+enum OrganizationRole {
+  COMPANY
+  ORGANIZATION
+  SCHOOL
 }
 
 type Page implements Node {
@@ -156,46 +291,58 @@ type Page implements Node {
   id: ID!
   name: String
   notes: [Note]
-  topicId: ID
+  topic: Topic
 }
 
-input PageInput {
+input PageCreateInput {
   content: String
   description: String
   name: String!
   topicId: ID!
 }
 
+input PageUpdateInput {
+  content: String
+  description: String
+  id: ID!
+  name: String
+}
+
+input QuestionAnswersUpsertInput {
+  cardId: ID!
+  choiceIds: [ID]!
+}
+
 type RootMutationType {
   """Create a card"""
-  createCard(input: CreateCardInput!): Card
+  createCard(input: CreateCardInput!): CreateCardPayload
 
   """Create a category"""
-  createCategory(input: CreateCategoryInput!): Category
+  createCategory(input: CreateCategoryInput!): CreateCategoryPayload
 
   """Create a choice"""
-  createChoice(input: CreateChoiceInput!): Choice
+  createChoice(input: CreateChoiceInput!): CreateChoicePayload
 
   """Create an exam"""
-  createExam(input: CreateExamInput!): Exam
+  createExam(input: CreateExamInput!): CreateExamPayload
 
   """Create a module"""
-  createModule(input: ModuleInput!): Module
+  createModule(input: CreateModuleInput!): CreateModulePayload
 
   """Create a note"""
-  createNote(input: NoteInput!): Note
+  createNote(input: CreateNoteInput!): CreateNotePayload
 
   """Create an organization"""
-  createOrganization(city: String, email: String, name: String!, phone: String, role: String!, street: String): Organization
+  createOrganization(input: CreateOrganizationInput!): CreateOrganizationPayload
 
   """Create a page"""
-  createPage(input: PageInput!): Page
+  createPage(input: CreatePageInput!): CreatePagePayload
 
   """Create a subject"""
-  createSubject(input: SubjectInput!): Subject
+  createSubject(input: CreateSubjectInput!): CreateSubjectPayload
 
   """Create a topic"""
-  createTopic(input: TopicInput!): Topic
+  createTopic(input: CreateTopicInput!): CreateTopicPayload
 
   """Signin a user"""
   signin(email: String, password: String): Session
@@ -204,42 +351,61 @@ type RootMutationType {
   signup(input: UserInput!): User
 
   """Update a category"""
-  updateCategory(input: UpdateCategoryInput!): Category
+  updateCategory(input: UpdateCategoryInput!): UpdateCategoryPayload
 
   """Update an exam"""
-  updateExam(input: UpdateExamInput!): Exam
+  updateExam(input: UpdateExamInput!): UpdateExamPayload
 
   """Update a module"""
-  updateModule(input: UpdateModuleInput!): Module
+  updateModule(input: UpdateModuleInput!): UpdateModulePayload
 
   """Update a note"""
-  updateNote(input: UpdateNoteInput!): Note
+  updateNote(input: UpdateNoteInput!): UpdateNotePayload
 
   """Update a page"""
-  updatePage(input: UpdatePageInput!): Page
+  updatePage(input: UpdatePageInput!): UpdatePagePayload
 
   """Update a subject"""
-  updateSubject(input: UpdateSubjectInput!): Subject
+  updateSubject(input: UpdateSubjectInput!): UpdateSubjectPayload
 
   """Update a topic"""
-  updateTopic(input: UpdateTopicInput!): Topic
+  updateTopic(input: UpdateTopicInput!): UpdateTopicPayload
 
   """Add choices to card"""
-  upsertCardChoices(input: UpsertCardChoicesInput!): Card
+  upsertCardChoices(input: UpsertCardChoicesInput!): UpsertCardChoicesPayload
 
   """Add cards to exam"""
-  upsertExamCards(input: UpsertExamCardsInput!): Exam
+  upsertExamCards(input: UpsertExamCardsInput!): UpsertExamCardsPayload
 
   """Add answers to question"""
-  upsertQuestionAnswers(input: UpsertQuestionAnswersInput!): Card
+  upsertQuestionAnswers(input: UpsertQuestionAnswersInput!): UpsertQuestionAnswersPayload
 }
 
 type RootQueryType {
   """Get a single category"""
   getCategory(id: ID!): Category
+  getChoice(id: ID!): Choice
 
   """Get a single exam"""
   getExam(id: ID!): Exam
+
+  """Get a single module"""
+  getModule(id: ID!): Module
+
+  """Get a single note"""
+  getNote(id: ID!): Note
+
+  """Get an organization"""
+  getOrganization(id: ID!): Organization
+
+  """Get a single page"""
+  getPage(id: ID!): Page
+
+  """Get a single subject"""
+  getSubject(id: ID!): Subject
+
+  """Get a single topic"""
+  getTopic(id: ID!): Topic
 
   """Get a list of cards"""
   listCards(filter: CardFilter): [Card!]
@@ -247,50 +413,35 @@ type RootQueryType {
   """Get a list of categories"""
   listCategories: [Category!]
 
+  """Get a list of choices"""
+  listChoices(filter: ChoiceFilter): [Choice!]
+
   """Get a list of exams"""
   listExams(filter: ExamFilter): [Exam!]
 
-  """Get a single module"""
-  module(id: ID!): Module
-
   """Get a list of modules"""
-  modules(order: SortOrder = ASC): [Module]
+  listModules(order: SortOrder = ASC): [Module]
+
+  """Get a list of notes"""
+  listNotes(order: SortOrder = ASC, pageId: ID): [Note]
+
+  """Get a list of organizations"""
+  listOrganizations: [Organization]
+
+  """Get a list of pages"""
+  listPages(order: SortOrder = ASC, topicId: ID): [Page]
+
+  """Get a list subjects"""
+  listSubjects(moduleId: ID, order: SortOrder = ASC): [Subject]
+
+  """Get a list topics"""
+  listTopics(order: SortOrder = ASC, subjectId: ID): [Topic]
 
   """Fetches an object given its ID"""
   node(
     """The id of an object."""
     id: ID!
   ): Node
-
-  """Get a single note"""
-  note(id: ID!): Note
-
-  """Get a list of notes"""
-  notes(order: SortOrder = ASC): [Note]
-
-  """Get an organization"""
-  organization(id: ID!): Organization
-
-  """Get a list of organizations"""
-  organizations: [Organization]
-
-  """Get a single page"""
-  page(id: ID!): Page
-
-  """Get a list of pages"""
-  pages(order: SortOrder = ASC): [Page]
-
-  """Get a single subject"""
-  subject(id: ID!): Subject
-
-  """Get a list subjects"""
-  subjects(order: SortOrder = ASC): [Subject]
-
-  """Get a single topic"""
-  topic(id: ID!): Topic
-
-  """Get a list topics"""
-  topics(order: SortOrder = ASC): [Topic]
 
   """Get a user"""
   user(id: ID!): User
@@ -316,15 +467,22 @@ type Subject implements Node {
 
   """The ID of an object"""
   id: ID!
-  moduleId: ID
+  module: Module
   name: String
   topics: [Topic]
 }
 
-input SubjectInput {
+input SubjectCreateInput {
   description: String
   moduleId: ID!
   name: String!
+}
+
+input SubjectUpdateInput {
+  description: String
+  id: ID!
+  moduleId: ID
+  name: String
 }
 
 type Topic implements Node {
@@ -336,78 +494,101 @@ type Topic implements Node {
   id: ID!
   name: String
   pages: [Page]
-  subjectId: ID
+  subject: Subject
 }
 
-input TopicInput {
+input TopicCreateInput {
   content: String
   description: String
   name: String!
   subjectId: ID!
 }
 
-input UpdateCategoryInput {
+input TopicUpdateInput {
   description: String
-  id: ID!
-  name: String!
-}
-
-input UpdateExamInput {
-  categoryId: ID
   id: ID!
   name: String
-  type: ExamType
-}
-
-input UpdateModuleInput {
-  categoryId: ID
-  description: String
-  id: ID!
-  name: String!
-}
-
-input UpdateNoteInput {
-  content: String
-  id: ID!
-  name: String
-  pageId: ID
-}
-
-input UpdatePageInput {
-  content: String
-  description: String
-  id: ID!
-  name: String!
-  topicId: ID
-}
-
-input UpdateSubjectInput {
-  description: String
-  id: ID!
-  moduleId: ID
-  name: String!
-}
-
-input UpdateTopicInput {
-  description: String
-  id: ID!
-  name: String!
   subjectId: ID
 }
 
+input UpdateCategoryInput {
+  inputData: CategoryInputUpdate!
+}
+
+type UpdateCategoryPayload {
+  result: Category
+}
+
+input UpdateExamInput {
+  inputData: ExamUpdateInput!
+}
+
+type UpdateExamPayload {
+  result: Exam
+}
+
+input UpdateModuleInput {
+  inputData: ModuleInputUpdate!
+}
+
+type UpdateModulePayload {
+  result: Module
+}
+
+input UpdateNoteInput {
+  inputData: NoteUpdateInput!
+}
+
+type UpdateNotePayload {
+  result: Note
+}
+
+input UpdatePageInput {
+  input: PageUpdateInput!
+}
+
+type UpdatePagePayload {
+  result: Page
+}
+
+input UpdateSubjectInput {
+  inputData: SubjectUpdateInput!
+}
+
+type UpdateSubjectPayload {
+  result: Subject
+}
+
+input UpdateTopicInput {
+  inputData: TopicUpdateInput!
+}
+
+type UpdateTopicPayload {
+  result: Topic
+}
+
 input UpsertCardChoicesInput {
-  cardId: ID!
-  choiceIds: [ID]!
+  inputData: CardChoicesUpsertInput!
+}
+
+type UpsertCardChoicesPayload {
+  result: Card
 }
 
 input UpsertExamCardsInput {
-  cardIds: [ID]!
-  examId: ID!
+  inputData: ExamCardsUpsertInput!
+}
+
+type UpsertExamCardsPayload {
+  result: Exam
 }
 
 input UpsertQuestionAnswersInput {
-  cardId: ID!
-  choiceIds: [ID]!
+  inputData: QuestionAnswersUpsertInput!
+}
+
+type UpsertQuestionAnswersPayload {
+  result: Card
 }
 
 type User implements Node {

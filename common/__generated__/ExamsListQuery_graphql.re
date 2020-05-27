@@ -22,7 +22,7 @@ let wrap_enum_ExamType: enum_ExamType => string =
   | `FutureAddedValue(v) => v;
 
 module Types = {
-  type response_getCategory_exams = {
+  type response_listExams = {
     id: string,
     name: string,
     description: string,
@@ -33,22 +33,19 @@ module Types = {
       | `FutureAddedValue(string)
     ],
   };
-  type response_getCategory = {
-    id: string,
-    name: string,
-    exams: option(array(response_getCategory_exams)),
-  };
 
-  type response = {getCategory: option(response_getCategory)};
-  type refetchVariables = {id: option(string)};
-  let makeRefetchVariables = (~id=?, ()): refetchVariables => {id: id};
-  type variables = {id: string};
+  type response = {listExams: option(array(response_listExams))};
+  type refetchVariables = {categoryId: option(string)};
+  let makeRefetchVariables = (~categoryId=?, ()): refetchVariables => {
+    categoryId: categoryId,
+  };
+  type variables = {categoryId: string};
 };
 
 module Internal = {
   type responseRaw;
   let responseConverter: Js.Dict.t(Js.Dict.t(Js.Dict.t(string))) = [%raw
-    {json| {"__root":{"getCategory":{"n":""},"getCategory_exams":{"n":""},"getCategory_exams_type_":{"e":"enum_ExamType"}}} |json}
+    {json| {"__root":{"listExams":{"n":""},"listExams_type_":{"e":"enum_ExamType"}}} |json}
   ];
   let responseConverterMap = {"enum_ExamType": unwrap_enum_ExamType};
   let convertResponse = v =>
@@ -76,7 +73,7 @@ type preloadToken;
 
 module Utils = {
   open Types;
-  let makeVariables = (~id): variables => {id: id};
+  let makeVariables = (~categoryId): variables => {categoryId: categoryId};
 };
 
 type operationType = ReasonRelay.queryNode;
@@ -87,66 +84,57 @@ var v0 = [
   {
     "defaultValue": null,
     "kind": "LocalArgument",
-    "name": "id",
+    "name": "categoryId",
     "type": "ID!"
   }
 ],
-v1 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "id",
-  "storageKey": null
-},
-v2 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "name",
-  "storageKey": null
-},
-v3 = [
+v1 = [
   {
     "alias": null,
     "args": [
       {
-        "kind": "Variable",
-        "name": "id",
-        "variableName": "id"
+        "fields": [
+          {
+            "kind": "Variable",
+            "name": "categoryId",
+            "variableName": "categoryId"
+          }
+        ],
+        "kind": "ObjectValue",
+        "name": "filter"
       }
     ],
-    "concreteType": "Category",
+    "concreteType": "Exam",
     "kind": "LinkedField",
-    "name": "getCategory",
-    "plural": false,
+    "name": "listExams",
+    "plural": true,
     "selections": [
-      (v1/*: any*/),
-      (v2/*: any*/),
       {
         "alias": null,
         "args": null,
-        "concreteType": "Exam",
-        "kind": "LinkedField",
-        "name": "exams",
-        "plural": true,
-        "selections": [
-          (v1/*: any*/),
-          (v2/*: any*/),
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "description",
-            "storageKey": null
-          },
-          {
-            "alias": "type_",
-            "args": null,
-            "kind": "ScalarField",
-            "name": "type",
-            "storageKey": null
-          }
-        ],
+        "kind": "ScalarField",
+        "name": "id",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "name",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "description",
+        "storageKey": null
+      },
+      {
+        "alias": "type_",
+        "args": null,
+        "kind": "ScalarField",
+        "name": "type",
         "storageKey": null
       }
     ],
@@ -159,7 +147,7 @@ return {
     "kind": "Fragment",
     "metadata": null,
     "name": "ExamsListQuery",
-    "selections": (v3/*: any*/),
+    "selections": (v1/*: any*/),
     "type": "RootQueryType"
   },
   "kind": "Request",
@@ -167,14 +155,14 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
     "name": "ExamsListQuery",
-    "selections": (v3/*: any*/)
+    "selections": (v1/*: any*/)
   },
   "params": {
     "id": null,
     "metadata": {},
     "name": "ExamsListQuery",
     "operationKind": "query",
-    "text": "query ExamsListQuery(\n  $id: ID!\n) {\n  getCategory(id: $id) {\n    id\n    name\n    exams {\n      id\n      name\n      description\n      type_: type\n    }\n  }\n}\n"
+    "text": "query ExamsListQuery(\n  $categoryId: ID!\n) {\n  listExams(filter: {categoryId: $categoryId}) {\n    id\n    name\n    description\n    type_: type\n  }\n}\n"
   }
 };
 })() |json}

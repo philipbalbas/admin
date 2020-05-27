@@ -1,15 +1,13 @@
 module Query = [%relay.query
   {|
-    query ExamsListQuery($id: ID!) {
-      getCategory(id: $id) {
+    query ExamsListQuery($categoryId: ID!) {
+      listExams(filter: {
+        categoryId: $categoryId
+      }) {
         id
         name
-        exams {
-          id
-          name
-          description
-          type_: type
-        }
+        description
+        type_: type
       }
     }
   |}
@@ -26,23 +24,36 @@ let stringifyExamType = type_ =>
 [@react.component]
 let make = (~id="") => {
   open Ant;
-  let queryData = Query.use(~variables={id: id}, ());
+  let queryData = Query.use(~variables={categoryId: id}, ());
 
-  switch (queryData.getCategory) {
-  | Some(category) =>
-    let dataSource =
-      switch (category.exams) {
-      | Some(exams) => exams
-      | None => [||]
-      };
-    let columns: array(Table.column('a, unit)) = [|
-      {title: "Name", dataIndex: "name", key: "name", render: None},
+  switch (queryData.listExams) {
+  | Some(exams) =>
+    let columns:
+      array(
+        Table.column('a, ExamsListQuery_graphql.Types.response_listExams),
+      ) = [|
+      {
+        title: "Name",
+        dataIndex: "name",
+        key: "name",
+        render:
+          Some(
+            (text, row, _) => {
+              let content = Js.String.make(text);
+              let examId = row.id;
+              <Next.Link
+                href="/[categoryId]/exams/[examId]"
+                _as={j|/$id/exams/$examId|j}>
+                <a> content->React.string </a>
+              </Next.Link>;
+            },
+          ),
+      },
       {
         title: "Type",
         dataIndex: "type_",
         key: "id",
-        render:
-          Some((text, _, _) => {stringifyExamType(text)->React.string}),
+        render: Some((text, _, _) => stringifyExamType(text)->React.string),
       },
       {
         title: "Description",
@@ -52,7 +63,7 @@ let make = (~id="") => {
       },
     |];
 
-    <div> <Table columns dataSource pagination=false /> </div>;
+    <div> <Table columns dataSource=exams pagination=false /> </div>;
   | None => React.null
   };
 };
