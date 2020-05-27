@@ -28,14 +28,14 @@ module Types = {
     question: string,
     type_: [ | `MULTIPLE | `SINGLE | `FutureAddedValue(string)],
     rationale: option(string),
-    choices: option(array(option(response_getExam_cards_choices))),
-    answers: option(array(option(response_getExam_cards_answers))),
+    choices: option(array(response_getExam_cards_choices)),
+    answers: option(array(response_getExam_cards_answers)),
   };
   type response_getExam = {
     id: string,
     name: string,
     description: string,
-    cards: option(array(option(response_getExam_cards))),
+    cards: option(array(response_getExam_cards)),
   };
 
   type response = {getExam: option(response_getExam)};
@@ -47,7 +47,7 @@ module Types = {
 module Internal = {
   type responseRaw;
   let responseConverter: Js.Dict.t(Js.Dict.t(Js.Dict.t(string))) = [%raw
-    {json| {"__root":{"getExam":{"n":""},"getExam_cards":{"n":"","na":""},"getExam_cards_type_":{"e":"enum_CardType"},"getExam_cards_rationale":{"n":""},"getExam_cards_choices":{"n":"","na":""},"getExam_cards_answers":{"n":"","na":""}}} |json}
+    {json| {"__root":{"getExam":{"n":""},"getExam_cards":{"n":""},"getExam_cards_type_":{"e":"enum_CardType"},"getExam_cards_rationale":{"n":""},"getExam_cards_choices":{"n":""},"getExam_cards_answers":{"n":""}}} |json}
   ];
   let responseConverterMap = {"enum_CardType": unwrap_enum_CardType};
   let convertResponse = v =>

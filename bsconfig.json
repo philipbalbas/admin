@@ -13,7 +13,7 @@
   "ppx-flags": ["reason-relay/ppx"],
   "sources": [
     { "dir": "common", "subdirs": true },
-    { "dir": "bindings" },
+    { "dir": "bindings", "subdirs": true },
     { "dir": "pages", "subdirs": true },
     { "dir": "components", "subdirs": true },
     "layouts"

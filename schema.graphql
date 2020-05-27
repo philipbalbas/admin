@@ -4,15 +4,15 @@ schema {
 }
 
 type Card implements Node {
-  answers: [Choice]
-  choices: [Choice]
+  answers: [Choice!]
+  choices: [Choice!]
   exams: [Exam]
 
   """The ID of an object"""
   id: ID!
   question: String!
   rationale: String
-  topic: Topic
+  topic: Topic!
   type: CardType!
 }
 
@@ -63,7 +63,7 @@ input CategoryInputUpdate {
 }
 
 type Choice implements Node {
-  cards: [Card]
+  cards: [Card!]
   content: String!
 
   """The ID of an object"""
@@ -160,8 +160,8 @@ type CreateTopicPayload {
 }
 
 type Exam implements Node {
-  cards: [Card]
-  category: Category
+  cards: [Card!]
+  category: Category!
   description: String!
 
   """The ID of an object"""
@@ -206,13 +206,13 @@ input ExamUpdateInput {
 }
 
 type Module implements Node {
-  category: Category
+  category: Category!
   description: String!
 
   """The ID of an object"""
   id: ID!
   name: String!
-  subjects: [Subject]
+  subjects: [Subject!]
 }
 
 input ModuleInput {
@@ -240,8 +240,8 @@ type Note implements Node {
 
   """The ID of an object"""
   id: ID!
-  name: String
-  page: Page
+  name: String!
+  page: Page!
 }
 
 input NoteCreateInput {
@@ -289,9 +289,9 @@ type Page implements Node {
 
   """The ID of an object"""
   id: ID!
-  name: String
-  notes: [Note]
-  topic: Topic
+  name: String!
+  notes: [Note!]
+  topic: Topic!
 }
 
 input PageCreateInput {
@@ -467,9 +467,9 @@ type Subject implements Node {
 
   """The ID of an object"""
   id: ID!
-  module: Module
-  name: String
-  topics: [Topic]
+  module: Module!
+  name: String!
+  topics: [Topic!]
 }
 
 input SubjectCreateInput {
@@ -486,15 +486,15 @@ input SubjectUpdateInput {
 }
 
 type Topic implements Node {
-  cards: [Card]
+  cards: [Card!]
   content: String
   description: String
 
   """The ID of an object"""
   id: ID!
-  name: String
-  pages: [Page]
-  subject: Subject
+  name: String!
+  pages: [Page!]
+  subject: Subject!
 }
 
 input TopicCreateInput {
