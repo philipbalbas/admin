@@ -1,8 +1,8 @@
 [@bs.module "antd"] [@react.component]
 external make:
   (
-    ~addonAfter: string=?,
-    ~addonBefore: string=?,
+    ~addonAfter: React.element=?,
+    ~addonBefore: React.element=?,
     ~defaultValue: string=?,
     ~disabled: bool=?,
     ~id: string=?,
@@ -15,13 +15,24 @@ external make:
     ~value: string=?,
     ~onChange: ReactEvent.Form.t => unit=?,
     ~onPressEnter: string => unit=?,
-    ~allowClear: bool=?
+    ~allowClear: bool=?,
+    ~style: Js.t('a)=?
   ) =>
   React.element =
   "Input";
 
 module TextArea = {
   [@bs.module "antd"] [@bs.scope "Input"] [@react.component]
-  external make: (~autosize: bool=?, ~defaultValue: string=?) => React.element =
+  external make:
+    (
+      ~autoSize: 'a=?,
+      ~defaultValue: string=?,
+      ~value: string=?,
+      ~onPressEnter: ReactEvent.Synthetic.t => unit=?,
+      // ~onResize:   "function({ width, height })=?
+      ~onChange: ReactEvent.Form.t => unit=?,
+      ~allowClear: bool=?
+    ) =>
+    React.element =
     "TextArea";
 };
