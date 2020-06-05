@@ -1,3 +1,10 @@
+type t;
+
+[@bs.module "antd"] [@bs.scope "Form"]
+external useForm: unit => array(t) = "useForm";
+
+[@bs.send.pipe: t] external resetFields: unit => unit = "resetFields";
+
 [@bs.module "antd"] [@react.component]
 external make:
   (
@@ -5,10 +12,10 @@ external make:
     // ~component:  "ComponentType | false",,
     ~colon: bool=?,
     // ~fields:  "FieldData[]",,
-    // ~form:  "FormInstance",,
+    ~form: t=?,
     ~hideRequiredMark: bool=?,
     // ~initialValues:  "object",,
-    // ~labelAlign:  "left | right",,
+    ~labelAlign: [@bs.string] [ | `left | `right]=?,
     ~labelCol: Js.t('d)=?,
     ~layout: [@bs.string] [ | `horizontal | `vertical | `inline]=?,
     ~name: string=?,
@@ -40,11 +47,11 @@ module Item = {
       ~noStyle: bool=?,
       ~label: React.element=?,
       ~labelAlign: [@bs.string] [ | `left | `right]=?,
-      // ~labelCol:  object,
-      // ~name:  NamePath,
+      ~labelCol: Js.t('i)=?,
+      ~name: string=?,
       ~normalize: ('e, 'f, 'g) => 'h=?,
       ~required: bool=?,
-      // ~rules:  Rule[],
+      ~rules: array(Js.t('i))=?,
       // ~shouldUpdate:  bool=? | (prevValue, curValue) => bool=?,
       ~trigger: string=?,
       ~validateFirst: bool=?,
