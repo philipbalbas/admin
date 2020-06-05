@@ -5,14 +5,17 @@ external make:
     ~ghost: bool=?,
     ~href: string=?,
     ~htmlType: string=?,
-    ~icon: string=?,
+    ~icon: React.element=?,
     ~loading: bool=?,
     ~shape: [@bs.string] [ | `circle | `round]=?,
     ~size: [@bs.string] [ | `small | `large]=?,
     ~target: string=?,
     ~_type: [@bs.string] [ | `primary | `ghost | `dashed | `danger | `link]=?,
     ~onClick: unit => unit=?,
-    ~block: bool=?
+    ~block: bool=?,
+    ~className: string=?,
+    ~children: 'a=?,
+    ~style: Js.t('b)=?
   ) =>
   React.element =
   "Button";
