@@ -12,7 +12,8 @@ external make:
     ~size: [@bs.string] [ | `default | `small]=?,
     ~title: string=?,
     ~_type: string=?,
-    ~onTabChange: unit => unit=?
+    ~onTabChange: unit => unit=?,
+    ~onClick: string => unit=?
   ) =>
   React.element =
   "Card";
