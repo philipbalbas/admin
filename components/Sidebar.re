@@ -1,7 +1,5 @@
 open Ant;
 
-type style = {. "width": string};
-
 let style = {"width": 250};
 
 [@react.component]
@@ -10,7 +8,11 @@ let make = () => {
   let router = Router.useRouter();
   let categoryId = router.query##categoryId;
 
-  <Menu style mode=`inline defaultOpenKeys=[|"sub1", "sub2"|]>
+  <Menu
+    style
+    mode=`inline
+    defaultOpenKeys=[|"sub1", "sub2"|]
+    defaultSelectedKeys=[|"1"|]>
     <Menu.SubMenu title="Lectures" key="sub1">
       <Menu.Item key="1">
         <Link href="/[categoryId]/modules" _as={j|/$categoryId/modules|j}>

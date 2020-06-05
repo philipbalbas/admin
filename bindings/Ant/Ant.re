@@ -9,5 +9,6 @@ module Menu = Ant_Menu;
 module Modal = Ant_Modal;
 module Radio = Ant_Radio;
 module Spin = Ant_Spin;
+module Switch = Ant_Switch;
 module Select = Ant_Select;
 module Table = Ant_Table;
