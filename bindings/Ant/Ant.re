@@ -7,5 +7,6 @@ module Input = Ant_Input;
 module List = Ant_List;
 module Menu = Ant_Menu;
 module Modal = Ant_Modal;
+module Radio = Ant_Radio;
 module Select = Ant_Select;
 module Table = Ant_Table;
