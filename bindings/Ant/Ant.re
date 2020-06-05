@@ -3,6 +3,7 @@ module Button = Ant_Button;
 module Card = Ant_Card;
 module Divider = Ant_Divider;
 module Form = Ant_Form;
+module Icons = Ant_Icons;
 module Input = Ant_Input;
 module List = Ant_List;
 module Menu = Ant_Menu;
