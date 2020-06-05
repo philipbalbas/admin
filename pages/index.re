@@ -1,10 +1,21 @@
+open Ant;
+open React;
+
 [@react.component]
 let make = () => {
-  open! React;
-
-  let fallback = <div> "Loading ..."->React.string </div>;
+  let fallback = <div> "Loading ..."->string </div>;
 
   <div className="p-8">
+    <div className="flex justify-end mb-4">
+      <Next.Link href="/create" _as="/create">
+        <Button
+          _type=`primary
+          style={"display": "inline-flex", "align-items": "center"}
+          icon={<Icons.PlusOutlined />}>
+          "Create Category"->string
+        </Button>
+      </Next.Link>
+    </div>
     <Suspense fallback> <CategoryList /> </Suspense>
   </div>;
 };

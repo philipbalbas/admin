@@ -51,6 +51,7 @@ let make = (props: props): React.element => {
   let shownContent =
     switch (router.route) {
     | "/" => content
+    | "/create" => content
     | _ => <MainLayout> content </MainLayout>
     };
 

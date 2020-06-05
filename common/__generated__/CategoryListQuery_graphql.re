@@ -2,8 +2,9 @@
 
 module Types = {
   type response_listCategories = {
-    name: string,
     id: string,
+    name: string,
+    description: string,
   };
 
   type response = {listCategories: option(array(response_listCategories))};
@@ -58,6 +59,13 @@ var v0 = [
         "alias": null,
         "args": null,
         "kind": "ScalarField",
+        "name": "id",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
         "name": "name",
         "storageKey": null
       },
@@ -65,7 +73,7 @@ var v0 = [
         "alias": null,
         "args": null,
         "kind": "ScalarField",
-        "name": "id",
+        "name": "description",
         "storageKey": null
       }
     ],
@@ -93,7 +101,7 @@ return {
     "metadata": {},
     "name": "CategoryListQuery",
     "operationKind": "query",
-    "text": "query CategoryListQuery {\n  listCategories {\n    name\n    id\n  }\n}\n"
+    "text": "query CategoryListQuery {\n  listCategories {\n    id\n    name\n    description\n  }\n}\n"
   }
 };
 })() |json}
