@@ -40,7 +40,7 @@ let make = (~categoryId="") => {
       initialValues,
     );
 
-  let (createCategory, isCreatingCategory) = CreateModuleMutation.use();
+  let (createModule, isCreatingModule) = CreateModuleMutation.use();
 
   let [|form|] = Form.useForm();
 
@@ -50,13 +50,14 @@ let make = (~categoryId="") => {
   };
 
   let handleSubmit = state => {
-    createCategory(
+    createModule(
       ~variables={
         input: {
           inputData: {
             name: state.name,
             description: state.description,
             categoryId,
+            order: None,
           },
         },
       },
@@ -65,9 +66,9 @@ let make = (~categoryId="") => {
           switch (res.createModule) {
           | Some(response) =>
             switch (response.result) {
-            | Some(category) =>
-              let name = category.name;
-              Message.(message |> success({j| Category $name created  |j}));
+            | Some(module_) =>
+              let name = module_.name;
+              Message.(message |> success({j| Module $name created  |j}));
               resetFields();
             | None => ()
             }
@@ -113,7 +114,7 @@ let make = (~categoryId="") => {
     </Form.Item>
     <Form.Item wrapperCol={"offset": 4, "span": 20}>
       <Button
-        loading=isCreatingCategory
+        loading=isCreatingModule
         className="mr-4"
         _type=`primary
         onClick={_ => handleSubmit(state)}
@@ -121,7 +122,7 @@ let make = (~categoryId="") => {
         "Create"->string
       </Button>
       <Next.Link href="/[categoryId]/modules" _as={j|/$categoryId/modules|j}>
-        <Button loading=isCreatingCategory> "Cancel"->string </Button>
+        <Button loading=isCreatingModule> "Cancel"->string </Button>
       </Next.Link>
     </Form.Item>
   </Form>;
