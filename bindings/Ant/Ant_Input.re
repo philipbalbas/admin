@@ -36,3 +36,27 @@ module TextArea = {
     React.element =
     "TextArea";
 };
+
+module Number = {
+  [@bs.module "antd"] [@react.component]
+  external make:
+    (
+      ~autoFocus: bool=?,
+      ~defaultValue: int=?,
+      ~disabled: bool=?,
+      // ~formatter:  "function(value: number | string): string",=?,
+      ~max: int=?,
+      ~min: int=?,
+      // ~parser:  "function( string): number",=?,
+      ~precision: int=?,
+      ~decimalSeparator: string=?,
+      ~size: [@bs.string] [ | `large | `middle | `small]=?,
+      ~step: 'a=?,
+      ~_type: string=?,
+      ~value: int=?,
+      ~onChange: 'b => unit=?,
+      ~onPressEnter: ReactEvent.Synthetic.t => unit=?
+    ) =>
+    React.element =
+    "InputNumber";
+};

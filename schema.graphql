@@ -212,13 +212,20 @@ type Module implements Node {
   """The ID of an object"""
   id: ID!
   name: String!
+  order: Int
   subjects: [Subject!]
+}
+
+input ModuleFilter {
+  categoryId: ID
+  order: SortOrder = ASC
 }
 
 input ModuleInput {
   categoryId: ID!
   description: String!
   name: String!
+  order: Int
 }
 
 input ModuleInputUpdate {
@@ -226,6 +233,7 @@ input ModuleInputUpdate {
   description: String
   id: ID!
   name: String
+  order: Int
 }
 
 """An object with an ID"""
@@ -420,7 +428,7 @@ type RootQueryType {
   listExams(filter: ExamFilter): [Exam!]
 
   """Get a list of modules"""
-  listModules(order: SortOrder = ASC): [Module]
+  listModules(filter: ModuleFilter): [Module!]
 
   """Get a list of notes"""
   listNotes(order: SortOrder = ASC, pageId: ID): [Note]

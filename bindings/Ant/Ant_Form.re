@@ -14,7 +14,7 @@ external make:
     // ~fields:  "FieldData[]",,
     ~form: t=?,
     ~hideRequiredMark: bool=?,
-    // ~initialValues:  "object",,
+    ~initialValues: Js.t('e)=?,
     ~labelAlign: [@bs.string] [ | `left | `right]=?,
     ~labelCol: Js.t('d)=?,
     ~layout: [@bs.string] [ | `horizontal | `vertical | `inline]=?,
