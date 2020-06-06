@@ -39,7 +39,22 @@ let make = (~categoryId, ~moduleId) => {
           GetCategoryQuery_graphql.Types.response_getCategory_modules,
         ),
       ) = [|
-      {title: "Name", dataIndex: "name", key: "name", render: None},
+      {
+        title: "Name",
+        dataIndex: "name",
+        key: "name",
+        render:
+          Some(
+            (text, row, _) => {
+              let id = row.id;
+              <Link
+                href="/[categoryId]/subjects/[subjectId]"
+                _as={j|/$categoryId/subjects/$id|j}>
+                <a> text->string </a>
+              </Link>;
+            },
+          ),
+      },
       {
         title: "Description",
         dataIndex: "description",
@@ -58,7 +73,12 @@ let make = (~categoryId, ~moduleId) => {
         <Link
           href="/[categoryId]/modules/[moduleId]/subjects/create"
           _as={j|/$categoryId/modules/$moduleId/subjects/create|j}>
-          <Button> "Create Subject"->string </Button>
+          <Button
+            _type=`primary
+            style={"display": "inline-flex", "alignItems": "center"}
+            icon={<Icons.PlusOutlined />}>
+            "Create Subject"->string
+          </Button>
         </Link>
       </div>
       <Table columns dataSource pagination=false />

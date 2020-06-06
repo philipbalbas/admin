@@ -443,7 +443,7 @@ type RootQueryType {
   listSubjects(filter: SubjectsFilter): [Subject!]
 
   """Get a list topics"""
-  listTopics(order: SortOrder = ASC, subjectId: ID): [Topic]
+  listTopics(filter: TopicsFilter): [Topic!]
 
   """Fetches an object given its ID"""
   node(
@@ -510,6 +510,7 @@ type Topic implements Node {
   """The ID of an object"""
   id: ID!
   name: String!
+  order: Int
   pages: [Page!]
   subject: Subject!
 }
@@ -518,13 +519,22 @@ input TopicCreateInput {
   content: String
   description: String
   name: String!
+  order: Int
   subjectId: ID!
+}
+
+input TopicsFilter {
+  categoryId: ID
+  moduleId: ID
+  order: SortOrder = ASC
+  subjectId: ID
 }
 
 input TopicUpdateInput {
   description: String
   id: ID!
   name: String
+  order: Int
   subjectId: ID
 }
 
