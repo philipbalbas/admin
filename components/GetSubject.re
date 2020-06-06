@@ -38,7 +38,22 @@ let make = (~subjectId, ~categoryId) => {
           GetSubjectQuery_graphql.Types.response_getSubject_topics,
         ),
       ) = [|
-      {title: "Name", dataIndex: "name", key: "name", render: None},
+      {
+        title: "Name",
+        dataIndex: "name",
+        key: "name",
+        render:
+          Some(
+            (text, row, _) => {
+              let id = row.id;
+              <Link
+                href="/[categoryId]/topics/[topicId]"
+                _as={j|/$categoryId/topics/$id|j}>
+                <a> text->string </a>
+              </Link>;
+            },
+          ),
+      },
       {
         title: "Description",
         dataIndex: "description",
