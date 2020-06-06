@@ -4,9 +4,9 @@ let make = () => {
   let router = Next.Router.useRouter();
   let id = router.query##categoryId;
 
-  let fallback = <div> "Loading..."->React.string </div>;
+  let fallback = <div> "Loading..."->string </div>;
 
-  <div> <Suspense fallback> <ModulesList id /> </Suspense> </div>;
+  <Suspense fallback> <ListModules id /> </Suspense>;
 };
 
 let default = make;

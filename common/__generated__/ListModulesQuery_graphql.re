@@ -124,7 +124,7 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "ModulesListQuery",
+    "name": "ListModulesQuery",
     "selections": (v3/*: any*/),
     "type": "RootQueryType"
   },
@@ -132,15 +132,15 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "ModulesListQuery",
+    "name": "ListModulesQuery",
     "selections": (v3/*: any*/)
   },
   "params": {
     "id": null,
     "metadata": {},
-    "name": "ModulesListQuery",
+    "name": "ListModulesQuery",
     "operationKind": "query",
-    "text": "query ModulesListQuery(\n  $id: ID!\n) {\n  getCategory(id: $id) {\n    id\n    name\n    modules {\n      id\n      name\n      description\n    }\n  }\n}\n"
+    "text": "query ListModulesQuery(\n  $id: ID!\n) {\n  getCategory(id: $id) {\n    id\n    name\n    modules {\n      id\n      name\n      description\n    }\n  }\n}\n"
   }
 };
 })() |json}

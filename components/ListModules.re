@@ -1,6 +1,6 @@
 module Query = [%relay.query
   {|
-  query ModulesListQuery($id: ID!) {
+  query ListModulesQuery($id: ID!) {
     getCategory(id: $id) {
       id
       name
@@ -18,6 +18,7 @@ module Query = [%relay.query
 let make = (~id="") => {
   open Ant;
   open Next;
+  open React;
   let queryData = Query.use(~variables={id: id}, ());
 
   switch (queryData.getCategory) {
@@ -31,7 +32,7 @@ let make = (~id="") => {
       array(
         Table.column(
           string,
-          ModulesListQuery_graphql.Types.response_getCategory_modules,
+          ListModulesQuery_graphql.Types.response_getCategory_modules,
         ),
       ) = [|
       {
@@ -45,7 +46,7 @@ let make = (~id="") => {
               <Link
                 href="/[categoryId]/modules/[moduleId]"
                 _as={j|/$id/modules/$moduleId|j}>
-                <a> text->React.string </a>
+                <a> text->string </a>
               </Link>;
             },
           ),
@@ -58,10 +59,24 @@ let make = (~id="") => {
       },
       // {title: "", dataIndex: "", key: "description", render: None},
     |];
-    <div>
-      category.name->React.string
-      <div> <Table columns dataSource pagination=false /> </div>
-    </div>;
-  | None => React.null
+    let name = category.name;
+    <>
+      <div className="flex justify-between items-start">
+        <p className="font-bold text-2xl mb-8">
+          {j|$name Modules|j}->string
+        </p>
+        <Next.Link
+          href="/[categoryId]/modules/create" _as={j|/$id/modules/create|j}>
+          <Button
+            _type=`primary
+            style={"display": "inline-flex", "alignItems": "center"}
+            icon={<Icons.PlusOutlined />}>
+            "Create Module"->string
+          </Button>
+        </Next.Link>
+      </div>
+      <Table columns dataSource pagination=false />
+    </>;
+  | None => null
   };
 };

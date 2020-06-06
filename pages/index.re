@@ -10,7 +10,7 @@ let make = () => {
       <Next.Link href="/create" _as="/create">
         <Button
           _type=`primary
-          style={"display": "inline-flex", "align-items": "center"}
+          style={"display": "inline-flex", "alignItems": "center"}
           icon={<Icons.PlusOutlined />}>
           "Create Category"->string
         </Button>
