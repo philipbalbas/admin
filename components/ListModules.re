@@ -1,3 +1,7 @@
+open Ant;
+open Next;
+open React;
+
 module Query = [%relay.query
   {|
   query ListModulesQuery($id: ID!) {
@@ -16,9 +20,6 @@ module Query = [%relay.query
 
 [@react.component]
 let make = (~id="") => {
-  open Ant;
-  open Next;
-  open React;
   let queryData = Query.use(~variables={id: id}, ());
 
   switch (queryData.getCategory) {
@@ -62,10 +63,10 @@ let make = (~id="") => {
     let name = category.name;
     <>
       <div className="flex justify-between items-start">
-        <p className="font-bold text-2xl mb-8">
+        <div className="font-bold text-2xl mb-8">
           {j|$name Modules|j}->string
-        </p>
-        <Next.Link
+        </div>
+        <Link
           href="/[categoryId]/modules/create" _as={j|/$id/modules/create|j}>
           <Button
             _type=`primary
@@ -73,7 +74,7 @@ let make = (~id="") => {
             icon={<Icons.PlusOutlined />}>
             "Create Module"->string
           </Button>
-        </Next.Link>
+        </Link>
       </div>
       <Table columns dataSource pagination=false />
     </>;
