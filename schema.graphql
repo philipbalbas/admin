@@ -432,7 +432,7 @@ type RootQueryType {
   listPages(order: SortOrder = ASC, topicId: ID): [Page]
 
   """Get a list subjects"""
-  listSubjects(moduleId: ID, order: SortOrder = ASC): [Subject]
+  listSubjects(filter: SubjectsFilter): [Subject!]
 
   """Get a list topics"""
   listTopics(order: SortOrder = ASC, subjectId: ID): [Topic]
@@ -469,6 +469,7 @@ type Subject implements Node {
   id: ID!
   module: Module!
   name: String!
+  order: Int
   topics: [Topic!]
 }
 
@@ -476,6 +477,13 @@ input SubjectCreateInput {
   description: String
   moduleId: ID!
   name: String!
+  order: Int
+}
+
+input SubjectsFilter {
+  categoryId: ID
+  moduleId: ID
+  order: SortOrder = ASC
 }
 
 input SubjectUpdateInput {
@@ -483,6 +491,7 @@ input SubjectUpdateInput {
   id: ID!
   moduleId: ID
   name: String
+  order: Int
 }
 
 type Topic implements Node {
