@@ -5,6 +5,7 @@ module Types = {
     categoryId: string,
     description: string,
     name: string,
+    order: option(int),
   };
   type createModuleInput = {inputData: moduleInput};
   type response_createModule_result = {
@@ -48,7 +49,7 @@ module Internal = {
       );
 
   let variablesConverter: Js.Dict.t(Js.Dict.t(Js.Dict.t(string))) = [%raw
-    {json| {"__root":{"input":{"r":"CreateModuleInput"}},"CreateModuleInput":{"inputData":{"r":"ModuleInput"}},"ModuleInput":{}} |json}
+    {json| {"__root":{"input":{"r":"CreateModuleInput"}},"CreateModuleInput":{"inputData":{"r":"ModuleInput"}},"ModuleInput":{"order":{"n":""}}} |json}
   ];
   let variablesConverterMap = ();
   let convertVariables = v =>
@@ -62,10 +63,12 @@ module Internal = {
 
 module Utils = {
   open Types;
-  let make_moduleInput = (~categoryId, ~description, ~name): moduleInput => {
+  let make_moduleInput =
+      (~categoryId, ~description, ~name, ~order=?, ()): moduleInput => {
     categoryId,
     description,
     name,
+    order,
   };
 
   let make_createModuleInput = (~inputData): createModuleInput => {
