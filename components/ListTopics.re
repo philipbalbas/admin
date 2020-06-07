@@ -8,6 +8,7 @@ module Query = [%relay.query
       listTopics(filter: $filter) {
         id
         name
+        description
         order
       }
     }

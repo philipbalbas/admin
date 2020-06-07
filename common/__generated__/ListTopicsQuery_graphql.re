@@ -24,6 +24,7 @@ module Types = {
   type response_listTopics = {
     id: string,
     name: string,
+    description: option(string),
     order: option(int),
   };
 
@@ -38,7 +39,7 @@ module Types = {
 module Internal = {
   type responseRaw;
   let responseConverter: Js.Dict.t(Js.Dict.t(Js.Dict.t(string))) = [%raw
-    {json| {"__root":{"listTopics":{"n":""},"listTopics_order":{"n":""}}} |json}
+    {json| {"__root":{"listTopics":{"n":""},"listTopics_description":{"n":""},"listTopics_order":{"n":""}}} |json}
   ];
   let responseConverterMap = ();
   let convertResponse = v =>
@@ -122,6 +123,13 @@ v1 = [
         "alias": null,
         "args": null,
         "kind": "ScalarField",
+        "name": "description",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
         "name": "order",
         "storageKey": null
       }
@@ -150,7 +158,7 @@ return {
     "metadata": {},
     "name": "ListTopicsQuery",
     "operationKind": "query",
-    "text": "query ListTopicsQuery(\n  $filter: TopicsFilter\n) {\n  listTopics(filter: $filter) {\n    id\n    name\n    order\n  }\n}\n"
+    "text": "query ListTopicsQuery(\n  $filter: TopicsFilter\n) {\n  listTopics(filter: $filter) {\n    id\n    name\n    description\n    order\n  }\n}\n"
   }
 };
 })() |json}
