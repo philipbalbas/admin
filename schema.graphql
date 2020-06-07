@@ -167,6 +167,7 @@ type Exam implements Node {
   """The ID of an object"""
   id: ID!
   name: String!
+  order: Int
   type: ExamType!
 }
 
@@ -179,6 +180,7 @@ input ExamCreateInput {
   categoryId: ID!
   description: String!
   name: String!
+  order: Int
   type: ExamType!
 }
 
@@ -202,6 +204,7 @@ input ExamUpdateInput {
   description: String
   id: ID!
   name: String
+  order: Int
   type: ExamType
 }
 

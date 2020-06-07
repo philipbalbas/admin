@@ -1,6 +1,10 @@
+open React;
+open Ant;
+open Next;
+
 module Query = [%relay.query
   {|
-    query ExamsListQuery($categoryId: ID!) {
+    query ListExamsQuery($categoryId: ID!) {
       listExams(filter: {
         categoryId: $categoryId
       }) {
@@ -8,6 +12,7 @@ module Query = [%relay.query
         name
         description
         type_: type
+        order
       }
     }
   |}
@@ -22,15 +27,14 @@ let stringifyExamType = type_ =>
   };
 
 [@react.component]
-let make = (~id="") => {
-  open Ant;
-  let queryData = Query.use(~variables={categoryId: id}, ());
+let make = (~categoryId="") => {
+  let queryData = Query.use(~variables={categoryId: categoryId}, ());
 
   switch (queryData.listExams) {
   | Some(exams) =>
     let columns:
       array(
-        Table.column('a, ExamsListQuery_graphql.Types.response_listExams),
+        Table.column('a, ListExamsQuery_graphql.Types.response_listExams),
       ) = [|
       {
         title: "Name",
@@ -41,11 +45,11 @@ let make = (~id="") => {
             (text, row, _) => {
               let content = Js.String.make(text);
               let examId = row.id;
-              <Next.Link
+              <Link
                 href="/[categoryId]/exams/[examId]"
-                _as={j|/$id/exams/$examId|j}>
+                _as={j|/$categoryId/exams/$examId|j}>
                 <a> content->React.string </a>
-              </Next.Link>;
+              </Link>;
             },
           ),
       },
@@ -61,9 +65,25 @@ let make = (~id="") => {
         key: "description",
         render: None,
       },
+      {title: "Order", dataIndex: "order", key: "order", render: None},
     |];
 
-    <div> <Table columns dataSource=exams pagination=false /> </div>;
+    <>
+      <div className="flex justify-between items-start">
+        <div className="font-bold text-2xl mb-8"> "Exams List"->string </div>
+        <Link
+          href="/[categoryId]/exams/create"
+          _as={j|/$categoryId/exams/create|j}>
+          <Button
+            _type=`primary
+            style={"display": "inline-flex", "alignItems": "center"}
+            icon={<Icons.PlusOutlined />}>
+            "Create Exam"->string
+          </Button>
+        </Link>
+      </div>
+      <Table columns dataSource=exams pagination=false />
+    </>;
   | None => React.null
   };
 };

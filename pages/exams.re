@@ -2,10 +2,9 @@
 let make = () => {
   open! React;
   let router = Next.Router.useRouter();
+  let categoryId = router.query##categoryId;
 
-  let id = router.query##categoryId;
-
-  let fallback = <div> "Loading..."->React.string </div>;
-
-  <div> <Suspense fallback> <ExamsList id /> </Suspense> </div>;
+  <Suspense fallback={"Loading..."->string}>
+    <ListExams categoryId />
+  </Suspense>;
 };
