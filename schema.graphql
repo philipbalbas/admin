@@ -29,6 +29,7 @@ input CardCreateInput {
 }
 
 input CardFilter {
+  categoryId: ID
   examId: ID
   topicId: ID
 }

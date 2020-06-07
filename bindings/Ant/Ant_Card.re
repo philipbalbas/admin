@@ -10,7 +10,7 @@ external make:
     ~hoverable: bool=?,
     ~loading: bool=?,
     ~size: [@bs.string] [ | `default | `small]=?,
-    ~title: string=?,
+    ~title: React.element=?,
     ~_type: string=?,
     ~onTabChange: unit => unit=?,
     ~onClick: string => unit=?

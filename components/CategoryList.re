@@ -32,7 +32,7 @@ let make = () => {
                onClick={_ =>
                  dispatch(UpdateEntity({...entity, categoryId: id}))
                }>
-               <Card title={cat.name} hoverable=true>
+               <Card title={cat.name->string} hoverable=true>
                  cat.description->string
                </Card>
              </a>
