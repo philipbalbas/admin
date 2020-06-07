@@ -27,40 +27,61 @@ type column('a, 'b) = {
   // sortDirections: SortOrder[];
 };
 
+type expandable('a) = {
+  childrenColumnName: option(array(string)),
+  defaultExpandAllRows: option(bool),
+  defaultExpandedRowKeys: option(array(string)),
+  expandIcon: option('a => React.element),
+  expandIconColumnIndex: option(int),
+  expandedRowKeys: option(array(string)),
+  expandedRowRender: option(('a, int) => React.element),
+  expandRowByClick: option(bool),
+  indentSize: option(int),
+  rowExpandable: option('a => bool),
+  // onExpand:  "Function(expanded, record)",
+  // onExpandedRowsChange:  "Function(expandedRows),
+};
+
+let defaultExpandable = {
+  childrenColumnName: None,
+  defaultExpandAllRows: None,
+  defaultExpandedRowKeys: None,
+  expandIcon: None,
+  expandIconColumnIndex: None,
+  expandedRowKeys: None,
+  expandedRowRender: None,
+  expandRowByClick: None,
+  indentSize: None,
+  rowExpandable: None,
+};
+
 [@bs.module "antd"] [@react.component]
 external make:
   (
     ~tableLayout: [@bs.string] [ | `auto | `fixed]=?,
     ~bordered: bool=?,
-    ~childrenColumnName: array(string)=?,
     ~columns: array(column('a, 'b))=?,
     // ~components: TableComponents=?,
     ~dataSource: array('c)=?,
-    ~defaultExpandAllRows: bool=?,
-    ~defaultExpandedRowKeys: array(string)=?,
-    ~expandedRowKeys: array(string)=?,
-    // ~expandedRowRender: Function(record, index, indent, expanded):ReactNode=?,
-    // ~expandIcon: Function(props):ReactNode=?,
-    ~expandRowByClick: bool=?,
+    ~expandable: expandable('e)=?,
     // ~footer: Function(currentPageData)=?,
-    ~indentSize: int=?,
     ~loading: bool=?,
     ~locale: 'd=?,
-    ~pagination: 'e=?,
+    ~pagination: bool=?,
     // ~rowClassName: Function(record, index):string=?,
     // ~rowKey: string|Function(record):string=?,
     ~rowSelection: 'f=?,
     ~scroll: 'g=?,
     ~showHeader: bool=?,
     ~size: [@bs.string] [ | `default | `middle | `small]=?,
-    // ~title: Function(currentPageData)=?,
+    ~summary: 'd => React.element=?,
+    ~title: 'd => React.element=?,
     // ~onChange: Function(pagination, filters, sorter, extra: { currentDataSource: [] })=?,
-    // ~onExpand: Function(expanded, record)=?,
-    // ~onExpandedRowsChange: Function(expandedRows)=?,
     // ~onHeaderRow: Function(column, index)=?,
     // ~onRow: Function(record, index)=?,
     // ~getPopupContainer: (triggerNode) => HTMLElement=?
-    ~test: string=?
+    ~sortDirections: [@bs.string] [ | `ascend | `descend]=?,
+    ~showSorterTooltip: bool=?
   ) =>
   React.element =
   "Table";
