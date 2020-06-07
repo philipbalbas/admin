@@ -65,7 +65,7 @@ module Option = {
       ~disabled: bool=?,
       ~key: string,
       ~title: string=?,
-      ~value: string,
+      ~value: 'a,
       ~className: string=?,
       ~children: 'b
     ) =>
