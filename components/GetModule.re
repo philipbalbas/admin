@@ -41,7 +41,7 @@ let make = (~categoryId, ~moduleId) => {
       ) = [|
       {
         title: "Name",
-        dataIndex: "name",
+        dataIndex: [|"name"|],
         key: "name",
         render:
           Some(
@@ -57,11 +57,11 @@ let make = (~categoryId, ~moduleId) => {
       },
       {
         title: "Description",
-        dataIndex: "description",
+        dataIndex: [|"description"|],
         key: "description",
         render: None,
       },
-      {title: "Order", dataIndex: "order", key: "order", render: None},
+      {title: "Order", dataIndex: [|"order"|], key: "order", render: None},
     |];
 
     <>

@@ -6,7 +6,7 @@ schema {
 type Card implements Node {
   answers: [Choice!]
   choices: [Choice!]
-  exams: [Exam]
+  exams: [Exam!]
 
   """The ID of an object"""
   id: ID!

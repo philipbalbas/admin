@@ -20,6 +20,11 @@ module Types = {
     examId: option(string),
     topicId: option(string),
   };
+  type response_listCards_exams = {
+    id: string,
+    name: string,
+  };
+  type response_listCards_topic = {name: string};
   type response_listCards_answers = {
     content: string,
     id: string,
@@ -35,6 +40,8 @@ module Types = {
     rationale: option(string),
     choices: option(array(response_listCards_choices)),
     answers: option(array(response_listCards_answers)),
+    topic: response_listCards_topic,
+    exams: option(array(response_listCards_exams)),
   };
 
   type response = {listCards: option(array(response_listCards))};
@@ -48,7 +55,7 @@ module Types = {
 module Internal = {
   type responseRaw;
   let responseConverter: Js.Dict.t(Js.Dict.t(Js.Dict.t(string))) = [%raw
-    {json| {"__root":{"listCards":{"n":""},"listCards_type_":{"e":"enum_CardType"},"listCards_rationale":{"n":""},"listCards_choices":{"n":""},"listCards_answers":{"n":""}}} |json}
+    {json| {"__root":{"listCards":{"n":""},"listCards_type_":{"e":"enum_CardType"},"listCards_rationale":{"n":""},"listCards_choices":{"n":""},"listCards_answers":{"n":""},"listCards_exams":{"n":""}}} |json}
   ];
   let responseConverterMap = {"enum_CardType": unwrap_enum_CardType};
   let convertResponse = v =>
@@ -97,14 +104,42 @@ var v0 = [
     "type": "CardFilter"
   }
 ],
-v1 = {
+v1 = [
+  {
+    "kind": "Variable",
+    "name": "filter",
+    "variableName": "filter"
+  }
+],
+v2 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "id",
   "storageKey": null
 },
-v2 = [
+v3 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "question",
+  "storageKey": null
+},
+v4 = {
+  "alias": "type_",
+  "args": null,
+  "kind": "ScalarField",
+  "name": "type",
+  "storageKey": null
+},
+v5 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "rationale",
+  "storageKey": null
+},
+v6 = [
   {
     "alias": null,
     "args": null,
@@ -112,76 +147,86 @@ v2 = [
     "name": "content",
     "storageKey": null
   },
-  (v1/*: any*/)
+  (v2/*: any*/)
 ],
-v3 = [
-  {
-    "alias": null,
-    "args": [
-      {
-        "kind": "Variable",
-        "name": "filter",
-        "variableName": "filter"
-      }
-    ],
-    "concreteType": "Card",
-    "kind": "LinkedField",
-    "name": "listCards",
-    "plural": true,
-    "selections": [
-      (v1/*: any*/),
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "question",
-        "storageKey": null
-      },
-      {
-        "alias": "type_",
-        "args": null,
-        "kind": "ScalarField",
-        "name": "type",
-        "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "rationale",
-        "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": null,
-        "concreteType": "Choice",
-        "kind": "LinkedField",
-        "name": "choices",
-        "plural": true,
-        "selections": (v2/*: any*/),
-        "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": null,
-        "concreteType": "Choice",
-        "kind": "LinkedField",
-        "name": "answers",
-        "plural": true,
-        "selections": (v2/*: any*/),
-        "storageKey": null
-      }
-    ],
-    "storageKey": null
-  }
-];
+v7 = {
+  "alias": null,
+  "args": null,
+  "concreteType": "Choice",
+  "kind": "LinkedField",
+  "name": "choices",
+  "plural": true,
+  "selections": (v6/*: any*/),
+  "storageKey": null
+},
+v8 = {
+  "alias": null,
+  "args": null,
+  "concreteType": "Choice",
+  "kind": "LinkedField",
+  "name": "answers",
+  "plural": true,
+  "selections": (v6/*: any*/),
+  "storageKey": null
+},
+v9 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "name",
+  "storageKey": null
+},
+v10 = {
+  "alias": null,
+  "args": null,
+  "concreteType": "Exam",
+  "kind": "LinkedField",
+  "name": "exams",
+  "plural": true,
+  "selections": [
+    (v2/*: any*/),
+    (v9/*: any*/)
+  ],
+  "storageKey": null
+};
 return {
   "fragment": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
     "name": "ListCardsQuery",
-    "selections": (v3/*: any*/),
+    "selections": [
+      {
+        "alias": null,
+        "args": (v1/*: any*/),
+        "concreteType": "Card",
+        "kind": "LinkedField",
+        "name": "listCards",
+        "plural": true,
+        "selections": [
+          (v2/*: any*/),
+          (v3/*: any*/),
+          (v4/*: any*/),
+          (v5/*: any*/),
+          (v7/*: any*/),
+          (v8/*: any*/),
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "Topic",
+            "kind": "LinkedField",
+            "name": "topic",
+            "plural": false,
+            "selections": [
+              (v9/*: any*/)
+            ],
+            "storageKey": null
+          },
+          (v10/*: any*/)
+        ],
+        "storageKey": null
+      }
+    ],
     "type": "RootQueryType"
   },
   "kind": "Request",
@@ -189,14 +234,46 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
     "name": "ListCardsQuery",
-    "selections": (v3/*: any*/)
+    "selections": [
+      {
+        "alias": null,
+        "args": (v1/*: any*/),
+        "concreteType": "Card",
+        "kind": "LinkedField",
+        "name": "listCards",
+        "plural": true,
+        "selections": [
+          (v2/*: any*/),
+          (v3/*: any*/),
+          (v4/*: any*/),
+          (v5/*: any*/),
+          (v7/*: any*/),
+          (v8/*: any*/),
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "Topic",
+            "kind": "LinkedField",
+            "name": "topic",
+            "plural": false,
+            "selections": [
+              (v9/*: any*/),
+              (v2/*: any*/)
+            ],
+            "storageKey": null
+          },
+          (v10/*: any*/)
+        ],
+        "storageKey": null
+      }
+    ]
   },
   "params": {
     "id": null,
     "metadata": {},
     "name": "ListCardsQuery",
     "operationKind": "query",
-    "text": "query ListCardsQuery(\n  $filter: CardFilter\n) {\n  listCards(filter: $filter) {\n    id\n    question\n    type_: type\n    rationale\n    choices {\n      content\n      id\n    }\n    answers {\n      content\n      id\n    }\n  }\n}\n"
+    "text": "query ListCardsQuery(\n  $filter: CardFilter\n) {\n  listCards(filter: $filter) {\n    id\n    question\n    type_: type\n    rationale\n    choices {\n      content\n      id\n    }\n    answers {\n      content\n      id\n    }\n    topic {\n      name\n      id\n    }\n    exams {\n      id\n      name\n    }\n  }\n}\n"
   }
 };
 })() |json}

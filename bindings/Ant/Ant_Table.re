@@ -1,6 +1,6 @@
 type column('a, 'b) = {
   title: string,
-  dataIndex: string,
+  dataIndex: array(string),
   key: string,
   render: option(('a, 'b, int) => React.element) ///
   // align: option([ | `left | `right | `center]),

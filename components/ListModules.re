@@ -38,7 +38,7 @@ let make = (~id="") => {
       ) = [|
       {
         title: "Name",
-        dataIndex: "name",
+        dataIndex: [|"name"|],
         key: "name",
         render:
           Some(
@@ -54,7 +54,7 @@ let make = (~id="") => {
       },
       {
         title: "Description",
-        dataIndex: "description",
+        dataIndex: [|"description"|],
         key: "description",
         render: None,
       },

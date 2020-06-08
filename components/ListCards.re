@@ -18,6 +18,13 @@ module Query = [%relay.query
           content
           id
         }
+        topic {
+          name
+        }
+        exams {
+          id
+          name
+        }
       }
     }
   |}
@@ -48,18 +55,43 @@ let make = (~categoryId="") => {
 
   let columns:
     array(Table.column('a, ListCardsQuery_graphql.Types.response_listCards)) = [|
-    {title: "Question", dataIndex: "question", key: "question", render: None},
+    {
+      title: "Question",
+      dataIndex: [|"question"|],
+      key: "question",
+      render: None,
+    },
     {
       title: "Rationale",
-      dataIndex: "rationale",
+      dataIndex: [|"rationale"|],
       key: "rationale",
       render: None,
     },
     {
       title: "Type",
-      dataIndex: "type_",
+      dataIndex: [|"type_"|],
       key: "type_",
-      render: Some((text, _, _) => stringifyCardType(text)->React.string),
+      render:
+        Some((_, row, _) => {stringifyCardType(row.type_)->React.string}),
+    },
+    {title: "Topic", dataIndex: [|"topic", "name"|], key: "", render: None},
+    {
+      title: "Exams",
+      dataIndex: [|"exams"|],
+      key: "tags",
+      render:
+        Some(
+          (_, row, _) => {
+            let exams =
+              switch (row.exams) {
+              | Some(exams) => exams
+              | None => [||]
+              };
+
+            exams->Belt.Array.map(exam => <Tags> exam.name->string </Tags>)
+            |> array;
+          },
+        ),
     },
   |];
 
@@ -80,7 +112,7 @@ let make = (~categoryId="") => {
       ) = [|
       {
         title: "Choices",
-        dataIndex: "content",
+        dataIndex: [|"content"|],
         key: "content",
         render:
           Some(

@@ -38,7 +38,7 @@ let make = (~categoryId="") => {
       ) = [|
       {
         title: "Name",
-        dataIndex: "name",
+        dataIndex: [|"name"|],
         key: "name",
         render:
           Some(
@@ -55,17 +55,17 @@ let make = (~categoryId="") => {
       },
       {
         title: "Type",
-        dataIndex: "type_",
+        dataIndex: [|"type_"|],
         key: "id",
         render: Some((text, _, _) => stringifyExamType(text)->React.string),
       },
       {
         title: "Description",
-        dataIndex: "description",
+        dataIndex: [|"description"|],
         key: "description",
         render: None,
       },
-      {title: "Order", dataIndex: "order", key: "order", render: None},
+      {title: "Order", dataIndex: [|"order"|], key: "order", render: None},
     |];
 
     <>
