@@ -96,7 +96,7 @@ let make = (~categoryId="") => {
   |];
 
   let expandedRowRender =
-      (item: ListCardsQuery_graphql.Types.response_listCards, i) => {
+      (item: ListCardsQuery_graphql.Types.response_listCards, _i) => {
     let answers =
       Belt.(
         Option.mapWithDefault(item.answers, [||], arr => arr)

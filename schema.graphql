@@ -28,6 +28,11 @@ input CardCreateInput {
   type: CardType!
 }
 
+input CardExamsUpsertInput {
+  cardId: ID!
+  examIds: [ID!]!
+}
+
 input CardFilter {
   categoryId: ID
   examId: ID
@@ -387,6 +392,9 @@ type RootMutationType {
   upsertCardChoices(input: UpsertCardChoicesInput!): UpsertCardChoicesPayload
 
   """Add cards to exam"""
+  upsertCardExams(input: UpsertCardExamsInput!): UpsertCardExamsPayload
+
+  """Add cards to exam"""
   upsertExamCards(input: UpsertExamCardsInput!): UpsertExamCardsPayload
 
   """Add answers to question"""
@@ -603,6 +611,14 @@ input UpsertCardChoicesInput {
 }
 
 type UpsertCardChoicesPayload {
+  result: Card
+}
+
+input UpsertCardExamsInput {
+  inputData: CardExamsUpsertInput!
+}
+
+type UpsertCardExamsPayload {
   result: Card
 }
 
