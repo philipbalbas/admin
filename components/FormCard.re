@@ -2,17 +2,6 @@ open React;
 open Ant;
 open Next;
 
-module Query = [%relay.query
-  {|
-    query FormCardChoicesQuery {
-      listChoices {
-        id
-        content
-      }
-    }
-  |}
-];
-
 module TopicsQuery = [%relay.query
   {|
     query FormCardTopicsQuery($categoryId: ID!) {
@@ -36,6 +25,17 @@ module ExamsQuery = [%relay.query
         name
       }
     }
+|}
+];
+
+module ChoicesQuery = [%relay.query
+  {|
+  query FormCardChoicesQuery {
+    listChoices {
+      id
+      content
+    }
+  }
 |}
 ];
 
@@ -67,69 +67,39 @@ module UpsertCardExamsMutation = [%relay.mutation
   |}
 ];
 
+module UpsertCardChoicesMutation = [%relay.mutation
+  {|
+    mutation FormCardUpsertChoicesMutation($input: UpsertCardChoicesInput!) {
+      upsertCardChoices(input: $input) {
+        result {
+          id
+          question
+        }
+      }
+    }
+  |}
+];
+
 type cardType = [ | `SINGLE | `MULTIPLE];
 
+[@bs.deriving jsConverter]
 type state = {
   question: string,
   type_: cardType,
   rationale: option(string),
   topicId: string,
   examIds: array(string),
-};
-
-type action =
-  | UpdateQuestion(string)
-  | UpdateType(cardType)
-  | UpdateRationale(string)
-  | UpdateTopicId(string)
-  | UpdateExamIds(array(string))
-  | ToggleRationale(bool)
-  | Clear;
-
-let initialValues = {
-  question: "",
-  type_: `SINGLE,
-  rationale: None,
-  topicId: "",
-  examIds: [||],
+  choiceIds: array(string),
 };
 
 [@react.component]
 let make = (~categoryId) => {
-  let (state, dispatch) =
-    React.useReducer(
-      (state, action) => {
-        switch (action) {
-        | UpdateQuestion(question) => {...state, question}
-        | UpdateType(type_) => {...state, type_}
-        | UpdateRationale(rationale) => {
-            ...state,
-            rationale: Some(rationale),
-          }
-        | ToggleRationale(bool) => {
-            ...state,
-            rationale: bool ? Some("") : None,
-          }
-        | UpdateExamIds(examIds) => {...state, examIds}
-        | UpdateTopicId(topicId) => {...state, topicId}
-        | Clear => initialValues
-        }
-      },
-      {
-        question: "",
-        type_: `SINGLE,
-        rationale: Some(""),
-        topicId: "",
-        examIds: [||],
-      },
-    );
-
   let (rationaleActive, setRationaleActive) = React.useState(_ => true);
-
   let (createCard, isCreatingCard) = CreateCardMutation.use();
   let (upsertExams, isUpsertingExam) = UpsertCardExamsMutation.use();
+  let (upsertChoices, isUpsertingChoice) = UpsertCardChoicesMutation.use();
 
-  let [|form|] = Form.useForm();
+  let form = Form.useForm()->Js.Array.unsafe_get(0);
 
   let topicsQueryData =
     TopicsQuery.use(
@@ -147,6 +117,8 @@ let make = (~categoryId) => {
       (),
     );
 
+  let choicesQueryData = ChoicesQuery.use(~variables=(), ());
+
   let topics =
     switch (topicsQueryData.listTopics) {
     | Some(topics) => topics
@@ -159,6 +131,12 @@ let make = (~categoryId) => {
     | None => [||]
     };
 
+  let choices =
+    switch (choicesQueryData.listChoices) {
+    | Some(choices) => choices
+    | None => [||]
+    };
+
   let topicSearch = text =>
     Fuse.make(topics, {"keys": [|"name"|], "useExtendedSearch": true})
     |> Fuse.search(text);
@@ -167,15 +145,19 @@ let make = (~categoryId) => {
     Fuse.make(exams, {"keys": [|"name"|], "useExtendedSearch": true})
     |> Fuse.search(text);
 
-  let handleQuestion = text => dispatch(UpdateQuestion(text));
-  let handleRationale = text => dispatch(UpdateRationale(text));
+  let choiceSearch = text =>
+    Fuse.make(choices, {"keys": [|"content"|], "useExtendedSearch": true})
+    |> Fuse.search(text);
+
+  // let handleQuestion = text => dispatch(UpdateQuestion(text));
+  // let handleRationale = text => dispatch(UpdateRationale(text));
 
   let resetFields = () => {
     form |> Form.resetFields();
-    dispatch(Clear);
   };
 
-  let handleSubmit = state => {
+  let onFinish = values => {
+    let state = stateFromJs(values);
     createCard(
       ~variables={
         input: {
@@ -195,13 +177,25 @@ let make = (~categoryId) => {
             | Some(card) =>
               let question = card.question;
               Message.(message |> success({j| Card $question created  |j}));
-              // resetFields();
               upsertExams(
                 ~variables={
                   input: {
                     inputData: {
                       examIds: state.examIds,
                       cardId: card.id,
+                    },
+                  },
+                },
+                (),
+              )
+              |> ignore;
+
+              upsertChoices(
+                ~variables={
+                  input: {
+                    inputData: {
+                      cardId: card.id,
+                      choiceIds: state.choiceIds,
                     },
                   },
                 },
@@ -227,30 +221,29 @@ let make = (~categoryId) => {
     |> ignore;
   };
 
-  let handleRationaleToggle = value => {
-    setRationaleActive(_ => value);
-    dispatch(ToggleRationale(value));
-  };
+  let loading = isCreatingCard || isUpsertingExam || isUpsertingChoice;
 
-  let loading = isCreatingCard || isUpsertingExam;
-
-  <Form layout=`horizontal labelCol={"span": 8} wrapperCol={"span": 16}>
-    <Form.Item label={<div> "Question"->string </div>}>
-      <Slate.Editor onChange=handleQuestion />
+  <Form
+    form
+    name="card"
+    layout=`horizontal
+    labelCol={"span": 8}
+    wrapperCol={"span": 16}
+    initialValues={"type_": `SINGLE}
+    onFinish>
+    <Form.Item label={<div> "Question"->string </div>} name="question">
+      <Slate.Editor />
     </Form.Item>
-    <Form.Item label={<div> "Type"->string </div>}>
-      <Radio.Group
-        value={state.type_}
-        onChange={e =>
-          dispatch(UpdateType(ReactEvent.Synthetic.target(e)##value))
-        }>
-        <Radio value=`SINGLE> "Single Answer"->string </Radio>
-        <Radio value=`MULTIPLE> "Multiple Choice"->string </Radio>
+    <Form.Item label={<div> "Type"->string </div>} name="type_">
+      <Radio.Group>
+        <Radio.Button value=`SINGLE> "Single Answer"->string </Radio.Button>
+        <Radio.Button value=`MULTIPLE>
+          "Multiple Choice"->string
+        </Radio.Button>
       </Radio.Group>
     </Form.Item>
-    <Form.Item label={<div> "Topic"->string </div>}>
+    <Form.Item label={<div> "Topic"->string </div>} name="topicId">
       <Select
-        onChange={topicId => dispatch(UpdateTopicId(topicId))}
         showSearch=true
         filterOption={(value, option) => {
           let res = topicSearch(value);
@@ -263,9 +256,8 @@ let make = (~categoryId) => {
          )}
       </Select>
     </Form.Item>
-    <Form.Item label={<div> "Exam"->string </div>}>
+    <Form.Item label={<div> "Exams"->string </div>} name="examIds">
       <Select
-        onChange={examIds => dispatch(UpdateExamIds(examIds))}
         showSearch=true
         mode=`multiple
         filterOption={(value, option) => {
@@ -279,8 +271,23 @@ let make = (~categoryId) => {
          )}
       </Select>
     </Form.Item>
-    // <Form.Item label={<div> "Choices"->string </div>}>
-    //   <Form.List name="names">
+    <Form.Item label={<div> "Choices"->string </div>} name="choiceIds">
+      <Select
+        showSearch=true
+        mode=`multiple
+        filterOption={(value, option) => {
+          let res = choiceSearch(value);
+          res->Belt.Array.some(c => {c##item##id == option##key});
+        }}>
+        {choices->Belt.Array.map(choice =>
+           <Select.Option key={choice.id} value={choice.id}>
+             {choice.content}->string
+           </Select.Option>
+         )}
+      </Select>
+    </Form.Item>
+    // <Form.Item label={<div> "Choices"->string </div>} name="choiceIds">
+    //   <Form.List >
     //     {(fields, {add, remove}) => {
     //        <div>
     //          {fields->Belt.Array.mapWithIndex((i, field) =>
@@ -291,29 +298,28 @@ let make = (~categoryId) => {
     //                   field
     //                   add
     //                   remove
-    //                   search
     //                 />
     //               </Form.Item>
     //             </Spread>
     //           )
     //           |> array}
-    //          <Button type_=`dashed onClick={_ => {add()}}>
+    //          <Button _type=`dashed onClick={_ => {add()}}>
     //            <Icons.PlusOutlined />
-    //            "Add field"->string
+    //            "Creaet Choice"->string
     //          </Button>
     //        </div>;
     //      }}
     //   </Form.List>
     // </Form.Item>
-    <Form.Item label={<div> "Rationale"->string </div>}>
-      {rationaleActive ? <Slate.Editor onChange=handleRationale /> : null}
-      <Switch
-        checked=rationaleActive
-        onChange={(value, _e) => handleRationaleToggle(value)}
-      />
-    </Form.Item>
+    <Form.Item label={<div> "Rationale"->string </div>} name="rationale">
+      // {rationaleActive ? <Slate.Editor onChange=handleRationale /> : null}
+      // <Switch
+      //   checked=rationaleActive
+      //   onChange={(value, _e) => handleRationaleToggle(value)}
+      // />
+       <Slate.Editor /> </Form.Item>
     <Form.Item wrapperCol={"offset": 8, "span": 16}>
-      <Button loading onClick={_ => handleSubmit(state)}>
+      <Button className="mr-4" _type=`primary htmlType="submit" loading>
         {loading ? "Upating" : "Create"}->string
       </Button>
       <Link href="/[categoryId]/cards" _as={j|/$categoryId/cards|j}>

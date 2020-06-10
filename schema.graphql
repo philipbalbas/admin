@@ -18,7 +18,7 @@ type Card implements Node {
 
 input CardChoicesUpsertInput {
   cardId: ID!
-  choiceIds: [ID]!
+  choiceIds: [ID!]!
 }
 
 input CardCreateInput {
