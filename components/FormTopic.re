@@ -28,6 +28,7 @@ module SubjectsQuery = [%relay.query
 |}
 ];
 
+[@bs.deriving jsConverter]
 type state = {
   subjectId: string,
   name: string,
@@ -35,41 +36,8 @@ type state = {
   order: option(int),
 };
 
-type action =
-  | UpdateSubjectId(string)
-  | UpdateName(string)
-  | UpdateDescription(string)
-  | UpdateOrder(int)
-  | Clear;
-
-let initialValues = {subjectId: "", name: "", description: "", order: None};
-
 [@react.component]
 let make = (~categoryId="", ~subjectId=?) => {
-  let (state, dispatch) =
-    useReducer(
-      (state, action) =>
-        switch (action) {
-        | UpdateSubjectId(subjectId) => {...state, subjectId}
-        | UpdateName(name) => {...state, name}
-        | UpdateDescription(description) => {...state, description}
-        | UpdateOrder(order) => {...state, order: Some(order)}
-        | Clear => {...initialValues, subjectId: state.subjectId}
-        },
-      initialValues,
-    );
-
-  useEffect1(
-    () => {
-      switch (subjectId) {
-      | Some(subjectId) => dispatch(UpdateSubjectId(subjectId))
-      | None => ()
-      };
-      Some(() => ());
-    },
-    [|subjectId|],
-  );
-
   let (createTopic, isCreatingTopic) = CreateTopicMutation.use();
 
   let queryData =
@@ -85,14 +53,14 @@ let make = (~categoryId="", ~subjectId=?) => {
       (),
     );
 
-  let [|form|] = Form.useForm();
+  let form = Form.useForm()->Js.Array.unsafe_get(0);
 
   let resetFields = () => {
     form |> Form.resetFields();
-    dispatch(Clear);
   };
 
-  let handleSubmit = state => {
+  let onFinish = values => {
+    let state = stateFromJs(values);
     createTopic(
       ~variables={
         input: {
@@ -156,14 +124,13 @@ let make = (~categoryId="", ~subjectId=?) => {
     labelCol={"span": 4}
     wrapperCol={"span": 20}
     name="subject"
-    initialValues={"subjectId": subjectId}>
+    initialValues={"subjectId": subjectId}
+    onFinish>
     <Form.Item
       label={"Subject"->string}
       rules=[|{"required": true, "message": "Subject is required"}|]
       name="subjectId">
-      <Select
-        onChange={text => dispatch(UpdateSubjectId(text))}
-        defaultValue=subjectId>
+      <Select>
         {subjects->Belt.Array.map(subject =>
            <Select.Option key={subject.id} value={subject.id}>
              subject.name->string
@@ -175,34 +142,22 @@ let make = (~categoryId="", ~subjectId=?) => {
       label={"Name"->string}
       rules=[|{"required": true, "message": "Name is required"}|]
       name="name">
-      <Input
-        onChange={e =>
-          dispatch(UpdateName(ReactEvent.Synthetic.target(e)##value))
-        }
-      />
+      <Input />
     </Form.Item>
     <Form.Item
       label={"Description"->string}
       name="description"
       rules=[|{"required": true, "message": "Description is required"}|]>
-      <Input.TextArea
-        onChange={e =>
-          dispatch(UpdateDescription(ReactEvent.Synthetic.target(e)##value))
-        }
-      />
+      <Input.TextArea />
     </Form.Item>
     <Form.Item label={"Order"->React.string} name="order">
-      <Input.Number
-        onChange={value => dispatch(UpdateOrder(value))}
-        _type="number"
-      />
+      <Input.Number _type="number" />
     </Form.Item>
     <Form.Item wrapperCol={"offset": 4, "span": 20}>
       <Button
         loading=isCreatingTopic
         className="mr-4"
         _type=`primary
-        onClick={_ => handleSubmit(state)}
         htmlType="submit">
         "Create"->string
       </Button>

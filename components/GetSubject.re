@@ -74,7 +74,7 @@ let make = (~subjectId, ~categoryId) => {
           <div> description->string </div>
         </div>
         <Link
-          href="/[categgoryId]/subjects/[subjectId]/topics/create"
+          href="/[categoryId]/subjects/[subjectId]/topics/create"
           _as={j|/$categoryId/subjects/$subjectId/topics/create|j}>
           <Button
             _type=`primary
