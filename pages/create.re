@@ -4,7 +4,7 @@ let make = () => {
 
   let fallback = <div> "Loading..."->string </div>;
 
-  <div> <Suspense fallback> <CategoryForm /> </Suspense> </div>;
+  <div> <Suspense fallback> <FormCategory /> </Suspense> </div>;
 };
 
 let default = make;

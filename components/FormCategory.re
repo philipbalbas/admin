@@ -3,7 +3,7 @@ open React;
 
 module CreateCategoryMutation = [%relay.mutation
   {|
-    mutation CategoryFormCreateMutation($input: CreateCategoryInput! ) {
+    mutation FormCategoryCreateMutation($input: CreateCategoryInput! ) {
       createCategory(input: $input) {
         result {
           id
@@ -15,41 +15,26 @@ module CreateCategoryMutation = [%relay.mutation
   |}
 ];
 
+[@bs.deriving jsConverter]
 type state = {
   name: string,
   description: string,
 };
 
-type action =
-  | UpdateName(string)
-  | UpdateDescription(string)
-  | Clear;
-
 let initialValues = {name: "", description: ""};
 
 [@react.component]
 let make = () => {
-  let (state, dispatch) =
-    useReducer(
-      (state, action) =>
-        switch (action) {
-        | UpdateName(name) => {...state, name}
-        | UpdateDescription(description) => {...state, description}
-        | Clear => initialValues
-        },
-      initialValues,
-    );
-
   let (createCategory, isCreatingCategory) = CreateCategoryMutation.use();
 
-  let [|form|] = Form.useForm();
+  let form = Form.useForm()->Js.Array.unsafe_get(0);
 
   let resetFields = () => {
     form |> Form.resetFields();
-    dispatch(Clear);
   };
 
-  let handleSubmit = state => {
+  let onFinish = values => {
+    let state = stateFromJs(values);
     createCategory(
       ~variables={
         input: {
@@ -72,7 +57,6 @@ let make = () => {
             }
           | None => ()
           };
-
           switch (err) {
           | Some(err) =>
             let _ =
@@ -80,7 +64,6 @@ let make = () => {
                 Message.(message |> error(e.message))
               });
             ();
-
           | None => ()
           };
         },
@@ -91,32 +74,26 @@ let make = () => {
 
   <div className="container mx-auto p-4 w-4/6">
     <div className="text-2xl mb-4"> "Create Category"->string </div>
-    <Form form labelCol={"span": 4} wrapperCol={"span": 20} name="category">
+    <Form
+      form
+      labelCol={"span": 4}
+      wrapperCol={"span": 20}
+      name="category"
+      onFinish>
       <Form.Item
         label={"Name"->string}
         rules=[|{"required": true, "message": "Name is required"}|]
         name="name">
-        <Input
-          onChange={e =>
-            dispatch(UpdateName(ReactEvent.Synthetic.target(e)##value))
-          }
-        />
+        <Input />
       </Form.Item>
       <Form.Item label={"Description"->string} name="description">
-        <Input.TextArea
-          onChange={e =>
-            dispatch(
-              UpdateDescription(ReactEvent.Synthetic.target(e)##value),
-            )
-          }
-        />
+        <Input.TextArea />
       </Form.Item>
       <Form.Item wrapperCol={"offset": 4, "span": 20}>
         <Button
           loading=isCreatingCategory
           className="mr-4"
           _type=`primary
-          onClick={_ => handleSubmit(state)}
           htmlType="submit">
           "Create"->string
         </Button>

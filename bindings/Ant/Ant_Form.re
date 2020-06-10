@@ -23,7 +23,7 @@ external make:
     ~size: [@bs.string] [ | `small | `middle | `large]=?,
     // ~validateMessages:  "ValidateMessages",,
     ~wrapperCol: Js.t('d)=?,
-    // ~onFinish:  "Function(values)",,
+    ~onFinish: Js.t('e) => unit=?,
     // ~onFinishFailed:  "Function({ values, errorFields, outOfDate })",,
     // ~onFieldsChange:  "Function(changedFields, allFields)",,
     ~onValuesChange: ('b, 'c) => unit=?

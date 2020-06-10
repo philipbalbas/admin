@@ -156,7 +156,7 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "CategoryFormCreateMutation",
+    "name": "FormCategoryCreateMutation",
     "selections": (v1/*: any*/),
     "type": "RootMutationType"
   },
@@ -164,15 +164,15 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "CategoryFormCreateMutation",
+    "name": "FormCategoryCreateMutation",
     "selections": (v1/*: any*/)
   },
   "params": {
     "id": null,
     "metadata": {},
-    "name": "CategoryFormCreateMutation",
+    "name": "FormCategoryCreateMutation",
     "operationKind": "mutation",
-    "text": "mutation CategoryFormCreateMutation(\n  $input: CreateCategoryInput!\n) {\n  createCategory(input: $input) {\n    result {\n      id\n      name\n      description\n    }\n  }\n}\n"
+    "text": "mutation FormCategoryCreateMutation(\n  $input: CreateCategoryInput!\n) {\n  createCategory(input: $input) {\n    result {\n      id\n      name\n      description\n    }\n  }\n}\n"
   }
 };
 })() |json}
