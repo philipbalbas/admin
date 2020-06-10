@@ -15,6 +15,7 @@ module CreateModuleMutation = [%relay.mutation
   |}
 ];
 
+[@bs.deriving jsConverter]
 type state = {
   name: string,
   description: string,
@@ -29,27 +30,16 @@ let initialValues = {name: "", description: ""};
 
 [@react.component]
 let make = (~categoryId="") => {
-  let (state, dispatch) =
-    useReducer(
-      (state, action) =>
-        switch (action) {
-        | UpdateName(name) => {...state, name}
-        | UpdateDescription(description) => {...state, description}
-        | Clear => initialValues
-        },
-      initialValues,
-    );
-
   let (createModule, isCreatingModule) = CreateModuleMutation.use();
 
-  let [|form|] = Form.useForm();
+  let form = Form.useForm()->Js.Array.unsafe_get(0);
 
   let resetFields = () => {
     form |> Form.resetFields();
-    dispatch(Clear);
   };
 
-  let handleSubmit = state => {
+  let onFinish = values => {
+    let state = stateFromJs(values);
     createModule(
       ~variables={
         input: {
@@ -91,33 +81,25 @@ let make = (~categoryId="") => {
     |> ignore;
   };
 
-  <Form form labelCol={"span": 4} wrapperCol={"span": 20} name="category">
+  <Form
+    form labelCol={"span": 4} wrapperCol={"span": 20} name="module" onFinish>
     <Form.Item
       label={"Name"->string}
       rules=[|{"required": true, "message": "Name is required"}|]
       name="name">
-      <Input
-        onChange={e =>
-          dispatch(UpdateName(ReactEvent.Synthetic.target(e)##value))
-        }
-      />
+      <Input />
     </Form.Item>
     <Form.Item
       label={"Description"->string}
       name="description"
       rules=[|{"required": true, "message": "Description is required"}|]>
-      <Input.TextArea
-        onChange={e =>
-          dispatch(UpdateDescription(ReactEvent.Synthetic.target(e)##value))
-        }
-      />
+      <Input.TextArea />
     </Form.Item>
     <Form.Item wrapperCol={"offset": 4, "span": 20}>
       <Button
         loading=isCreatingModule
         className="mr-4"
         _type=`primary
-        onClick={_ => handleSubmit(state)}
         htmlType="submit">
         "Create"->string
       </Button>
