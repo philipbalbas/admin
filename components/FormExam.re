@@ -17,6 +17,7 @@ module CreateExamMutation = [%relay.mutation
   |}
 ];
 
+[@bs.deriving jsConverter]
 type state = {
   name: string,
   description: string,
@@ -24,46 +25,19 @@ type state = {
   order: option(int),
 };
 
-type action =
-  | UpdateName(string)
-  | UpdateDescription(string)
-  | UpdateType(FormExamCreateMutation_graphql.enum_ExamType)
-  | UpdateOrder(int)
-  | Clear;
-
-let initialValues = {
-  name: "",
-  description: "",
-  type_: `COMPREHENSIVE,
-  order: None,
-};
-
 [@react.component]
 let make = (~categoryId="") => {
-  let (state, dispatch) =
-    useReducer(
-      (state, action) =>
-        switch (action) {
-        | UpdateName(name) => {...state, name}
-        | UpdateDescription(description) => {...state, description}
-        | UpdateType(type_) => {...state, type_}
-        | UpdateOrder(order) => {...state, order: Some(order)}
-        | Clear => initialValues
-        },
-      initialValues,
-    );
+  let (createExam, isCreatingExam) = CreateExamMutation.use();
 
-  let (createModule, isCreatingModule) = CreateExamMutation.use();
-
-  let [|form|] = Form.useForm();
+  let form = Form.useForm()->Js.Array.unsafe_get(0);
 
   let resetFields = () => {
     form |> Form.resetFields();
-    dispatch(Clear);
   };
 
-  let handleSubmit = state => {
-    createModule(
+  let onFinish = values => {
+    let state = stateFromJs(values);
+    createExam(
       ~variables={
         input: {
           inputData: {
@@ -105,60 +79,52 @@ let make = (~categoryId="") => {
     |> ignore;
   };
 
-  <Form form labelCol={"span": 4} wrapperCol={"span": 20} name="category">
+  <Form
+    form
+    labelCol={"span": 4}
+    wrapperCol={"span": 20}
+    name="category"
+    initialValues={"type_": `COMPREHENSIVE}
+    onFinish>
     <Form.Item
       label={"Name"->string}
       rules=[|{"required": true, "message": "Name is required"}|]
       name="name">
-      <Input
-        onChange={e =>
-          dispatch(UpdateName(ReactEvent.Synthetic.target(e)##value))
-        }
-      />
+      <Input />
     </Form.Item>
     <Form.Item
       label={"Description"->string}
       name="description"
       rules=[|{"required": true, "message": "Description is required"}|]>
-      <Input.TextArea
-        onChange={e =>
-          dispatch(UpdateDescription(ReactEvent.Synthetic.target(e)##value))
-        }
-      />
+      <Input.TextArea />
     </Form.Item>
     <Form.Item
       label={"Type"->string}
       name="type_"
       rules=[|{"required": true, "message": "Type is required"}|]>
-      <Select
-        onChange={text => dispatch(UpdateType(text))}
-        defaultValue={state.type_}>
-        <Select.Option key="1" value=`COMPREHENSIVE>
+      <Radio.Group>
+        <Radio.Button key="1" value=`COMPREHENSIVE>
           "Comprehensive"->string
-        </Select.Option>
-        <Select.Option key="2" value=`MOCK> "Mock"->string </Select.Option>
-        <Select.Option key="3" value=`PRACTICE>
+        </Radio.Button>
+        <Radio.Button key="2" value=`MOCK> "Mock"->string </Radio.Button>
+        <Radio.Button key="3" value=`PRACTICE>
           "Practice"->string
-        </Select.Option>
-      </Select>
+        </Radio.Button>
+      </Radio.Group>
     </Form.Item>
     <Form.Item label={"Order"->string} name="order">
-      <Input.Number
-        onChange={value => dispatch(UpdateOrder(value))}
-        _type="number"
-      />
+      <Input.Number _type="number" />
     </Form.Item>
     <Form.Item wrapperCol={"offset": 4, "span": 20}>
       <Button
-        loading=isCreatingModule
+        loading=isCreatingExam
         className="mr-4"
         _type=`primary
-        onClick={_ => handleSubmit(state)}
         htmlType="submit">
         "Create"->string
       </Button>
       <Next.Link href="/[categoryId]/exams" _as={j|/$categoryId/exams|j}>
-        <Button loading=isCreatingModule> "Cancel"->string </Button>
+        <Button loading=isCreatingExam> "Cancel"->string </Button>
       </Next.Link>
     </Form.Item>
   </Form>;
