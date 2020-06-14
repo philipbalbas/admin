@@ -16,7 +16,7 @@ let make = () => {
         </Button>
       </Next.Link>
     </div>
-    <Suspense fallback> <CategoryList /> </Suspense>
+    <Suspense fallback> <ListCategory /> </Suspense>
   </div>;
 };
 

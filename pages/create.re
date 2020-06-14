@@ -1,10 +1,10 @@
+open React;
+
 [@react.component]
 let make = () => {
-  open! React;
-
-  let fallback = <div> "Loading..."->string </div>;
-
-  <div> <Suspense fallback> <FormCategory /> </Suspense> </div>;
+  <Suspense fallback={"Loading..."->string}>
+    <FormCategory mutationType=`CREATE />
+  </Suspense>;
 };
 
 let default = make;

@@ -85,7 +85,7 @@ return {
     "argumentDefinitions": [],
     "kind": "Fragment",
     "metadata": null,
-    "name": "CategoryListQuery",
+    "name": "ListCategoryQuery",
     "selections": (v0/*: any*/),
     "type": "RootQueryType"
   },
@@ -93,15 +93,15 @@ return {
   "operation": {
     "argumentDefinitions": [],
     "kind": "Operation",
-    "name": "CategoryListQuery",
+    "name": "ListCategoryQuery",
     "selections": (v0/*: any*/)
   },
   "params": {
     "id": null,
     "metadata": {},
-    "name": "CategoryListQuery",
+    "name": "ListCategoryQuery",
     "operationKind": "query",
-    "text": "query CategoryListQuery {\n  listCategories {\n    id\n    name\n    description\n  }\n}\n"
+    "text": "query ListCategoryQuery {\n  listCategories {\n    id\n    name\n    description\n  }\n}\n"
   }
 };
 })() |json}

@@ -31,20 +31,6 @@ let make = (props: props): React.element => {
     React.useReducer(reducer, {categoryId: "", moduleId: "", subjecId: ""});
 
   let router = Next.Router.useRouter();
-  let query = router.query;
-
-  // React.useEffect1(
-  //   () => {
-  //     if (!Ramda.isEmpty(query)) {
-  //       Js.log("Over heree");
-  //       dispatch(UpdateEntity({...state, categoryId: query##categoryId}));
-  //     };
-  //     Js.log("Over heree instead");
-
-  //     Some(() => ());
-  //   },
-  //   [|router.route|],
-  // );
 
   let content = React.createElement(component, pageProps);
 
@@ -52,6 +38,7 @@ let make = (props: props): React.element => {
     switch (router.route) {
     | "/" => content
     | "/create" => content
+    | "/[categoryId]/edit" => content
     | _ => <MainLayout> content </MainLayout>
     };
 
