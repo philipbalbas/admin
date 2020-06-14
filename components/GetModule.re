@@ -73,8 +73,8 @@ let make = (~categoryId, ~moduleId) => {
 
               <>
                 <Link
-                  href="/[categoryId]/subjects/[subjectId]/edit"
-                  _as={j|/$categoryId/subjects/$subjectId/edit|j}>
+                  href="/[categoryId]/modules/[moduleId]/subjects/[subjectId]/edit"
+                  _as={j|/$categoryId/modules/$moduleId/subjects/$subjectId/edit|j}>
                   <a>
                     <FontAwesomeIcon
                       icon=FontAwesomeIcon.faEdit

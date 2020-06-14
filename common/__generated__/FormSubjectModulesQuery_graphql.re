@@ -22,6 +22,8 @@ module Types = {
   type response_listModules = {
     id: string,
     name: string,
+    description: string,
+    order: option(int),
   };
 
   type response = {listModules: option(array(response_listModules))};
@@ -35,7 +37,7 @@ module Types = {
 module Internal = {
   type responseRaw;
   let responseConverter: Js.Dict.t(Js.Dict.t(Js.Dict.t(string))) = [%raw
-    {json| {"__root":{"listModules":{"n":""}}} |json}
+    {json| {"__root":{"listModules":{"n":""},"listModules_order":{"n":""}}} |json}
   ];
   let responseConverterMap = ();
   let convertResponse = v =>
@@ -111,6 +113,20 @@ v1 = [
         "kind": "ScalarField",
         "name": "name",
         "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "description",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "order",
+        "storageKey": null
       }
     ],
     "storageKey": null
@@ -137,7 +153,7 @@ return {
     "metadata": {},
     "name": "FormSubjectModulesQuery",
     "operationKind": "query",
-    "text": "query FormSubjectModulesQuery(\n  $filter: ModuleFilter\n) {\n  listModules(filter: $filter) {\n    id\n    name\n  }\n}\n"
+    "text": "query FormSubjectModulesQuery(\n  $filter: ModuleFilter\n) {\n  listModules(filter: $filter) {\n    id\n    name\n    description\n    order\n  }\n}\n"
   }
 };
 })() |json}

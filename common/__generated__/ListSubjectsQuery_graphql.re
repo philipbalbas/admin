@@ -20,11 +20,13 @@ module Types = {
     moduleId: option(string),
     order: option([ | `ASC | `DESC | `FutureAddedValue(string)]),
   };
+  type response_listSubjects_module_ = {name: string};
   type response_listSubjects = {
     id: string,
     name: string,
     order: option(int),
     description: option(string),
+    module_: response_listSubjects_module_,
   };
 
   type response = {listSubjects: option(array(response_listSubjects))};
@@ -90,58 +92,74 @@ var v0 = [
 ],
 v1 = [
   {
-    "alias": null,
-    "args": [
-      {
-        "kind": "Variable",
-        "name": "filter",
-        "variableName": "filter"
-      }
-    ],
-    "concreteType": "Subject",
-    "kind": "LinkedField",
-    "name": "listSubjects",
-    "plural": true,
-    "selections": [
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "id",
-        "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "name",
-        "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "order",
-        "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "description",
-        "storageKey": null
-      }
-    ],
-    "storageKey": null
+    "kind": "Variable",
+    "name": "filter",
+    "variableName": "filter"
   }
-];
+],
+v2 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "id",
+  "storageKey": null
+},
+v3 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "name",
+  "storageKey": null
+},
+v4 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "order",
+  "storageKey": null
+},
+v5 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "description",
+  "storageKey": null
+};
 return {
   "fragment": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
     "name": "ListSubjectsQuery",
-    "selections": (v1/*: any*/),
+    "selections": [
+      {
+        "alias": null,
+        "args": (v1/*: any*/),
+        "concreteType": "Subject",
+        "kind": "LinkedField",
+        "name": "listSubjects",
+        "plural": true,
+        "selections": [
+          (v2/*: any*/),
+          (v3/*: any*/),
+          (v4/*: any*/),
+          (v5/*: any*/),
+          {
+            "alias": "module_",
+            "args": null,
+            "concreteType": "Module",
+            "kind": "LinkedField",
+            "name": "module",
+            "plural": false,
+            "selections": [
+              (v3/*: any*/)
+            ],
+            "storageKey": null
+          }
+        ],
+        "storageKey": null
+      }
+    ],
     "type": "RootQueryType"
   },
   "kind": "Request",
@@ -149,14 +167,43 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
     "name": "ListSubjectsQuery",
-    "selections": (v1/*: any*/)
+    "selections": [
+      {
+        "alias": null,
+        "args": (v1/*: any*/),
+        "concreteType": "Subject",
+        "kind": "LinkedField",
+        "name": "listSubjects",
+        "plural": true,
+        "selections": [
+          (v2/*: any*/),
+          (v3/*: any*/),
+          (v4/*: any*/),
+          (v5/*: any*/),
+          {
+            "alias": "module_",
+            "args": null,
+            "concreteType": "Module",
+            "kind": "LinkedField",
+            "name": "module",
+            "plural": false,
+            "selections": [
+              (v3/*: any*/),
+              (v2/*: any*/)
+            ],
+            "storageKey": null
+          }
+        ],
+        "storageKey": null
+      }
+    ]
   },
   "params": {
     "id": null,
     "metadata": {},
     "name": "ListSubjectsQuery",
     "operationKind": "query",
-    "text": "query ListSubjectsQuery(\n  $filter: SubjectsFilter\n) {\n  listSubjects(filter: $filter) {\n    id\n    name\n    order\n    description\n  }\n}\n"
+    "text": "query ListSubjectsQuery(\n  $filter: SubjectsFilter\n) {\n  listSubjects(filter: $filter) {\n    id\n    name\n    order\n    description\n    module_: module {\n      name\n      id\n    }\n  }\n}\n"
   }
 };
 })() |json}

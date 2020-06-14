@@ -17,14 +17,46 @@ module CreateSubjectMutation = [%relay.mutation
   |}
 ];
 
+module UpdateSubjectMutation = [%relay.mutation
+  {|
+    mutation FormSubjectUpdateMutation($input: UpdateSubjectInput! ) {
+      updateSubject(input: $input) {
+        result {
+          id
+          name
+          description
+          order
+        }
+      }
+    }
+  |}
+];
+
 module ModulesQuery = [%relay.query
   {|
-  query FormSubjectModulesQuery($filter: ModuleFilter) {
-    listModules(filter: $filter) {
-      id
-      name
+    query FormSubjectModulesQuery($filter: ModuleFilter) {
+      listModules(filter: $filter) {
+        id
+        name
+        description
+        order
+      }
     }
-  }
+  |}
+];
+
+module SubjectQuery = [%relay.query
+  {|
+    query FormSubjectQuery($id: ID!) {
+      getSubject(id: $id) {
+        name
+        description
+        order
+        module_: module {
+          id
+        }
+      }
+    }
 |}
 ];
 
@@ -36,11 +68,15 @@ type state = {
   order: option(int),
 };
 
-[@react.component]
-let make = (~categoryId="", ~moduleId=?) => {
-  let (createSubject, isCreatingSubject) = CreateSubjectMutation.use();
+type mutationType = [ | `CREATE | `UPDATE];
 
-  let queryData =
+[@react.component]
+let make =
+    (~categoryId="", ~moduleId=?, ~subjectId="", ~mutationType: mutationType) => {
+  let (createSubject, isCreatingSubject) = CreateSubjectMutation.use();
+  let (updateSubject, isUpdatingSubject) = UpdateSubjectMutation.use();
+
+  let modulesQueryData =
     ModulesQuery.use(
       ~variables={
         filter: Some({categoryId: Some(categoryId), order: Some(`ASC)}),
@@ -48,14 +84,34 @@ let make = (~categoryId="", ~moduleId=?) => {
       (),
     );
 
+  let subjectQueryData = SubjectQuery.use(~variables={id: subjectId}, ());
+
+  let subject =
+    switch (subjectQueryData.getSubject) {
+    | Some(subject) => subject
+    | None => {
+        name: "",
+        description: None,
+        order: None,
+        module_: {
+          id: "",
+        },
+      }
+    };
+
+  let passedModuleId =
+    switch (mutationType) {
+    | `CREATE => Belt.Option.getWithDefault(moduleId, "")
+    | `UPDATE => subject.module_.id
+    };
+
   let form = Form.useForm()->Js.Array.unsafe_get(0);
 
   let resetFields = () => {
     form |> Form.resetFields();
   };
 
-  let onFinish = values => {
-    let state = stateFromJs(values);
+  let createMutation = state => {
     createSubject(
       ~variables={
         input: {
@@ -95,8 +151,57 @@ let make = (~categoryId="", ~moduleId=?) => {
     |> ignore;
   };
 
+  let updateMutation = state => {
+    updateSubject(
+      ~variables={
+        input: {
+          inputData: {
+            name: Some(state.name),
+            description: Some(state.description),
+            order: state.order,
+            moduleId: Some(state.moduleId),
+            id: subjectId,
+          },
+        },
+      },
+      ~onCompleted=
+        (res, err) => {
+          switch (res.updateSubject) {
+          | Some(response) =>
+            switch (response.result) {
+            | Some(category) =>
+              let name = category.name;
+              Message.(message |> success({j| Subject $name updated  |j}));
+              resetFields();
+            | None => ()
+            }
+          | None => ()
+          };
+          switch (err) {
+          | Some(err) =>
+            let _ =
+              Belt.Array.map(err, e => {
+                Message.(message |> error(e.message))
+              });
+            ();
+          | None => ()
+          };
+        },
+      (),
+    )
+    |> ignore;
+  };
+
+  let onFinish = values => {
+    let state = stateFromJs(values);
+    switch (mutationType) {
+    | `CREATE => createMutation(state)
+    | `UPDATE => updateMutation(state)
+    };
+  };
+
   let modules =
-    switch (queryData.listModules) {
+    switch (modulesQueryData.listModules) {
     | Some(module_) => module_
     | None => [||]
     };
@@ -113,13 +218,26 @@ let make = (~categoryId="", ~moduleId=?) => {
     | None => {j|/$categoryId/subjects|j}
     };
 
+  let buttonText =
+    switch (mutationType) {
+    | `CREATE => "Create"
+    | `UPDATE => "Update"
+    };
+
+  let loading = isCreatingSubject || isUpdatingSubject;
+
   <Form
     form
     labelCol={"span": 4}
     wrapperCol={"span": 20}
     name="subject"
     onFinish
-    initialValues={"moduleId": moduleId}>
+    initialValues={
+      "moduleId": passedModuleId,
+      "name": subject.name,
+      "description": subject.description,
+      "order": subject.order,
+    }>
     <Form.Item
       label={"Module"->string}
       rules=[|{"required": true, "message": "Module is required"}|]
@@ -148,15 +266,11 @@ let make = (~categoryId="", ~moduleId=?) => {
       <Input.Number _type="number" />
     </Form.Item>
     <Form.Item wrapperCol={"offset": 4, "span": 20}>
-      <Button
-        loading=isCreatingSubject
-        className="mr-4"
-        _type=`primary
-        htmlType="submit">
-        "Create"->string
+      <Button loading className="mr-4" _type=`primary htmlType="submit">
+        buttonText->string
       </Button>
       <Link href=returnHref _as=returnAs>
-        <Button loading=isCreatingSubject> "Cancel"->string </Button>
+        <Button loading> "Cancel"->string </Button>
       </Link>
     </Form.Item>
   </Form>;
