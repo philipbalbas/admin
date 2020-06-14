@@ -1,46 +1,12 @@
 /* @generated */
 
-type enum_ExamType = [
-  | `COMPREHENSIVE
-  | `MOCK
-  | `PRACTICE
-  | `FutureAddedValue(string)
-];
-
-let unwrap_enum_ExamType: string => enum_ExamType =
-  fun
-  | "COMPREHENSIVE" => `COMPREHENSIVE
-  | "MOCK" => `MOCK
-  | "PRACTICE" => `PRACTICE
-  | v => `FutureAddedValue(v);
-
-let wrap_enum_ExamType: enum_ExamType => string =
-  fun
-  | `COMPREHENSIVE => "COMPREHENSIVE"
-  | `MOCK => "MOCK"
-  | `PRACTICE => "PRACTICE"
-  | `FutureAddedValue(v) => v;
-
 module Types = {
-  type response_listExams_topics = {
+  type response_listTopics = {
     id: string,
     name: string,
-  };
-  type response_listExams = {
-    id: string,
-    name: string,
-    description: string,
-    type_: [
-      | `COMPREHENSIVE
-      | `MOCK
-      | `PRACTICE
-      | `FutureAddedValue(string)
-    ],
-    order: option(int),
-    topics: option(array(response_listExams_topics)),
   };
 
-  type response = {listExams: option(array(response_listExams))};
+  type response = {listTopics: option(array(response_listTopics))};
   type refetchVariables = {categoryId: option(string)};
   let makeRefetchVariables = (~categoryId=?, ()): refetchVariables => {
     categoryId: categoryId,
@@ -51,9 +17,9 @@ module Types = {
 module Internal = {
   type responseRaw;
   let responseConverter: Js.Dict.t(Js.Dict.t(Js.Dict.t(string))) = [%raw
-    {json| {"__root":{"listExams":{"n":""},"listExams_type_":{"e":"enum_ExamType"},"listExams_order":{"n":""},"listExams_topics":{"n":""}}} |json}
+    {json| {"__root":{"listTopics":{"n":""}}} |json}
   ];
-  let responseConverterMap = {"enum_ExamType": unwrap_enum_ExamType};
+  let responseConverterMap = ();
   let convertResponse = v =>
     v
     ->ReasonRelay._convertObj(
@@ -94,21 +60,7 @@ var v0 = [
     "type": "ID!"
   }
 ],
-v1 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "id",
-  "storageKey": null
-},
-v2 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "name",
-  "storageKey": null
-},
-v3 = [
+v1 = [
   {
     "alias": null,
     "args": [
@@ -124,45 +76,23 @@ v3 = [
         "name": "filter"
       }
     ],
-    "concreteType": "Exam",
+    "concreteType": "Topic",
     "kind": "LinkedField",
-    "name": "listExams",
+    "name": "listTopics",
     "plural": true,
     "selections": [
-      (v1/*: any*/),
-      (v2/*: any*/),
       {
         "alias": null,
         "args": null,
         "kind": "ScalarField",
-        "name": "description",
-        "storageKey": null
-      },
-      {
-        "alias": "type_",
-        "args": null,
-        "kind": "ScalarField",
-        "name": "type",
+        "name": "id",
         "storageKey": null
       },
       {
         "alias": null,
         "args": null,
         "kind": "ScalarField",
-        "name": "order",
-        "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": null,
-        "concreteType": "Topic",
-        "kind": "LinkedField",
-        "name": "topics",
-        "plural": true,
-        "selections": [
-          (v1/*: any*/),
-          (v2/*: any*/)
-        ],
+        "name": "name",
         "storageKey": null
       }
     ],
@@ -174,23 +104,23 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "ListExamsQuery",
-    "selections": (v3/*: any*/),
+    "name": "FormExamTopicsQuery",
+    "selections": (v1/*: any*/),
     "type": "RootQueryType"
   },
   "kind": "Request",
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "ListExamsQuery",
-    "selections": (v3/*: any*/)
+    "name": "FormExamTopicsQuery",
+    "selections": (v1/*: any*/)
   },
   "params": {
     "id": null,
     "metadata": {},
-    "name": "ListExamsQuery",
+    "name": "FormExamTopicsQuery",
     "operationKind": "query",
-    "text": "query ListExamsQuery(\n  $categoryId: ID!\n) {\n  listExams(filter: {categoryId: $categoryId}) {\n    id\n    name\n    description\n    type_: type\n    order\n    topics {\n      id\n      name\n    }\n  }\n}\n"
+    "text": "query FormExamTopicsQuery(\n  $categoryId: ID!\n) {\n  listTopics(filter: {categoryId: $categoryId}) {\n    id\n    name\n  }\n}\n"
   }
 };
 })() |json}

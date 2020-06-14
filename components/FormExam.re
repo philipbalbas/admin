@@ -17,26 +17,123 @@ module CreateExamMutation = [%relay.mutation
   |}
 ];
 
+module UpdateExamMutation = [%relay.mutation
+  {|
+    mutation FormExamUpdateMutation($input: UpdateExamInput!) {
+      updateExam(input: $input) {
+        result {
+          id
+          name
+          description
+          type_: type
+          order
+        }
+      }
+    }
+  |}
+];
+
+module TopicsQuery = [%relay.query
+  {|
+    query FormExamTopicsQuery($categoryId: ID!) {
+      listTopics(filter: {
+        categoryId: $categoryId
+      }) {
+        id
+        name
+      }
+    }
+  |}
+];
+
+module UpsertExamTopicsMutation = [%relay.mutation
+  {|
+    mutation FormExamUpsertTopicsMutation($input: UpsertExamTopicsInput!) {
+      upsertExamTopics(input: $input) {
+        result {
+          id
+          name
+        }
+      }
+    }
+  |}
+];
+
+module ExamQuery = [%relay.query
+  {|
+    query FormExamQuery($id: ID!) {
+      getExam(id: $id) {
+        name
+        description
+        type_: type
+        order
+        topics {
+          id
+        }
+      }
+    }
+|}
+];
+
+type mutationType = [ | `CREATE | `UPDATE];
+
 [@bs.deriving jsConverter]
 type state = {
   name: string,
   description: string,
   type_: FormExamCreateMutation_graphql.enum_ExamType,
   order: option(int),
+  topicIds: array(string),
 };
 
 [@react.component]
-let make = (~categoryId="") => {
+let make = (~categoryId="", ~examId="", ~mutationType: mutationType) => {
   let (createExam, isCreatingExam) = CreateExamMutation.use();
+  let (updateExam, isUpdatingExam) = UpdateExamMutation.use();
+  let (upsertTopics, isUpsertingTopics) = UpsertExamTopicsMutation.use();
 
   let form = Form.useForm()->Js.Array.unsafe_get(0);
 
+  let examQueryData = ExamQuery.use(~variables={id: examId}, ());
+
+  let topicsQueryData =
+    TopicsQuery.use(
+      ~variables={
+        {categoryId: categoryId};
+      },
+      (),
+    );
+
+  let exam =
+    switch (examQueryData.getExam) {
+    | Some(exam) => exam
+    | None => {
+        name: "",
+        description: "",
+        type_: `PRACTICE,
+        order: None,
+        topics: None,
+      }
+    };
+
+  let topics =
+    switch (topicsQueryData.listTopics) {
+    | Some(topics) => topics
+    | None => [||]
+    };
+
+  let topicSearch = text =>
+    Fuse.make(topics, {"keys": [|"name"|], "useExtendedSearch": true})
+    |> Fuse.search(text);
+
   let resetFields = () => {
-    form |> Form.resetFields();
+    switch (mutationType) {
+    | `CREATE => form |> Form.resetFields()
+    | `UPDATE => ()
+    };
   };
 
-  let onFinish = values => {
-    let state = stateFromJs(values);
+  let createMutation = state =>
     createExam(
       ~variables={
         input: {
@@ -57,6 +154,18 @@ let make = (~categoryId="") => {
             | Some(exam) =>
               let name = exam.name;
               Message.(message |> success({j| Exam $name created  |j}));
+              upsertTopics(
+                ~variables={
+                  input: {
+                    inputData: {
+                      topicIds: state.topicIds,
+                      examId: exam.id,
+                    },
+                  },
+                },
+                (),
+              )
+              |> ignore;
               resetFields();
             | None => ()
             }
@@ -77,14 +186,92 @@ let make = (~categoryId="") => {
       (),
     )
     |> ignore;
+
+  let updateMutation = state =>
+    updateExam(
+      ~variables={
+        input: {
+          inputData: {
+            id: examId,
+            name: Some(state.name),
+            description: Some(state.description),
+            type_: Some(state.type_),
+            order: state.order,
+          },
+        },
+      },
+      ~onCompleted=
+        (res, err) => {
+          switch (res.updateExam) {
+          | Some(response) =>
+            switch (response.result) {
+            | Some(exam) =>
+              let name = exam.name;
+              Message.(message |> success({j| Exam $name updated  |j}));
+              upsertTopics(
+                ~variables={
+                  input: {
+                    inputData: {
+                      topicIds: state.topicIds,
+                      examId: exam.id,
+                    },
+                  },
+                },
+                (),
+              )
+              |> ignore;
+              resetFields();
+            | None => ()
+            }
+          | None => ()
+          };
+
+          switch (err) {
+          | Some(err) =>
+            let _ =
+              Belt.Array.map(err, e => {
+                Message.(message |> error(e.message))
+              });
+            ();
+
+          | None => ()
+          };
+        },
+      (),
+    )
+    |> ignore;
+
+  let onFinish = values => {
+    let state = stateFromJs(values);
+    switch (mutationType) {
+    | `CREATE => createMutation(state)
+    | `UPDATE => updateMutation(state)
+    };
   };
+
+  let buttonText =
+    switch (mutationType) {
+    | `CREATE => "Create"
+    | `UPDATE => "Update"
+    };
+
+  let loading = isCreatingExam || isUpdatingExam || isUpsertingTopics;
 
   <Form
     form
     labelCol={"span": 4}
     wrapperCol={"span": 20}
     name="category"
-    initialValues={"type_": `COMPREHENSIVE}
+    initialValues={
+      "name": exam.name,
+      "description": exam.description,
+      "type_": exam.type_,
+      "order": exam.order,
+      "topicIds":
+        exam.topics
+        ->Belt.Option.mapWithDefault([||], topic => topic)
+        ->Belt.Array.map(topic => topic.id),
+    }
     onFinish>
     <Form.Item
       label={"Name"->string}
@@ -115,16 +302,27 @@ let make = (~categoryId="") => {
     <Form.Item label={"Order"->string} name="order">
       <Input.Number _type="number" />
     </Form.Item>
+    <Form.Item label={<div> "Topic"->string </div>} name="topicIds">
+      <Select
+        mode=`multiple
+        showSearch=true
+        filterOption={(value, option) => {
+          let res = topicSearch(value);
+          res->Belt.Array.some(c => {c##item##id == option##key});
+        }}>
+        {topics->Belt.Array.map(topic =>
+           <Select.Option key={topic.id} value={topic.id}>
+             {topic.name}->string
+           </Select.Option>
+         )}
+      </Select>
+    </Form.Item>
     <Form.Item wrapperCol={"offset": 4, "span": 20}>
-      <Button
-        loading=isCreatingExam
-        className="mr-4"
-        _type=`primary
-        htmlType="submit">
-        "Create"->string
+      <Button loading className="mr-4" _type=`primary htmlType="submit">
+        buttonText->string
       </Button>
       <Next.Link href="/[categoryId]/exams" _as={j|/$categoryId/exams|j}>
-        <Button loading=isCreatingExam> "Cancel"->string </Button>
+        <Button loading> "Cancel"->string </Button>
       </Next.Link>
     </Form.Item>
   </Form>;

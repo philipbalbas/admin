@@ -13,6 +13,10 @@ module Query = [%relay.query
         description
         type_: type
         order
+        topics {
+          id
+          name
+        }
       }
     }
   |}
@@ -37,7 +41,7 @@ let make = (~categoryId="") => {
         Table.column('a, ListExamsQuery_graphql.Types.response_listExams),
       ) = [|
       {
-        title: "Name",
+        title: "Exams",
         dataIndex: [|"name"|],
         key: "name",
         render:
@@ -66,6 +70,48 @@ let make = (~categoryId="") => {
         render: None,
       },
       {title: "Order", dataIndex: [|"order"|], key: "order", render: None},
+      {
+        title: "Topics",
+        dataIndex: [|"topics"|],
+        key: "topics",
+        render:
+          Some(
+            (_, row, _) => {
+              let topics =
+                switch (row.topics) {
+                | Some(topics) => topics
+                | None => [||]
+                };
+              topics->Belt.Array.map(topic =>
+                <Tags> topic.name->string </Tags>
+              )
+              |> array;
+            },
+          ),
+      },
+      {
+        title: "",
+        dataIndex: [||],
+        key: "action",
+        render:
+          Some(
+            (_, record, _) => {
+              let examId = record.id;
+              <>
+                <Link
+                  href="/[categoryId]/exams/[examId]/edit"
+                  _as={j|/$categoryId/exams/$examId/edit|j}>
+                  <a>
+                    <FontAwesomeIcon
+                      icon=FontAwesomeIcon.faEdit
+                      className="text-blue-400 hover:text-blue-700 cursor-pointer"
+                    />
+                  </a>
+                </Link>
+              </>;
+            },
+          ),
+      },
     |];
 
     <>

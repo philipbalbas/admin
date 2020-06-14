@@ -22,12 +22,8 @@ let wrap_enum_ExamType: enum_ExamType => string =
   | `FutureAddedValue(v) => v;
 
 module Types = {
-  type response_listExams_topics = {
-    id: string,
-    name: string,
-  };
-  type response_listExams = {
-    id: string,
+  type response_getExam_topics = {id: string};
+  type response_getExam = {
     name: string,
     description: string,
     type_: [
@@ -37,21 +33,19 @@ module Types = {
       | `FutureAddedValue(string)
     ],
     order: option(int),
-    topics: option(array(response_listExams_topics)),
+    topics: option(array(response_getExam_topics)),
   };
 
-  type response = {listExams: option(array(response_listExams))};
-  type refetchVariables = {categoryId: option(string)};
-  let makeRefetchVariables = (~categoryId=?, ()): refetchVariables => {
-    categoryId: categoryId,
-  };
-  type variables = {categoryId: string};
+  type response = {getExam: option(response_getExam)};
+  type refetchVariables = {id: option(string)};
+  let makeRefetchVariables = (~id=?, ()): refetchVariables => {id: id};
+  type variables = {id: string};
 };
 
 module Internal = {
   type responseRaw;
   let responseConverter: Js.Dict.t(Js.Dict.t(Js.Dict.t(string))) = [%raw
-    {json| {"__root":{"listExams":{"n":""},"listExams_type_":{"e":"enum_ExamType"},"listExams_order":{"n":""},"listExams_topics":{"n":""}}} |json}
+    {json| {"__root":{"getExam":{"n":""},"getExam_type_":{"e":"enum_ExamType"},"getExam_order":{"n":""},"getExam_topics":{"n":""}}} |json}
   ];
   let responseConverterMap = {"enum_ExamType": unwrap_enum_ExamType};
   let convertResponse = v =>
@@ -79,7 +73,7 @@ type preloadToken;
 
 module Utils = {
   open Types;
-  let makeVariables = (~categoryId): variables => {categoryId: categoryId};
+  let makeVariables = (~id): variables => {id: id};
 };
 
 type operationType = ReasonRelay.queryNode;
@@ -90,17 +84,17 @@ var v0 = [
   {
     "defaultValue": null,
     "kind": "LocalArgument",
-    "name": "categoryId",
+    "name": "id",
     "type": "ID!"
   }
 ],
-v1 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "id",
-  "storageKey": null
-},
+v1 = [
+  {
+    "kind": "Variable",
+    "name": "id",
+    "variableName": "id"
+  }
+],
 v2 = {
   "alias": null,
   "args": null,
@@ -108,89 +102,103 @@ v2 = {
   "name": "name",
   "storageKey": null
 },
-v3 = [
-  {
-    "alias": null,
-    "args": [
-      {
-        "fields": [
-          {
-            "kind": "Variable",
-            "name": "categoryId",
-            "variableName": "categoryId"
-          }
-        ],
-        "kind": "ObjectValue",
-        "name": "filter"
-      }
-    ],
-    "concreteType": "Exam",
-    "kind": "LinkedField",
-    "name": "listExams",
-    "plural": true,
-    "selections": [
-      (v1/*: any*/),
-      (v2/*: any*/),
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "description",
-        "storageKey": null
-      },
-      {
-        "alias": "type_",
-        "args": null,
-        "kind": "ScalarField",
-        "name": "type",
-        "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "order",
-        "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": null,
-        "concreteType": "Topic",
-        "kind": "LinkedField",
-        "name": "topics",
-        "plural": true,
-        "selections": [
-          (v1/*: any*/),
-          (v2/*: any*/)
-        ],
-        "storageKey": null
-      }
-    ],
-    "storageKey": null
-  }
-];
+v3 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "description",
+  "storageKey": null
+},
+v4 = {
+  "alias": "type_",
+  "args": null,
+  "kind": "ScalarField",
+  "name": "type",
+  "storageKey": null
+},
+v5 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "order",
+  "storageKey": null
+},
+v6 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "id",
+  "storageKey": null
+},
+v7 = {
+  "alias": null,
+  "args": null,
+  "concreteType": "Topic",
+  "kind": "LinkedField",
+  "name": "topics",
+  "plural": true,
+  "selections": [
+    (v6/*: any*/)
+  ],
+  "storageKey": null
+};
 return {
   "fragment": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "ListExamsQuery",
-    "selections": (v3/*: any*/),
+    "name": "FormExamQuery",
+    "selections": [
+      {
+        "alias": null,
+        "args": (v1/*: any*/),
+        "concreteType": "Exam",
+        "kind": "LinkedField",
+        "name": "getExam",
+        "plural": false,
+        "selections": [
+          (v2/*: any*/),
+          (v3/*: any*/),
+          (v4/*: any*/),
+          (v5/*: any*/),
+          (v7/*: any*/)
+        ],
+        "storageKey": null
+      }
+    ],
     "type": "RootQueryType"
   },
   "kind": "Request",
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "ListExamsQuery",
-    "selections": (v3/*: any*/)
+    "name": "FormExamQuery",
+    "selections": [
+      {
+        "alias": null,
+        "args": (v1/*: any*/),
+        "concreteType": "Exam",
+        "kind": "LinkedField",
+        "name": "getExam",
+        "plural": false,
+        "selections": [
+          (v2/*: any*/),
+          (v3/*: any*/),
+          (v4/*: any*/),
+          (v5/*: any*/),
+          (v7/*: any*/),
+          (v6/*: any*/)
+        ],
+        "storageKey": null
+      }
+    ]
   },
   "params": {
     "id": null,
     "metadata": {},
-    "name": "ListExamsQuery",
+    "name": "FormExamQuery",
     "operationKind": "query",
-    "text": "query ListExamsQuery(\n  $categoryId: ID!\n) {\n  listExams(filter: {categoryId: $categoryId}) {\n    id\n    name\n    description\n    type_: type\n    order\n    topics {\n      id\n      name\n    }\n  }\n}\n"
+    "text": "query FormExamQuery(\n  $id: ID!\n) {\n  getExam(id: $id) {\n    name\n    description\n    type_: type\n    order\n    topics {\n      id\n    }\n    id\n  }\n}\n"
   }
 };
 })() |json}
