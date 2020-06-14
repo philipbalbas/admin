@@ -17,6 +17,21 @@ module CreateTopicMutation = [%relay.mutation
 |}
 ];
 
+module UpdateTopicMutation = [%relay.mutation
+  {|
+    mutation FormTopicUpdateMutation($input: UpdateTopicInput!) {
+      updateTopic(input: $input) {
+        result {
+          id
+          name
+          description
+          order
+        }
+      }
+    }
+|}
+];
+
 module SubjectsQuery = [%relay.query
   {|
     query FormTopicSubjectsQuery($filter: SubjectsFilter) {
@@ -25,8 +40,25 @@ module SubjectsQuery = [%relay.query
         name
       }
     }
+  |}
+];
+
+module TopicQuery = [%relay.query
+  {|
+    query FormTopicQuery($id: ID!) {
+      getTopic(id: $id) {
+        name
+        description
+        order
+        subject {
+          id
+        }
+      }
+    }
 |}
 ];
+
+type mutationType = [ | `CREATE | `UPDATE];
 
 [@bs.deriving jsConverter]
 type state = {
@@ -37,10 +69,12 @@ type state = {
 };
 
 [@react.component]
-let make = (~categoryId="", ~subjectId=?) => {
+let make =
+    (~categoryId="", ~subjectId=?, ~topicId="", ~mutationType: mutationType) => {
   let (createTopic, isCreatingTopic) = CreateTopicMutation.use();
+  let (updateTopic, isUpdatingTopic) = UpdateTopicMutation.use();
 
-  let queryData =
+  let subjectsQueryData =
     SubjectsQuery.use(
       ~variables={
         filter:
@@ -53,14 +87,34 @@ let make = (~categoryId="", ~subjectId=?) => {
       (),
     );
 
+  let topicQueryData = TopicQuery.use(~variables={id: topicId}, ());
+
+  let topic =
+    switch (topicQueryData.getTopic) {
+    | Some(topic) => topic
+    | None => {
+        name: "",
+        description: None,
+        order: None,
+        subject: {
+          id: "",
+        },
+      }
+    };
+
+  let passedSubjectId =
+    switch (mutationType) {
+    | `CREATE => Belt.Option.getWithDefault(subjectId, "")
+    | `UPDATE => topic.subject.id
+    };
+
   let form = Form.useForm()->Js.Array.unsafe_get(0);
 
   let resetFields = () => {
     form |> Form.resetFields();
   };
 
-  let onFinish = values => {
-    let state = stateFromJs(values);
+  let createMutation = state => {
     createTopic(
       ~variables={
         input: {
@@ -80,7 +134,7 @@ let make = (~categoryId="", ~subjectId=?) => {
             switch (response.result) {
             | Some(category) =>
               let name = category.name;
-              Message.(message |> success({j| Subject $name created  |j}));
+              Message.(message |> success({j| Topic $name created  |j}));
               resetFields();
             | None => ()
             }
@@ -101,8 +155,57 @@ let make = (~categoryId="", ~subjectId=?) => {
     |> ignore;
   };
 
+  let updateMutation = state => {
+    updateTopic(
+      ~variables={
+        input: {
+          inputData: {
+            name: Some(state.name),
+            description: Some(state.description),
+            order: state.order,
+            subjectId: Some(state.subjectId),
+            id: topicId,
+          },
+        },
+      },
+      ~onCompleted=
+        (res, err) => {
+          switch (res.updateTopic) {
+          | Some(response) =>
+            switch (response.result) {
+            | Some(category) =>
+              let name = category.name;
+              Message.(message |> success({j| Topic $name created  |j}));
+              resetFields();
+            | None => ()
+            }
+          | None => ()
+          };
+          switch (err) {
+          | Some(err) =>
+            let _ =
+              Belt.Array.map(err, e => {
+                Message.(message |> error(e.message))
+              });
+            ();
+          | None => ()
+          };
+        },
+      (),
+    )
+    |> ignore;
+  };
+
+  let onFinish = values => {
+    let state = stateFromJs(values);
+    switch (mutationType) {
+    | `CREATE => createMutation(state)
+    | `UPDATE => updateMutation(state)
+    };
+  };
+
   let subjects =
-    switch (queryData.listSubjects) {
+    switch (subjectsQueryData.listSubjects) {
     | Some(module_) => module_
     | None => [||]
     };
@@ -110,21 +213,34 @@ let make = (~categoryId="", ~subjectId=?) => {
   let returnHref =
     switch (subjectId) {
     | Some(_id) => "/[categoryId]/subjects/[subjectId]"
-    | None => "/[categoryId]/subjects"
+    | None => "/[categoryId]/topics"
     };
 
   let returnAs =
     switch (subjectId) {
     | Some(subjectId) => {j|/$categoryId/subjects/$subjectId|j}
-    | None => {j|/$categoryId/subjects|j}
+    | None => {j|/$categoryId/topics|j}
     };
+
+  let buttonText =
+    switch (mutationType) {
+    | `CREATE => "Create"
+    | `UPDATE => "Update"
+    };
+
+  let loading = isCreatingTopic || isUpdatingTopic;
 
   <Form
     form
     labelCol={"span": 4}
     wrapperCol={"span": 20}
     name="subject"
-    initialValues={"subjectId": subjectId}
+    initialValues={
+      "subjectId": passedSubjectId,
+      "name": topic.name,
+      "description": topic.description,
+      "order": topic.order,
+    }
     onFinish>
     <Form.Item
       label={"Subject"->string}
@@ -154,15 +270,11 @@ let make = (~categoryId="", ~subjectId=?) => {
       <Input.Number _type="number" />
     </Form.Item>
     <Form.Item wrapperCol={"offset": 4, "span": 20}>
-      <Button
-        loading=isCreatingTopic
-        className="mr-4"
-        _type=`primary
-        htmlType="submit">
-        "Create"->string
+      <Button loading className="mr-4" _type=`primary htmlType="submit">
+        buttonText->string
       </Button>
       <Link href=returnHref _as=returnAs>
-        <Button loading=isCreatingTopic> "Cancel"->string </Button>
+        <Button loading> "Cancel"->string </Button>
       </Link>
     </Form.Item>
   </Form>;

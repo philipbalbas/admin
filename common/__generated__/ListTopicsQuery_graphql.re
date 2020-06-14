@@ -21,11 +21,16 @@ module Types = {
     order: option([ | `ASC | `DESC | `FutureAddedValue(string)]),
     subjectId: option(string),
   };
+  type response_listTopics_subject = {
+    id: string,
+    name: string,
+  };
   type response_listTopics = {
     id: string,
     name: string,
     description: option(string),
     order: option(int),
+    subject: response_listTopics_subject,
   };
 
   type response = {listTopics: option(array(response_listTopics))};
@@ -90,7 +95,21 @@ var v0 = [
     "type": "TopicsFilter"
   }
 ],
-v1 = [
+v1 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "id",
+  "storageKey": null
+},
+v2 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "name",
+  "storageKey": null
+},
+v3 = [
   {
     "alias": null,
     "args": [
@@ -105,20 +124,8 @@ v1 = [
     "name": "listTopics",
     "plural": true,
     "selections": [
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "id",
-        "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "name",
-        "storageKey": null
-      },
+      (v1/*: any*/),
+      (v2/*: any*/),
       {
         "alias": null,
         "args": null,
@@ -132,6 +139,19 @@ v1 = [
         "kind": "ScalarField",
         "name": "order",
         "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "concreteType": "Subject",
+        "kind": "LinkedField",
+        "name": "subject",
+        "plural": false,
+        "selections": [
+          (v1/*: any*/),
+          (v2/*: any*/)
+        ],
+        "storageKey": null
       }
     ],
     "storageKey": null
@@ -143,7 +163,7 @@ return {
     "kind": "Fragment",
     "metadata": null,
     "name": "ListTopicsQuery",
-    "selections": (v1/*: any*/),
+    "selections": (v3/*: any*/),
     "type": "RootQueryType"
   },
   "kind": "Request",
@@ -151,14 +171,14 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
     "name": "ListTopicsQuery",
-    "selections": (v1/*: any*/)
+    "selections": (v3/*: any*/)
   },
   "params": {
     "id": null,
     "metadata": {},
     "name": "ListTopicsQuery",
     "operationKind": "query",
-    "text": "query ListTopicsQuery(\n  $filter: TopicsFilter\n) {\n  listTopics(filter: $filter) {\n    id\n    name\n    description\n    order\n  }\n}\n"
+    "text": "query ListTopicsQuery(\n  $filter: TopicsFilter\n) {\n  listTopics(filter: $filter) {\n    id\n    name\n    description\n    order\n    subject {\n      id\n      name\n    }\n  }\n}\n"
   }
 };
 })() |json}
