@@ -40,7 +40,7 @@ let make = (~categoryId, ~moduleId) => {
         ),
       ) = [|
       {
-        title: "Name",
+        title: "Subjects",
         dataIndex: [|"name"|],
         key: "name",
         render:
@@ -62,6 +62,30 @@ let make = (~categoryId, ~moduleId) => {
         render: None,
       },
       {title: "Order", dataIndex: [|"order"|], key: "order", render: None},
+      {
+        title: "",
+        dataIndex: [||],
+        key: "action",
+        render:
+          Some(
+            (_, record, _) => {
+              let subjectId = record.id;
+
+              <>
+                <Link
+                  href="/[categoryId]/subjects/[subjectId]/edit"
+                  _as={j|/$categoryId/subjects/$subjectId/edit|j}>
+                  <a>
+                    <FontAwesomeIcon
+                      icon=FontAwesomeIcon.faEdit
+                      className="text-blue-400 hover:text-blue-700 cursor-pointer"
+                    />
+                  </a>
+                </Link>
+              </>;
+            },
+          ),
+      },
     |];
 
     <>

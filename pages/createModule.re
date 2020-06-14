@@ -8,7 +8,7 @@ let make = () => {
   <div className="container w-4/6">
     <div className="text-2xl mb-4"> "Create Module"->string </div>
     <Suspense fallback={<div> "Loading..."->string </div>}>
-      <FormModule categoryId />
+      <FormModule categoryId mutationType=`CREATE />
     </Suspense>
   </div>;
 };

@@ -1,19 +1,13 @@
 /* @generated */
 
 module Types = {
-  type response_getCategory_modules = {
-    id: string,
+  type response_getModule = {
     name: string,
     description: string,
     order: option(int),
   };
-  type response_getCategory = {
-    id: string,
-    name: string,
-    modules: option(array(response_getCategory_modules)),
-  };
 
-  type response = {getCategory: option(response_getCategory)};
+  type response = {getModule: option(response_getModule)};
   type refetchVariables = {id: option(string)};
   let makeRefetchVariables = (~id=?, ()): refetchVariables => {id: id};
   type variables = {id: string};
@@ -22,7 +16,7 @@ module Types = {
 module Internal = {
   type responseRaw;
   let responseConverter: Js.Dict.t(Js.Dict.t(Js.Dict.t(string))) = [%raw
-    {json| {"__root":{"getCategory":{"n":""},"getCategory_modules":{"n":""},"getCategory_modules_order":{"n":""}}} |json}
+    {json| {"__root":{"getModule":{"n":""},"getModule_order":{"n":""}}} |json}
   ];
   let responseConverterMap = ();
   let convertResponse = v =>
@@ -65,13 +59,13 @@ var v0 = [
     "type": "ID!"
   }
 ],
-v1 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "id",
-  "storageKey": null
-},
+v1 = [
+  {
+    "kind": "Variable",
+    "name": "id",
+    "variableName": "id"
+  }
+],
 v2 = {
   "alias": null,
   "args": null,
@@ -79,76 +73,79 @@ v2 = {
   "name": "name",
   "storageKey": null
 },
-v3 = [
-  {
-    "alias": null,
-    "args": [
-      {
-        "kind": "Variable",
-        "name": "id",
-        "variableName": "id"
-      }
-    ],
-    "concreteType": "Category",
-    "kind": "LinkedField",
-    "name": "getCategory",
-    "plural": false,
-    "selections": [
-      (v1/*: any*/),
-      (v2/*: any*/),
-      {
-        "alias": null,
-        "args": null,
-        "concreteType": "Module",
-        "kind": "LinkedField",
-        "name": "modules",
-        "plural": true,
-        "selections": [
-          (v1/*: any*/),
-          (v2/*: any*/),
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "description",
-            "storageKey": null
-          },
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "order",
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
-      }
-    ],
-    "storageKey": null
-  }
-];
+v3 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "description",
+  "storageKey": null
+},
+v4 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "order",
+  "storageKey": null
+};
 return {
   "fragment": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "ListModulesQuery",
-    "selections": (v3/*: any*/),
+    "name": "FormModuleQuery",
+    "selections": [
+      {
+        "alias": null,
+        "args": (v1/*: any*/),
+        "concreteType": "Module",
+        "kind": "LinkedField",
+        "name": "getModule",
+        "plural": false,
+        "selections": [
+          (v2/*: any*/),
+          (v3/*: any*/),
+          (v4/*: any*/)
+        ],
+        "storageKey": null
+      }
+    ],
     "type": "RootQueryType"
   },
   "kind": "Request",
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "ListModulesQuery",
-    "selections": (v3/*: any*/)
+    "name": "FormModuleQuery",
+    "selections": [
+      {
+        "alias": null,
+        "args": (v1/*: any*/),
+        "concreteType": "Module",
+        "kind": "LinkedField",
+        "name": "getModule",
+        "plural": false,
+        "selections": [
+          (v2/*: any*/),
+          (v3/*: any*/),
+          (v4/*: any*/),
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "id",
+            "storageKey": null
+          }
+        ],
+        "storageKey": null
+      }
+    ]
   },
   "params": {
     "id": null,
     "metadata": {},
-    "name": "ListModulesQuery",
+    "name": "FormModuleQuery",
     "operationKind": "query",
-    "text": "query ListModulesQuery(\n  $id: ID!\n) {\n  getCategory(id: $id) {\n    id\n    name\n    modules {\n      id\n      name\n      description\n      order\n    }\n  }\n}\n"
+    "text": "query FormModuleQuery(\n  $id: ID!\n) {\n  getModule(id: $id) {\n    name\n    description\n    order\n    id\n  }\n}\n"
   }
 };
 })() |json}

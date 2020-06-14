@@ -1,31 +1,32 @@
 /* @generated */
 
 module Types = {
-  type moduleInput = {
-    categoryId: string,
-    description: string,
-    name: string,
+  type moduleInputUpdate = {
+    categoryId: option(string),
+    description: option(string),
+    id: string,
+    name: option(string),
     order: option(int),
   };
-  type createModuleInput = {inputData: moduleInput};
-  type response_createModule_result = {
+  type updateModuleInput = {inputData: moduleInputUpdate};
+  type response_updateModule_result = {
     id: string,
     name: string,
     description: string,
     order: option(int),
   };
-  type response_createModule = {
-    result: option(response_createModule_result),
+  type response_updateModule = {
+    result: option(response_updateModule_result),
   };
 
-  type response = {createModule: option(response_createModule)};
-  type variables = {input: createModuleInput};
+  type response = {updateModule: option(response_updateModule)};
+  type variables = {input: updateModuleInput};
 };
 
 module Internal = {
   type wrapResponseRaw;
   let wrapResponseConverter: Js.Dict.t(Js.Dict.t(Js.Dict.t(string))) = [%raw
-    {json| {"__root":{"createModule":{"n":""},"createModule_result":{"n":""},"createModule_result_order":{"n":""}}} |json}
+    {json| {"__root":{"updateModule":{"n":""},"updateModule_result":{"n":""},"updateModule_result_order":{"n":""}}} |json}
   ];
   let wrapResponseConverterMap = ();
   let convertWrapResponse = v =>
@@ -38,7 +39,7 @@ module Internal = {
 
   type responseRaw;
   let responseConverter: Js.Dict.t(Js.Dict.t(Js.Dict.t(string))) = [%raw
-    {json| {"__root":{"createModule":{"n":""},"createModule_result":{"n":""},"createModule_result_order":{"n":""}}} |json}
+    {json| {"__root":{"updateModule":{"n":""},"updateModule_result":{"n":""},"updateModule_result_order":{"n":""}}} |json}
   ];
   let responseConverterMap = ();
   let convertResponse = v =>
@@ -50,7 +51,7 @@ module Internal = {
       );
 
   let variablesConverter: Js.Dict.t(Js.Dict.t(Js.Dict.t(string))) = [%raw
-    {json| {"__root":{"input":{"r":"CreateModuleInput"}},"CreateModuleInput":{"inputData":{"r":"ModuleInput"}},"ModuleInput":{"order":{"n":""}}} |json}
+    {json| {"__root":{"input":{"r":"UpdateModuleInput"}},"ModuleInputUpdate":{"categoryId":{"n":""},"description":{"n":""},"name":{"n":""},"order":{"n":""}},"UpdateModuleInput":{"inputData":{"r":"ModuleInputUpdate"}}} |json}
   ];
   let variablesConverterMap = ();
   let convertVariables = v =>
@@ -64,34 +65,36 @@ module Internal = {
 
 module Utils = {
   open Types;
-  let make_moduleInput =
-      (~categoryId, ~description, ~name, ~order=?, ()): moduleInput => {
+  let make_moduleInputUpdate =
+      (~categoryId=?, ~description=?, ~id, ~name=?, ~order=?, ())
+      : moduleInputUpdate => {
     categoryId,
     description,
+    id,
     name,
     order,
   };
 
-  let make_createModuleInput = (~inputData): createModuleInput => {
+  let make_updateModuleInput = (~inputData): updateModuleInput => {
     inputData: inputData,
   };
 
   let makeVariables = (~input): variables => {input: input};
 
-  let make_response_createModule_result =
-      (~id, ~name, ~description, ~order=?, ()): response_createModule_result => {
+  let make_response_updateModule_result =
+      (~id, ~name, ~description, ~order=?, ()): response_updateModule_result => {
     id,
     name,
     description,
     order,
   };
 
-  let make_response_createModule = (~result=?, ()): response_createModule => {
+  let make_response_updateModule = (~result=?, ()): response_updateModule => {
     result: result,
   };
 
-  let makeOptimisticResponse = (~createModule=?, ()): response => {
-    createModule: createModule,
+  let makeOptimisticResponse = (~updateModule=?, ()): response => {
+    updateModule: updateModule,
   };
 };
 
@@ -104,7 +107,7 @@ var v0 = [
     "defaultValue": null,
     "kind": "LocalArgument",
     "name": "input",
-    "type": "CreateModuleInput!"
+    "type": "UpdateModuleInput!"
   }
 ],
 v1 = [
@@ -117,9 +120,9 @@ v1 = [
         "variableName": "input"
       }
     ],
-    "concreteType": "CreateModulePayload",
+    "concreteType": "UpdateModulePayload",
     "kind": "LinkedField",
-    "name": "createModule",
+    "name": "updateModule",
     "plural": false,
     "selections": [
       {
@@ -170,7 +173,7 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "FormModuleCreateMutation",
+    "name": "FormModuleUpdateMutation",
     "selections": (v1/*: any*/),
     "type": "RootMutationType"
   },
@@ -178,15 +181,15 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "FormModuleCreateMutation",
+    "name": "FormModuleUpdateMutation",
     "selections": (v1/*: any*/)
   },
   "params": {
     "id": null,
     "metadata": {},
-    "name": "FormModuleCreateMutation",
+    "name": "FormModuleUpdateMutation",
     "operationKind": "mutation",
-    "text": "mutation FormModuleCreateMutation(\n  $input: CreateModuleInput!\n) {\n  createModule(input: $input) {\n    result {\n      id\n      name\n      description\n      order\n    }\n  }\n}\n"
+    "text": "mutation FormModuleUpdateMutation(\n  $input: UpdateModuleInput!\n) {\n  updateModule(input: $input) {\n    result {\n      id\n      name\n      description\n      order\n    }\n  }\n}\n"
   }
 };
 })() |json}
