@@ -15,6 +15,10 @@ let wrap_enum_CardType: enum_CardType => string =
   | `FutureAddedValue(v) => v;
 
 module Types = {
+  type response_getExam_topics = {
+    id: string,
+    name: string,
+  };
   type response_getExam_cards_answers = {
     content: string,
     id: string,
@@ -36,6 +40,7 @@ module Types = {
     name: string,
     description: string,
     cards: option(array(response_getExam_cards)),
+    topics: option(array(response_getExam_topics)),
   };
 
   type response = {getExam: option(response_getExam)};
@@ -47,7 +52,7 @@ module Types = {
 module Internal = {
   type responseRaw;
   let responseConverter: Js.Dict.t(Js.Dict.t(Js.Dict.t(string))) = [%raw
-    {json| {"__root":{"getExam":{"n":""},"getExam_cards":{"n":""},"getExam_cards_type_":{"e":"enum_CardType"},"getExam_cards_rationale":{"n":""},"getExam_cards_choices":{"n":""},"getExam_cards_answers":{"n":""}}} |json}
+    {json| {"__root":{"getExam":{"n":""},"getExam_cards":{"n":""},"getExam_cards_type_":{"e":"enum_CardType"},"getExam_cards_rationale":{"n":""},"getExam_cards_choices":{"n":""},"getExam_cards_answers":{"n":""},"getExam_topics":{"n":""}}} |json}
   ];
   let responseConverterMap = {"enum_CardType": unwrap_enum_CardType};
   let convertResponse = v =>
@@ -97,7 +102,14 @@ v1 = {
   "name": "id",
   "storageKey": null
 },
-v2 = [
+v2 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "name",
+  "storageKey": null
+},
+v3 = [
   {
     "alias": null,
     "args": null,
@@ -107,7 +119,7 @@ v2 = [
   },
   (v1/*: any*/)
 ],
-v3 = [
+v4 = [
   {
     "alias": null,
     "args": [
@@ -123,13 +135,7 @@ v3 = [
     "plural": false,
     "selections": [
       (v1/*: any*/),
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "name",
-        "storageKey": null
-      },
+      (v2/*: any*/),
       {
         "alias": null,
         "args": null,
@@ -174,7 +180,7 @@ v3 = [
             "kind": "LinkedField",
             "name": "choices",
             "plural": true,
-            "selections": (v2/*: any*/),
+            "selections": (v3/*: any*/),
             "storageKey": null
           },
           {
@@ -184,9 +190,22 @@ v3 = [
             "kind": "LinkedField",
             "name": "answers",
             "plural": true,
-            "selections": (v2/*: any*/),
+            "selections": (v3/*: any*/),
             "storageKey": null
           }
+        ],
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "concreteType": "Topic",
+        "kind": "LinkedField",
+        "name": "topics",
+        "plural": true,
+        "selections": [
+          (v1/*: any*/),
+          (v2/*: any*/)
         ],
         "storageKey": null
       }
@@ -200,7 +219,7 @@ return {
     "kind": "Fragment",
     "metadata": null,
     "name": "GetExamQuery",
-    "selections": (v3/*: any*/),
+    "selections": (v4/*: any*/),
     "type": "RootQueryType"
   },
   "kind": "Request",
@@ -208,14 +227,14 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
     "name": "GetExamQuery",
-    "selections": (v3/*: any*/)
+    "selections": (v4/*: any*/)
   },
   "params": {
     "id": null,
     "metadata": {},
     "name": "GetExamQuery",
     "operationKind": "query",
-    "text": "query GetExamQuery(\n  $id: ID!\n) {\n  getExam(id: $id) {\n    id\n    name\n    description\n    cards {\n      id\n      question\n      type_: type\n      rationale\n      choices {\n        content\n        id\n      }\n      answers {\n        content\n        id\n      }\n    }\n  }\n}\n"
+    "text": "query GetExamQuery(\n  $id: ID!\n) {\n  getExam(id: $id) {\n    id\n    name\n    description\n    cards {\n      id\n      question\n      type_: type\n      rationale\n      choices {\n        content\n        id\n      }\n      answers {\n        content\n        id\n      }\n    }\n    topics {\n      id\n      name\n    }\n  }\n}\n"
   }
 };
 })() |json}

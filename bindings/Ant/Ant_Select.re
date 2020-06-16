@@ -53,6 +53,7 @@ external make:
     ~loading: bool=?,
     ~bordered: bool=?,
     ~className: string=?,
+    ~style: Js.t('h)=?,
     ~children: 'f
   ) =>
   React.element =
