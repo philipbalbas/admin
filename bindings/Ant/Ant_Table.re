@@ -44,16 +44,62 @@ type expandable('a) = {
 
 let defaultExpandable = {
   childrenColumnName: None,
-  defaultExpandAllRows: None,
+  defaultExpandAllRows: Some(false),
   defaultExpandedRowKeys: None,
   expandIcon: None,
   expandIconColumnIndex: None,
   expandedRowKeys: None,
   expandedRowRender: None,
-  expandRowByClick: None,
+  expandRowByClick: Some(true),
   indentSize: None,
   rowExpandable: None,
 };
+
+module RowSelectionType: {
+  type t = pri string;
+  let checkbox: t;
+  let radio: t;
+} = {
+  type t = string;
+  [@bs.inline]
+  let checkbox = "checkbox";
+  [@bs.inline]
+  let radio = "radio";
+};
+
+type rowSelection('record, 'a, 'b, 'c) = {
+  columnWidth: option(string),
+  columnTitle: option(React.element),
+  fixed: option(bool),
+  getCheckboxProps: option('record => unit),
+  hideSelectAll: option(bool),
+  renderCell: option((bool, 'record, int, Dom.element) => React.element),
+  selectedRowKeys: option(array(string)),
+  // selections:   "object[]|boolean",,
+  type_: option(RowSelectionType.t),
+  onChange: option((array(string), array('record)) => unit),
+  onSelect:
+    option(('record, bool, array('record), ReactEvent.Mouse.t) => unit),
+  onSelectAll: option((bool, array('record), array('record)) => unit),
+  onSelectInvert: option(array(string) => unit),
+};
+
+let defaultRowSelection = {
+  columnWidth: Some("60px"),
+  columnTitle: None,
+  fixed: None,
+  getCheckboxProps: None,
+  hideSelectAll: Some(false),
+  renderCell: None,
+  selectedRowKeys: None,
+  type_: Some(RowSelectionType.checkbox),
+  onChange: None,
+  onSelect: None,
+  onSelectAll: None,
+  onSelectInvert: None,
+};
+
+type rowEvents = {onClick: option(ReactEvent.Mouse.t => unit)};
 
 [@bs.module "antd"] [@react.component]
 external make:
@@ -69,7 +115,7 @@ external make:
     ~locale: 'd=?,
     ~pagination: bool=?,
     // ~rowClassName: Function(record, index):string=?,
-    // ~rowKey: string|Function(record):string=?,
+    ~rowKey: Js.t('h) => string=?,
     ~rowSelection: 'f=?,
     ~scroll: 'g=?,
     ~showHeader: bool=?,
@@ -78,7 +124,7 @@ external make:
     ~title: 'd => React.element=?,
     // ~onChange: Function(pagination, filters, sorter, extra: { currentDataSource: [] })=?,
     // ~onHeaderRow: Function(column, index)=?,
-    // ~onRow: Function(record, index)=?,
+    ~onRow: ('i, int) => rowEvents=?,
     // ~getPopupContainer: (triggerNode) => HTMLElement=?
     ~sortDirections: [@bs.string] [ | `ascend | `descend]=?,
     ~showSorterTooltip: bool=?
