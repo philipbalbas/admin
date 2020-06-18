@@ -179,7 +179,7 @@ type Exam implements Node {
 }
 
 input ExamCardsUpsertInput {
-  cardIds: [ID]!
+  cardIds: [ID!]!
   examId: ID!
 }
 

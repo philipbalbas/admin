@@ -22,6 +22,7 @@ let wrap_enum_ExamType: enum_ExamType => string =
   | `FutureAddedValue(v) => v;
 
 module Types = {
+  type response_getExam_cards = {key: string};
   type response_getExam_topics = {id: string};
   type response_getExam = {
     name: string,
@@ -34,6 +35,7 @@ module Types = {
     ],
     order: option(int),
     topics: option(array(response_getExam_topics)),
+    cards: option(array(response_getExam_cards)),
   };
 
   type response = {getExam: option(response_getExam)};
@@ -45,7 +47,7 @@ module Types = {
 module Internal = {
   type responseRaw;
   let responseConverter: Js.Dict.t(Js.Dict.t(Js.Dict.t(string))) = [%raw
-    {json| {"__root":{"getExam":{"n":""},"getExam_type_":{"e":"enum_ExamType"},"getExam_order":{"n":""},"getExam_topics":{"n":""}}} |json}
+    {json| {"__root":{"getExam":{"n":""},"getExam_type_":{"e":"enum_ExamType"},"getExam_order":{"n":""},"getExam_topics":{"n":""},"getExam_cards":{"n":""}}} |json}
   ];
   let responseConverterMap = {"enum_ExamType": unwrap_enum_ExamType};
   let convertResponse = v =>
@@ -141,6 +143,13 @@ v7 = {
     (v6/*: any*/)
   ],
   "storageKey": null
+},
+v8 = {
+  "alias": "key",
+  "args": null,
+  "kind": "ScalarField",
+  "name": "id",
+  "storageKey": null
 };
 return {
   "fragment": {
@@ -161,7 +170,19 @@ return {
           (v3/*: any*/),
           (v4/*: any*/),
           (v5/*: any*/),
-          (v7/*: any*/)
+          (v7/*: any*/),
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "Card",
+            "kind": "LinkedField",
+            "name": "cards",
+            "plural": true,
+            "selections": [
+              (v8/*: any*/)
+            ],
+            "storageKey": null
+          }
         ],
         "storageKey": null
       }
@@ -187,6 +208,19 @@ return {
           (v4/*: any*/),
           (v5/*: any*/),
           (v7/*: any*/),
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "Card",
+            "kind": "LinkedField",
+            "name": "cards",
+            "plural": true,
+            "selections": [
+              (v8/*: any*/),
+              (v6/*: any*/)
+            ],
+            "storageKey": null
+          },
           (v6/*: any*/)
         ],
         "storageKey": null
@@ -198,7 +232,7 @@ return {
     "metadata": {},
     "name": "FormExamQuery",
     "operationKind": "query",
-    "text": "query FormExamQuery(\n  $id: ID!\n) {\n  getExam(id: $id) {\n    name\n    description\n    type_: type\n    order\n    topics {\n      id\n    }\n    id\n  }\n}\n"
+    "text": "query FormExamQuery(\n  $id: ID!\n) {\n  getExam(id: $id) {\n    name\n    description\n    type_: type\n    order\n    topics {\n      id\n    }\n    cards {\n      key: id\n      id\n    }\n    id\n  }\n}\n"
   }
 };
 })() |json}

@@ -59,6 +59,19 @@ module UpsertExamTopicsMutation = [%relay.mutation
   |}
 ];
 
+module UpsertExamCardsMutation = [%relay.mutation
+  {|
+    mutation FormExamUpsertCardsMutation($input: UpsertExamCardsInput!) {
+      upsertExamCards(input: $input) {
+        result {
+          id
+          name
+        }
+      }
+    }
+|}
+];
+
 module ExamQuery = [%relay.query
   {|
     query FormExamQuery($id: ID!) {
@@ -70,9 +83,25 @@ module ExamQuery = [%relay.query
         topics {
           id
         }
+        cards {
+          key: id
+        }
       }
     }
-|}
+  |}
+];
+
+module CardsQuery = [%relay.query
+  {|
+    query FormExamCardsQuery($categoryId: ID!) {
+      listCards(filter: {
+        categoryId: $categoryId
+      }) {
+        key: id
+        question
+      }
+    }
+  |}
 ];
 
 type mutationType = [ | `CREATE | `UPDATE];
@@ -84,6 +113,42 @@ type state = {
   type_: FormExamCreateMutation_graphql.enum_ExamType,
   order: option(int),
   topicIds: array(string),
+  cardIds: array(string),
+};
+module CardsTableTransfer = {
+  [@react.component]
+  let make = (~dataSource, ~initTargetKeys, ~onChange=?) => {
+    let (targetKeys, setTargetKeys) = useState(_ => initTargetKeys);
+
+    useEffect1(
+      () => {
+        switch (onChange) {
+        | Some(onChange) => onChange(targetKeys)
+        | None => ()
+        };
+        Some(() => ());
+      },
+      [|targetKeys|],
+    );
+
+    let columns:
+      array(Table.column(string, CardsQuery.Types.response_listCards)) = [|
+      {
+        title: "Questions",
+        dataIndex: [|"question"|],
+        key: "question",
+        render: None,
+      },
+    |];
+
+    <TableTransfer
+      dataSource
+      titles=[|"Cards"->string, "Active"->string|]
+      targetKeys
+      columns
+      onChange={(nextTargetKeys, _, _) => {setTargetKeys(nextTargetKeys)}}
+    />;
+  };
 };
 
 [@react.component]
@@ -91,9 +156,9 @@ let make = (~categoryId="", ~examId="", ~mutationType: mutationType) => {
   let (createExam, isCreatingExam) = CreateExamMutation.use();
   let (updateExam, isUpdatingExam) = UpdateExamMutation.use();
   let (upsertTopics, isUpsertingTopics) = UpsertExamTopicsMutation.use();
+  let (upsertCards, isUpsertingCards) = UpsertExamCardsMutation.use();
 
-  let form = Form.useForm()->Js.Array.unsafe_get(0);
-
+  let (form, _) = Form.useForm();
   let examQueryData = ExamQuery.use(~variables={id: examId}, ());
 
   let topicsQueryData =
@@ -104,6 +169,15 @@ let make = (~categoryId="", ~examId="", ~mutationType: mutationType) => {
       (),
     );
 
+  let cardsQueryData =
+    CardsQuery.use(~variables={categoryId: categoryId}, ());
+
+  let cards =
+    switch (cardsQueryData.listCards) {
+    | Some(cards) => cards
+    | None => [||]
+    };
+
   let exam =
     switch (examQueryData.getExam) {
     | Some(exam) => exam
@@ -113,8 +187,14 @@ let make = (~categoryId="", ~examId="", ~mutationType: mutationType) => {
         type_: `PRACTICE,
         order: None,
         topics: None,
+        cards: None,
       }
     };
+
+  let examCardIds =
+    exam.cards
+    ->Belt.Option.mapWithDefault([||], cards => cards)
+    ->Belt.Array.map(card => card.key);
 
   let topics =
     switch (topicsQueryData.listTopics) {
@@ -220,7 +300,20 @@ let make = (~categoryId="", ~examId="", ~mutationType: mutationType) => {
                 (),
               )
               |> ignore;
-              resetFields();
+
+              upsertCards(
+                ~variables={
+                  input: {
+                    inputData: {
+                      cardIds: state.cardIds,
+                      examId: exam.id,
+                    },
+                  },
+                },
+                (),
+              )
+              |> ignore;
+
             | None => ()
             }
           | None => ()
@@ -317,13 +410,18 @@ let make = (~categoryId="", ~examId="", ~mutationType: mutationType) => {
          )}
       </Select>
     </Form.Item>
+    {mutationType == `UPDATE
+       ? <Form.Item label={"Cards"->string} name="cardIds">
+           <CardsTableTransfer dataSource=cards initTargetKeys=examCardIds />
+         </Form.Item>
+       : React.null}
     <Form.Item wrapperCol={"offset": 4, "span": 20}>
       <Button loading className="mr-4" _type=`primary htmlType="submit">
         buttonText->string
       </Button>
-      <Next.Link href="/[categoryId]/exams" _as={j|/$categoryId/exams|j}>
-        <Button loading> "Cancel"->string </Button>
-      </Next.Link>
+      <Button loading onClick={_ => Next.Router.router |> Next.Router.back()}>
+        "Cancel"->string
+      </Button>
     </Form.Item>
   </Form>;
 };

@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react'
 import isHotkey from 'is-hotkey'
 import { Editable, withReact, useSlate, Slate } from 'slate-react'
-import { Editor, Transforms, createEditor, Span, Node, Text } from 'slate'
+import { Editor, Transforms, createEditor, Span, Node, Text, Element as E } from 'slate'
 import { withHistory } from 'slate-history'
 import { BoldOutlined, ItalicOutlined, UnderlineOutlined } from '@ant-design/icons'
 import { FormatQuote, FormatBold, FormatItalic, FormatUnderlined, LooksOne, LooksTwo, FormatListNumbered, FormatListBulleted, FormatAlignLeft } from '@material-ui/icons'
@@ -38,15 +38,15 @@ const serialize = node => {
 
   switch (node.type) {
     case 'heading-one':
-      return `<h1 ${style}>${children}</h1>`
+      return `<h1${style}>${children}</h1>`
     case 'heading-two':
-      return `<h2 ${style}>${children}</h2>`
+      return `<h2${style}>${children}</h2>`
     case 'quote':
       return `<blockquote ${style}><p>${children}</p></blockquote>`
     case 'paragraph':
-      return `<p ${style}>${children}</p>`
+      return `<p${style}>${children}</p>`
     case 'link':
-      return `<a ${style} href="${escapeHtml(node.url)}">${children}</a>`
+      return `<a${style} href="${escapeHtml(node.url)}">${children}</a>`
     default:
       return children
   }
@@ -97,14 +97,15 @@ const SlateEditor = ({ readOnly = false, defaultValue, onChange }) => {
 
   return (
     <div
-      className="border border-solid border-gray-400"
+      className={readOnly ? "" : "border border-solid border-gray-400"}
     >
       <Slate
         editor={editor}
         value={value}
         onChange={value => {
           let htmlString = value.map(n => serialize(n)).join('')
-          onChange(htmlString)
+          let returnedHtmlString = htmlString === "<p></p>" ? undefined : htmlString
+          onChange(returnedHtmlString)
           setValue(value)
         }}
       >
@@ -121,7 +122,7 @@ const SlateEditor = ({ readOnly = false, defaultValue, onChange }) => {
           <AlignButton format="center" icon={<FormatAlignLeft />} />
         </Toolbar>}
         <Editable
-          className="border border-solid p-2 hover:border-blue-400 focus:border-blue-600 transition-colors"
+          className={readOnly ? "" : "border border-solid p-2 hover:border-blue-400 focus:border-blue-600 transition-colors"}
           renderElement={renderElement}
           renderLeaf={renderLeaf}
           placeholder="Enter content..."
