@@ -97,6 +97,8 @@ module Router = {
   [@bs.module "next/router"] external router: t = "default";
 
   [@bs.send.pipe: t] external push: string => unit = "push";
+  [@bs.send.pipe: t] external back: unit => unit = "back";
+  [@bs.send.pipe: t] external reload: unit => unit = "reload";
 
   [@bs.module "next/router"]
   external useRouter: unit => router('a) = "useRouter";
@@ -112,3 +114,11 @@ module Error = {
   external make: (~statusCode: int, ~children: React.element) => React.element =
     "default";
 };
+
+type dynamicOptions = {
+  ssr: bool,
+  loading: unit => React.element,
+};
+
+[@bs.module "next/dynamic"]
+external dynamic: (string, dynamicOptions) => React.element = "default";
