@@ -88,7 +88,9 @@ let make = (~categoryId="") => {
               | None => [||]
               };
 
-            exams->Belt.Array.map(exam => <Tags> exam.name->string </Tags>)
+            exams->Belt.Array.map(exam =>
+              <Tag key={exam.id}> exam.name->string </Tag>
+            )
             |> array;
           },
         ),

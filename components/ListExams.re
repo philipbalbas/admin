@@ -83,7 +83,7 @@ let make = (~categoryId="") => {
                 | None => [||]
                 };
               topics->Belt.Array.map(topic =>
-                <Tags> topic.name->string </Tags>
+                <Tag key={topic.id}> topic.name->string </Tag>
               )
               |> array;
             },

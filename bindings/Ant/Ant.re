@@ -14,5 +14,5 @@ module Spin = Ant_Spin;
 module Switch = Ant_Switch;
 module Select = Ant_Select;
 module Table = Ant_Table;
-module Tags = Ant_Tag;
+module Tag = Ant_Tag;
 module Transfer = Ant_Transfer;
