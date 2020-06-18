@@ -2,7 +2,7 @@
 
 module Types = {
   type response_listChoices = {
-    id: string,
+    key: string,
     content: string,
   };
 
@@ -45,40 +45,41 @@ type operationType = ReasonRelay.queryNode;
 
 let node: operationType = [%raw
   {json| (function(){
-var v0 = [
-  {
-    "alias": null,
-    "args": null,
-    "concreteType": "Choice",
-    "kind": "LinkedField",
-    "name": "listChoices",
-    "plural": true,
-    "selections": [
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "id",
-        "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "content",
-        "storageKey": null
-      }
-    ],
-    "storageKey": null
-  }
-];
+var v0 = {
+  "alias": "key",
+  "args": null,
+  "kind": "ScalarField",
+  "name": "id",
+  "storageKey": null
+},
+v1 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "content",
+  "storageKey": null
+};
 return {
   "fragment": {
     "argumentDefinitions": [],
     "kind": "Fragment",
     "metadata": null,
     "name": "FormCardChoicesQuery",
-    "selections": (v0/*: any*/),
+    "selections": [
+      {
+        "alias": null,
+        "args": null,
+        "concreteType": "Choice",
+        "kind": "LinkedField",
+        "name": "listChoices",
+        "plural": true,
+        "selections": [
+          (v0/*: any*/),
+          (v1/*: any*/)
+        ],
+        "storageKey": null
+      }
+    ],
     "type": "RootQueryType"
   },
   "kind": "Request",
@@ -86,14 +87,35 @@ return {
     "argumentDefinitions": [],
     "kind": "Operation",
     "name": "FormCardChoicesQuery",
-    "selections": (v0/*: any*/)
+    "selections": [
+      {
+        "alias": null,
+        "args": null,
+        "concreteType": "Choice",
+        "kind": "LinkedField",
+        "name": "listChoices",
+        "plural": true,
+        "selections": [
+          (v0/*: any*/),
+          (v1/*: any*/),
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "id",
+            "storageKey": null
+          }
+        ],
+        "storageKey": null
+      }
+    ]
   },
   "params": {
     "id": null,
     "metadata": {},
     "name": "FormCardChoicesQuery",
     "operationKind": "query",
-    "text": "query FormCardChoicesQuery {\n  listChoices {\n    id\n    content\n  }\n}\n"
+    "text": "query FormCardChoicesQuery {\n  listChoices {\n    key: id\n    content\n    id\n  }\n}\n"
   }
 };
 })() |json}

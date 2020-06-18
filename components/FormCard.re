@@ -32,7 +32,7 @@ module ChoicesQuery = [%relay.query
   {|
   query FormCardChoicesQuery {
     listChoices {
-      id
+      key: id
       content
     }
   }
@@ -80,6 +80,63 @@ module UpsertCardChoicesMutation = [%relay.mutation
   |}
 ];
 
+module UpsertCardAnswersMutation = [%relay.mutation
+  {|
+  mutation FormCardUpsertAnswersMutation($input: UpsertCardAnswersInput!) {
+    upsertCardAnswers(input: $input) {
+      result {
+        id
+        question
+      }
+    }
+  }
+|}
+];
+
+module ChoicesTableTransfer = {
+  [@react.component]
+  let make = (~dataSource, ~initTargetKeys, ~onChange) => {
+    let (targetKeys, setTargetKeys) = useState(_ => initTargetKeys);
+    let (modalVisible, setModalVisible) = useState(_ => false);
+
+    let onCancel = () => {
+      setModalVisible(_ => false);
+    };
+
+    useEffect1(
+      () => {
+        onChange(targetKeys);
+        Some(() => ());
+      },
+      [|targetKeys|],
+    );
+
+    let columns:
+      array(Table.column(string, ChoicesQuery.Types.response_listChoices)) = [|
+      {
+        title: "Choices",
+        dataIndex: [|"content"|],
+        key: "content",
+        render: None,
+      },
+    |];
+    <div>
+      <TableTransfer
+        dataSource
+        titles=[|"Choices List"->string, "Active Choices"->string|]
+        targetKeys
+        columns
+        onChange={(nextTargetKeys, _, _) => {setTargetKeys(nextTargetKeys)}}
+      />
+      <Button _type=`dashed onClick={_ => {setModalVisible(_ => true)}}>
+        <FontAwesomeIcon icon=FontAwesomeIcon.faPlus />
+        "Create New Choice"->string
+      </Button>
+      <ModalChoiceForm visible=modalVisible onCancel />
+    </div>;
+  };
+};
+
 type cardType = [ | `SINGLE | `MULTIPLE];
 
 [@bs.deriving jsConverter]
@@ -90,16 +147,19 @@ type state = {
   topicId: string,
   examIds: array(string),
   choiceIds: array(string),
+  answerIds: array(string),
 };
 
 [@react.component]
 let make = (~categoryId) => {
-  let (rationaleActive, setRationaleActive) = React.useState(_ => true);
+  let (rationaleActive, setRationaleActive) = useState(_ => true);
+  let (selectedChoiceIds, setSelectedChoiceIds) = useState(_ => [||]);
   let (createCard, isCreatingCard) = CreateCardMutation.use();
   let (upsertExams, isUpsertingExam) = UpsertCardExamsMutation.use();
-  let (upsertChoices, isUpsertingChoice) = UpsertCardChoicesMutation.use();
+  let (upsertChoices, isUpsertingChoices) = UpsertCardChoicesMutation.use();
+  let (upsertAnswers, isUpsertingAnswers) = UpsertCardAnswersMutation.use();
 
-  let form = Form.useForm()->Js.Array.unsafe_get(0);
+  let (form, _) = Form.useForm();
 
   let topicsQueryData =
     TopicsQuery.use(
@@ -149,9 +209,6 @@ let make = (~categoryId) => {
     Fuse.make(choices, {"keys": [|"content"|], "useExtendedSearch": true})
     |> Fuse.search(text);
 
-  // let handleQuestion = text => dispatch(UpdateQuestion(text));
-  // let handleRationale = text => dispatch(UpdateRationale(text));
-
   let resetFields = () => {
     form |> Form.resetFields();
   };
@@ -166,6 +223,7 @@ let make = (~categoryId) => {
             topicId: state.topicId,
             type_: `SINGLE,
             rationale: state.rationale,
+            level: `UNDERSTAND,
           },
         },
       },
@@ -202,6 +260,21 @@ let make = (~categoryId) => {
                 (),
               )
               |> ignore;
+
+              upsertAnswers(
+                ~variables={
+                  input: {
+                    inputData: {
+                      cardId: card.id,
+                      answerIds: state.answerIds,
+                    },
+                  },
+                },
+                (),
+              )
+              |> ignore;
+
+              resetFields();
             | None => ()
             }
           | None => ()
@@ -221,15 +294,34 @@ let make = (~categoryId) => {
     |> ignore;
   };
 
-  let loading = isCreatingCard || isUpsertingExam || isUpsertingChoice;
+  let loading =
+    isCreatingCard
+    || isUpsertingExam
+    || isUpsertingChoices
+    || isUpsertingAnswers;
+
+  let selectedChoices =
+    choices
+    ->Belt.List.fromArray
+    ->Belt.List.keep(choice =>
+        selectedChoiceIds |> Js.Array.includes(choice.key)
+      )
+    ->Belt.List.toArray;
+
+  let handleValidator = (_, values, cb) =>
+    if (Belt.Array.length(values) > 1) {
+      cb("No more than 1 answer");
+    } else {
+      Js.Promise.resolve();
+    };
 
   <Form
     form
     name="card"
     layout=`horizontal
-    labelCol={"span": 8}
-    wrapperCol={"span": 16}
-    initialValues={"type_": `SINGLE}
+    labelCol={"span": 2}
+    wrapperCol={"span": 22}
+    initialValues={"type_": `SINGLE, "choiceIds": [||]}
     onFinish>
     <Form.Item label={<div> "Question"->string </div>} name="question">
       <Slate.Editor />
@@ -271,54 +363,29 @@ let make = (~categoryId) => {
          )}
       </Select>
     </Form.Item>
-    <Form.Item label={<div> "Choices"->string </div>} name="choiceIds">
-      <Select
-        showSearch=true
-        mode=`multiple
-        filterOption={(value, option) => {
-          let res = choiceSearch(value);
-          res->Belt.Array.some(c => {c##item##id == option##key});
-        }}>
-        {choices->Belt.Array.map(choice =>
-           <Select.Option key={choice.id} value={choice.id}>
-             {choice.content}->string
+    <Form.Item label={"Choices"->string} name="choiceIds">
+      <ChoicesTableTransfer
+        dataSource=choices
+        initTargetKeys=[||]
+        onChange={values => setSelectedChoiceIds(_ => values)}
+      />
+    </Form.Item>
+    <Form.Item
+      label={"Answer"->string}
+      name="answerIds"
+      rules=[|{"validator": handleValidator}|]>
+      <Select mode=`multiple>
+        {selectedChoices->Belt.Array.map(choice =>
+           <Select.Option key={choice.key} value={choice.key}>
+             choice.content->string
            </Select.Option>
          )}
       </Select>
     </Form.Item>
-    // <Form.Item label={<div> "Choices"->string </div>} name="choiceIds">
-    //   <Form.List >
-    //     {(fields, {add, remove}) => {
-    //        <div>
-    //          {fields->Belt.Array.mapWithIndex((i, field) =>
-    //             <Spread props=field>
-    //               <Form.Item>
-    //                 <ChoiceDropdown
-    //                   length={Js.Array.length(fields)}
-    //                   field
-    //                   add
-    //                   remove
-    //                 />
-    //               </Form.Item>
-    //             </Spread>
-    //           )
-    //           |> array}
-    //          <Button _type=`dashed onClick={_ => {add()}}>
-    //            <Icons.PlusOutlined />
-    //            "Creaet Choice"->string
-    //          </Button>
-    //        </div>;
-    //      }}
-    //   </Form.List>
-    // </Form.Item>
     <Form.Item label={<div> "Rationale"->string </div>} name="rationale">
-      // {rationaleActive ? <Slate.Editor onChange=handleRationale /> : null}
-      // <Switch
-      //   checked=rationaleActive
-      //   onChange={(value, _e) => handleRationaleToggle(value)}
-      // />
-       <Slate.Editor /> </Form.Item>
-    <Form.Item wrapperCol={"offset": 8, "span": 16}>
+      <Slate.Editor />
+    </Form.Item>
+    <Form.Item wrapperCol={"offset": 2, "span": 22}>
       <Button className="mr-4" _type=`primary htmlType="submit" loading>
         {loading ? "Upating" : "Create"}->string
       </Button>

@@ -14,8 +14,47 @@ let wrap_enum_CardType: enum_CardType => string =
   | `SINGLE => "SINGLE"
   | `FutureAddedValue(v) => v;
 
+type enum_CardLevel = [
+  | `ANALYSE
+  | `APPLY
+  | `CREATE
+  | `EVALUATE
+  | `REMEMBER
+  | `UNDERSTAND
+  | `FutureAddedValue(string)
+];
+
+let unwrap_enum_CardLevel: string => enum_CardLevel =
+  fun
+  | "ANALYSE" => `ANALYSE
+  | "APPLY" => `APPLY
+  | "CREATE" => `CREATE
+  | "EVALUATE" => `EVALUATE
+  | "REMEMBER" => `REMEMBER
+  | "UNDERSTAND" => `UNDERSTAND
+  | v => `FutureAddedValue(v);
+
+let wrap_enum_CardLevel: enum_CardLevel => string =
+  fun
+  | `ANALYSE => "ANALYSE"
+  | `APPLY => "APPLY"
+  | `CREATE => "CREATE"
+  | `EVALUATE => "EVALUATE"
+  | `REMEMBER => "REMEMBER"
+  | `UNDERSTAND => "UNDERSTAND"
+  | `FutureAddedValue(v) => v;
+
 module Types = {
   type cardCreateInput = {
+    level: [
+      | `ANALYSE
+      | `APPLY
+      | `CREATE
+      | `EVALUATE
+      | `REMEMBER
+      | `UNDERSTAND
+      | `FutureAddedValue(string)
+    ],
     question: string,
     rationale: option(string),
     topicId: string,
@@ -63,9 +102,12 @@ module Internal = {
       );
 
   let variablesConverter: Js.Dict.t(Js.Dict.t(Js.Dict.t(string))) = [%raw
-    {json| {"__root":{"input":{"r":"CreateCardInput"}},"CardCreateInput":{"rationale":{"n":""},"type":{"e":"enum_CardType"}},"CreateCardInput":{"inputData":{"r":"CardCreateInput"}}} |json}
+    {json| {"__root":{"input":{"r":"CreateCardInput"}},"CardCreateInput":{"level":{"e":"enum_CardLevel"},"rationale":{"n":""},"type":{"e":"enum_CardType"}},"CreateCardInput":{"inputData":{"r":"CardCreateInput"}}} |json}
   ];
-  let variablesConverterMap = {"enum_CardType": wrap_enum_CardType};
+  let variablesConverterMap = {
+    "enum_CardLevel": wrap_enum_CardLevel,
+    "enum_CardType": wrap_enum_CardType,
+  };
   let convertVariables = v =>
     v
     ->ReasonRelay._convertObj(
@@ -78,7 +120,8 @@ module Internal = {
 module Utils = {
   open Types;
   let make_cardCreateInput =
-      (~question, ~rationale=?, ~topicId, ~type_, ()): cardCreateInput => {
+      (~level, ~question, ~rationale=?, ~topicId, ~type_, ()): cardCreateInput => {
+    level,
     question,
     rationale,
     topicId,
