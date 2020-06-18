@@ -14,3 +14,10 @@ module MinusCircleOutlined = {
     (~onClick: unit => unit=?, ~className: string=?) => React.element =
     "MinusCircleOutlined";
 };
+
+module SettingFilled = {
+  [@bs.module "@ant-design/icons"] [@react.component]
+  external make:
+    (~onClick: unit => unit=?, ~className: string=?) => React.element =
+    "SettingFilled";
+};

@@ -10,7 +10,15 @@ external make:
     ~shape: [@bs.string] [ | `circle | `round]=?,
     ~size: [@bs.string] [ | `small | `large]=?,
     ~target: string=?,
-    ~_type: [@bs.string] [ | `primary | `ghost | `dashed | `danger | `link]=?,
+    ~_type: [@bs.string] [
+              | `primary
+              | `ghost
+              | `dashed
+              | `danger
+              | `link
+              | `default
+            ]
+              =?,
     ~onClick: unit => unit=?,
     ~block: bool=?,
     ~className: string=?,
