@@ -67,7 +67,7 @@ module RowSelectionType: {
   let radio = "radio";
 };
 
-type rowSelection('record, 'a, 'b, 'c) = {
+type rowSelection('record) = {
   columnWidth: option(string),
   columnTitle: option(React.element),
   fixed: option(bool),

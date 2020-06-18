@@ -5,7 +5,7 @@ open Ant;
 let make = (~dataSource, ~targetKeys, ~titles, ~columns, ~onChange) => {
   <Transfer.Render dataSource targetKeys titles onChange>
     {({filteredItems, onItemSelectAll, onItemSelect, selectedKeys}) => {
-       let rowSelection: Table.rowSelection('a, 'b, 'c, 'd) = {
+       let rowSelection: Table.rowSelection('a) = {
          ...Table.defaultRowSelection,
          onSelectAll:
            Some(
@@ -23,11 +23,7 @@ let make = (~dataSource, ~targetKeys, ~titles, ~columns, ~onChange) => {
            ),
          onSelect:
            Some(
-             (item, selected, _, _) => {
-               Js.log2("in onSelect", item);
-
-               onItemSelect(item##key, selected);
-             },
+             (item, selected, _, _) => {onItemSelect(item##key, selected)},
            ),
          selectedRowKeys: Some(selectedKeys),
        };
