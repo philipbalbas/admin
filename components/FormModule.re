@@ -65,7 +65,7 @@ let make = (~categoryId="", ~moduleId="", ~mutationType: mutationType) => {
     | None => {name: "", description: "", order: None}
     };
 
-  let form = Form.useForm()->Js.Array.unsafe_get(0);
+  let (form, _) = Form.useForm();
 
   let resetFields = () => {
     form |> Form.resetFields();

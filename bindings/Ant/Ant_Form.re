@@ -1,9 +1,11 @@
 type t;
 
 [@bs.module "antd"] [@bs.scope "Form"]
-external useForm: unit => array(t) = "useForm";
+external useForm: unit => (t, unit) = "useForm";
 
 [@bs.send.pipe: t] external resetFields: unit => unit = "resetFields";
+[@bs.send.pipe: t] external getFieldValue: string => 'a = "getFieldValue";
+[@bs.send.pipe: t] external submit: unit => unit = "submit";
 
 [@bs.module "antd"] [@react.component]
 external make:
@@ -44,6 +46,8 @@ module Item = {
       ~help: React.element=?,
       ~htmlFor: string=?,
       ~initialValue: string=?,
+      ~isListField: bool=?,
+      ~fieldKey: int=?,
       ~noStyle: bool=?,
       ~label: React.element=?,
       ~labelAlign: [@bs.string] [ | `left | `right]=?,
@@ -67,15 +71,15 @@ module Item = {
 };
 
 module List = {
-  // type field = {
-  //   name: int,
-  //   key: int,
-  //   isListField: bool,
-  //   fieldKey: int,
-  // };
+  type field = {
+    name: int,
+    key: int,
+    isListField: bool,
+    fieldKey: int,
+  };
 
-  type operation('b) = {
-    add: 'b => unit,
+  type operation('a) = {
+    add: 'a => unit,
     remove: int => unit,
     move: unit => unit,
   };
@@ -83,8 +87,8 @@ module List = {
   [@bs.module "antd"] [@bs.scope "Form"] [@react.component]
   external make:
     (
-      ~name: string=?,
-      ~children: (array('a), operation('b)) => React.element
+      ~name: string,
+      ~children: (array(field), operation('a)) => React.element
     ) =>
     React.element =
     "List";

@@ -108,7 +108,7 @@ let make =
     | `UPDATE => topic.subject.id
     };
 
-  let form = Form.useForm()->Js.Array.unsafe_get(0);
+  let (form, _) = Form.useForm();
 
   let resetFields = () => {
     form |> Form.resetFields();
