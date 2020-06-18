@@ -10,6 +10,7 @@ type Card implements Node {
 
   """The ID of an object"""
   id: ID!
+  level: CardLevel!
   question: String!
   rationale: String
   topic: Topic!
@@ -22,6 +23,7 @@ input CardChoicesUpsertInput {
 }
 
 input CardCreateInput {
+  level: CardLevel!
   question: String!
   rationale: String
   topicId: ID!
@@ -36,7 +38,17 @@ input CardExamsUpsertInput {
 input CardFilter {
   categoryId: ID
   examId: ID
+  level: CardLevel
   topicId: ID
+}
+
+enum CardLevel {
+  ANALYSE
+  APPLY
+  CREATE
+  EVALUATE
+  REMEMBER
+  UNDERSTAND
 }
 
 enum CardType {

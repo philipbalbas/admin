@@ -14,10 +14,52 @@ let wrap_enum_CardType: enum_CardType => string =
   | `SINGLE => "SINGLE"
   | `FutureAddedValue(v) => v;
 
+type enum_CardLevel = [
+  | `ANALYSE
+  | `APPLY
+  | `CREATE
+  | `EVALUATE
+  | `REMEMBER
+  | `UNDERSTAND
+  | `FutureAddedValue(string)
+];
+
+let unwrap_enum_CardLevel: string => enum_CardLevel =
+  fun
+  | "ANALYSE" => `ANALYSE
+  | "APPLY" => `APPLY
+  | "CREATE" => `CREATE
+  | "EVALUATE" => `EVALUATE
+  | "REMEMBER" => `REMEMBER
+  | "UNDERSTAND" => `UNDERSTAND
+  | v => `FutureAddedValue(v);
+
+let wrap_enum_CardLevel: enum_CardLevel => string =
+  fun
+  | `ANALYSE => "ANALYSE"
+  | `APPLY => "APPLY"
+  | `CREATE => "CREATE"
+  | `EVALUATE => "EVALUATE"
+  | `REMEMBER => "REMEMBER"
+  | `UNDERSTAND => "UNDERSTAND"
+  | `FutureAddedValue(v) => v;
+
 module Types = {
   type cardFilter = {
     categoryId: option(string),
     examId: option(string),
+    level:
+      option(
+        [
+          | `ANALYSE
+          | `APPLY
+          | `CREATE
+          | `EVALUATE
+          | `REMEMBER
+          | `UNDERSTAND
+          | `FutureAddedValue(string)
+        ],
+      ),
     topicId: option(string),
   };
   type response_listCards_exams = {
@@ -67,9 +109,9 @@ module Internal = {
       );
 
   let variablesConverter: Js.Dict.t(Js.Dict.t(Js.Dict.t(string))) = [%raw
-    {json| {"__root":{"filter":{"n":"","r":"CardFilter"}},"CardFilter":{"categoryId":{"n":""},"examId":{"n":""},"topicId":{"n":""}}} |json}
+    {json| {"__root":{"filter":{"n":"","r":"CardFilter"}},"CardFilter":{"categoryId":{"n":""},"examId":{"n":""},"level":{"n":"","e":"enum_CardLevel"},"topicId":{"n":""}}} |json}
   ];
-  let variablesConverterMap = ();
+  let variablesConverterMap = {"enum_CardLevel": wrap_enum_CardLevel};
   let convertVariables = v =>
     v
     ->ReasonRelay._convertObj(
@@ -83,9 +125,11 @@ type preloadToken;
 
 module Utils = {
   open Types;
-  let make_cardFilter = (~categoryId=?, ~examId=?, ~topicId=?, ()): cardFilter => {
+  let make_cardFilter =
+      (~categoryId=?, ~examId=?, ~level=?, ~topicId=?, ()): cardFilter => {
     categoryId,
     examId,
+    level,
     topicId,
   };
 

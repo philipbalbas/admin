@@ -43,6 +43,7 @@ let make = (~categoryId="") => {
     categoryId: Some(categoryId),
     examId: None,
     topicId: None,
+    level: None,
   };
 
   let queryData = Query.use(~variables={filter: Some(filter)}, ());
