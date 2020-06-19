@@ -8,3 +8,4 @@ npm-debug.log
 .yarn/
 *.bs.js
 /.next
+.env
