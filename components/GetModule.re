@@ -35,7 +35,7 @@ let make = (~categoryId, ~moduleId) => {
     let columns:
       array(
         Table.column(
-          string,
+          'a,
           GetCategoryQuery_graphql.Types.response_getCategory_modules,
         ),
       ) = [|
@@ -105,7 +105,7 @@ let make = (~categoryId, ~moduleId) => {
           </Button>
         </Link>
       </div>
-      <Table columns dataSource pagination=false />
+      <Table columns dataSource pagination=false rowKey={item => item##id} />
     </>;
   | None => React.null
   };

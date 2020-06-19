@@ -33,7 +33,7 @@ let make = (~id="") => {
     let columns:
       array(
         Table.column(
-          string,
+          'a,
           ListModulesQuery_graphql.Types.response_getCategory_modules,
         ),
       ) = [|
@@ -102,7 +102,7 @@ let make = (~id="") => {
           </Button>
         </Link>
       </div>
-      <Table columns dataSource pagination=false />
+      <Table columns dataSource pagination=false rowKey={item => item##id} />
     </>;
   | None => null
   };

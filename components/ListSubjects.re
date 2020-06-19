@@ -109,6 +109,6 @@ let make = (~categoryId="") => {
         </Button>
       </Link>
     </div>
-    <Table dataSource columns pagination=false />
+    <Table dataSource columns pagination=false rowKey={item => item##id} />
   </>;
 };

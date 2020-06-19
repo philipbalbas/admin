@@ -128,7 +128,12 @@ let make = (~categoryId="") => {
           </Button>
         </Link>
       </div>
-      <Table columns dataSource=exams pagination=false />
+      <Table
+        columns
+        dataSource=exams
+        pagination=false
+        rowKey={item => item##id}
+      />
     </>;
   | None => React.null
   };

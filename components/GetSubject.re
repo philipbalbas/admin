@@ -34,7 +34,7 @@ let make = (~subjectId, ~categoryId) => {
     let columns:
       array(
         Table.column(
-          string,
+          'a,
           GetSubjectQuery_graphql.Types.response_getSubject_topics,
         ),
       ) = [|
@@ -107,7 +107,7 @@ let make = (~subjectId, ~categoryId) => {
           </Button>
         </Link>
       </div>
-      <Table dataSource columns pagination=false />
+      <Table dataSource columns pagination=false rowKey={item => item##id} />
     </>;
   | None => <div> "Subject does not exist"->string </div>
   };

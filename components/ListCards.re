@@ -135,7 +135,12 @@ let make = (~categoryId="") => {
       | None => [||]
       };
 
-    <Table columns=choiceColumn dataSource pagination=false />;
+    <Table
+      columns=choiceColumn
+      dataSource
+      pagination=false
+      rowKey={item => item##id}
+    />;
   };
 
   <>
@@ -155,6 +160,7 @@ let make = (~categoryId="") => {
       dataSource
       columns
       pagination=false
+      rowKey={item => item##id}
       expandable={
         ...Table.defaultExpandable,
         expandedRowRender: Some(expandedRowRender),
