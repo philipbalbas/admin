@@ -52,14 +52,22 @@ let make = (~id="") => {
               </Link>;
             },
           ),
+        onCell: None,
       },
       {
         title: "Description",
         dataIndex: [|"description"|],
         key: "description",
         render: None,
+        onCell: None,
       },
-      {title: "Order", dataIndex: [|"order"|], key: "order", render: None},
+      {
+        title: "Order",
+        dataIndex: [|"order"|],
+        key: "order",
+        render: None,
+        onCell: None,
+      },
       {
         title: "",
         dataIndex: [||],
@@ -82,6 +90,7 @@ let make = (~id="") => {
               </>;
             },
           ),
+        onCell: None,
       },
     |];
 

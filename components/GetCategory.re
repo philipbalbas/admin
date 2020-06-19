@@ -50,12 +50,14 @@ let make = (~id="") => {
                 </Link>;
               },
             ),
+          onCell: None,
         },
         {
           title: "Description",
           dataIndex: [|"description"|],
           key: "description",
           render: None,
+          onCell: None,
         },
         // {title: "", dataIndex: "", key: "description", render: None},
       |];

@@ -1,8 +1,10 @@
+type rowEvents = {onClick: option(ReactEvent.Mouse.t => unit)};
+
 type column('a, 'b) = {
   title: string,
   dataIndex: array(string),
   key: string,
-  render: option(('a, 'b, int) => React.element) ///
+  render: option(('a, 'b, int) => React.element), ///
   // align: option([ | `left | `right | `center]),
   // ellipsis: option(bool),
   // filters: ColumnFilterItem[];
@@ -22,7 +24,7 @@ type column('a, 'b) = {
   // sortOrder: SortOrder | boolean;
   // children: ColumnProps<T>[];
   // onCellClick: (record: T, event: Event) => void;
-  // onCell: (record: T, rowIndex: number) => TableEventListeners;
+  onCell: option(('b, int) => rowEvents),
   // onHeaderCell: (props: ColumnProps<T>) => TableEventListeners;
   // sortDirections: SortOrder[];
 };
@@ -98,8 +100,6 @@ let defaultRowSelection = {
   onSelectAll: None,
   onSelectInvert: None,
 };
-
-type rowEvents = {onClick: option(ReactEvent.Mouse.t => unit)};
 
 [@bs.module "antd"] [@react.component]
 external make:

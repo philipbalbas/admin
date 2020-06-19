@@ -138,6 +138,7 @@ module CardsTableTransfer = {
         dataIndex: [|"question"|],
         key: "question",
         render: None,
+        onCell: None,
       },
     |];
 

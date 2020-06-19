@@ -1,4 +1,3 @@
-open React;
 open Ant;
 
 [@react.component]

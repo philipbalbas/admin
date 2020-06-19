@@ -61,12 +61,14 @@ let make = (~categoryId="") => {
       dataIndex: [|"question"|],
       key: "question",
       render: None,
+      onCell: None,
     },
     {
       title: "Rationale",
       dataIndex: [|"rationale"|],
       key: "rationale",
       render: None,
+      onCell: None,
     },
     {
       title: "Type",
@@ -74,8 +76,15 @@ let make = (~categoryId="") => {
       key: "type_",
       render:
         Some((_, row, _) => {stringifyCardType(row.type_)->React.string}),
+      onCell: None,
     },
-    {title: "Topic", dataIndex: [|"topic", "name"|], key: "", render: None},
+    {
+      title: "Topic",
+      dataIndex: [|"topic", "name"|],
+      key: "",
+      render: None,
+      onCell: None,
+    },
     {
       title: "Exams",
       dataIndex: [|"exams"|],
@@ -95,6 +104,7 @@ let make = (~categoryId="") => {
             |> array;
           },
         ),
+      onCell: None,
     },
   |];
 
@@ -126,6 +136,7 @@ let make = (~categoryId="") => {
               <div className> text->string </div>;
             },
           ),
+        onCell: None,
       },
     |];
 

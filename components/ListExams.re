@@ -56,20 +56,29 @@ let make = (~categoryId="") => {
               </Link>;
             },
           ),
+        onCell: None,
       },
       {
         title: "Type",
         dataIndex: [|"type_"|],
         key: "id",
         render: Some((text, _, _) => stringifyExamType(text)->React.string),
+        onCell: None,
       },
       {
         title: "Description",
         dataIndex: [|"description"|],
         key: "description",
         render: None,
+        onCell: None,
       },
-      {title: "Order", dataIndex: [|"order"|], key: "order", render: None},
+      {
+        title: "Order",
+        dataIndex: [|"order"|],
+        key: "order",
+        render: None,
+        onCell: None,
+      },
       {
         title: "Topics",
         dataIndex: [|"topics"|],
@@ -88,6 +97,7 @@ let make = (~categoryId="") => {
               |> array;
             },
           ),
+        onCell: None,
       },
       {
         title: "",
@@ -111,6 +121,7 @@ let make = (~categoryId="") => {
               </>;
             },
           ),
+        onCell: None,
       },
     |];
 

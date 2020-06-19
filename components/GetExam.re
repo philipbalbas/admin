@@ -73,20 +73,29 @@ let make = (~examId="", ~categoryId) => {
         dataIndex: [|"question"|],
         key: "question",
         render: None,
+        onCell: None,
       },
       {
         title: "Rationale",
         dataIndex: [|"rationale"|],
         key: "rationale",
         render: None,
+        onCell: None,
       },
-      {title: "Level", dataIndex: [|"level"|], key: "level", render: None},
+      {
+        title: "Level",
+        dataIndex: [|"level"|],
+        key: "level",
+        render: None,
+        onCell: None,
+      },
       {
         title: "Type",
         dataIndex: [|"type_"|],
         key: "type_",
         render:
           Some((_, row, _) => {stringifyCardType(row.type_)->React.string}),
+        onCell: None,
       },
     |];
 
@@ -118,6 +127,7 @@ let make = (~examId="", ~categoryId) => {
                 <div className> text->string </div>;
               },
             ),
+          onCell: None,
         },
       |];
 

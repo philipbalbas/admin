@@ -121,7 +121,7 @@ module ChoicesTableTransfer = {
       },
     |];
     <div>
-      <TableTransfer
+      <FormCardTableTransfer
         dataSource
         titles=[|"Choices List"->string, "Active Choices"->string|]
         targetKeys
