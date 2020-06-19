@@ -5,11 +5,14 @@ exception Graphql_error(string);
  * A standard fetch that sends our operation and variables to the
  * GraphQL server, and then decodes and returns the response.
  */
+[@bs.val]
+external server: string = "process.env.SERVER";
+
 let fetchQuery: ReasonRelay.Network.fetchFunctionPromise =
   (operation, variables, _cacheConfig) =>
     Fetch.(
       fetchWithInit(
-        "http://localhost:4000/api",
+        server,
         RequestInit.make(
           ~method_=Post,
           ~body=
