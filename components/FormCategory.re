@@ -177,7 +177,10 @@ let make = (~categoryId="", ~mutationType: mutationType) => {
         name="name">
         <Input />
       </Form.Item>
-      <Form.Item label={"Description"->string} name="description">
+      <Form.Item
+        label={"Description"->string}
+        name="description"
+        rules=[|{"required": true, "message": "Description is required"}|]>
         <Input.TextArea />
       </Form.Item>
       <Form.Item wrapperCol={"offset": 4, "span": 20}>
