@@ -143,7 +143,7 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "ModalChoiceFormChoiceCreateMutation",
+    "name": "ModalChoiceFormCreateMutation",
     "selections": (v1/*: any*/),
     "type": "RootMutationType"
   },
@@ -151,15 +151,15 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "ModalChoiceFormChoiceCreateMutation",
+    "name": "ModalChoiceFormCreateMutation",
     "selections": (v1/*: any*/)
   },
   "params": {
     "id": null,
     "metadata": {},
-    "name": "ModalChoiceFormChoiceCreateMutation",
+    "name": "ModalChoiceFormCreateMutation",
     "operationKind": "mutation",
-    "text": "mutation ModalChoiceFormChoiceCreateMutation(\n  $input: CreateChoiceInput!\n) {\n  createChoice(input: $input) {\n    result {\n      id\n      content\n    }\n  }\n}\n"
+    "text": "mutation ModalChoiceFormCreateMutation(\n  $input: CreateChoiceInput!\n) {\n  createChoice(input: $input) {\n    result {\n      id\n      content\n    }\n  }\n}\n"
   }
 };
 })() |json}

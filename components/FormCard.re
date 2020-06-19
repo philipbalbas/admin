@@ -111,28 +111,18 @@ module ChoicesTableTransfer = {
       [|targetKeys|],
     );
 
-    let columns:
-      array(Table.column(string, ChoicesQuery.Types.response_listChoices)) = [|
-      {
-        title: "Choices",
-        dataIndex: [|"content"|],
-        key: "content",
-        render: None,
-      },
-    |];
     <div>
       <FormCardTableTransfer
         dataSource
         titles=[|"Choices List"->string, "Active Choices"->string|]
         targetKeys
-        columns
         onChange={(nextTargetKeys, _, _) => {setTargetKeys(nextTargetKeys)}}
       />
       <Button _type=`dashed onClick={_ => {setModalVisible(_ => true)}}>
         <FontAwesomeIcon icon=FontAwesomeIcon.faPlus />
         "Create New Choice"->string
       </Button>
-      <ModalChoiceForm visible=modalVisible onCancel />
+      <ModalChoiceForm visible=modalVisible onCancel mutationType=`CREATE />
     </div>;
   };
 };
