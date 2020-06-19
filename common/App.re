@@ -25,6 +25,7 @@ let reducer = (_, action) =>
   | UpdateEntity(entity) => entity
   };
 
+[@gentype]
 let make = (props: props): React.element => {
   let {component, pageProps} = props;
   let (state, dispatch) =

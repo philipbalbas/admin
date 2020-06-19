@@ -6,7 +6,7 @@ const withTM = require("next-transpile-modules")(transpileModules);
 
 const config = {
   target: 'serverless',
-  pageExtensions: ["jsx", "js", "bs.js"],
+  pageExtensions: ["jsx", "js", "bs.js", "ts", "tsx"],
 };
 
 module.exports = withTM(withCSS(config));

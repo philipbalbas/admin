@@ -25,8 +25,20 @@
   "suffix": ".bs.js",
   "bsc-flags": ["-bs-no-version-header", "-bs-super-errors", "-bs-g"],
   "gentypeconfig": {
-    "language": "untyped",
-    "shims": [],
-    "module": "es6"
+    "language": "typescript",
+    "module": "es6",
+    "importPath": "relative",
+    "shims": {
+      "Js": "Js",
+      "React": "ReactShim",
+      "ReactEvent": "ReactEvent",
+      "ReasonPervasives": "ReasonPervasives",
+      "ReasonReact": "ReactShim"
+    },
+    "debug": {
+      "all": false,
+      "basic": false
+    },
+    "exportInterfaces": false
   }
 }
