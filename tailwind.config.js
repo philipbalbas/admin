@@ -27,5 +27,10 @@ module.exports = {
   variants: {
     width: ['responsive']
   },
-  plugins: []
+  plugins: [],
+  purge: [
+    './components/**/*.re',
+    './pages/**/*.re',
+    './layouts/**/*.re',
+  ]
 }

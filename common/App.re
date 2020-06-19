@@ -3,10 +3,10 @@ open EntityProvider;
 type pageProps = {.};
 
 %raw
-"import('../styles/main.css')";
+"import('antd/dist/antd.css')";
 
 %raw
-"import('antd/dist/antd.css')";
+"import('../styles/main.css')";
 
 module PageComponent = {
   type t = React.component(pageProps);
