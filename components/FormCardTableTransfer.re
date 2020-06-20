@@ -2,7 +2,7 @@ open React;
 open Ant;
 
 [@react.component]
-let make = (~dataSource, ~targetKeys, ~titles, ~onChange) => {
+let make = (~dataSource, ~filterOption, ~targetKeys, ~titles, ~onChange) => {
   let (modalVisible, setModalVisible) = useState(_ => false);
   let (editingChoice, setEditingChoice) =
     useState(_ =>
@@ -16,7 +16,14 @@ let make = (~dataSource, ~targetKeys, ~titles, ~onChange) => {
   };
 
   <>
-    <Transfer.Render dataSource targetKeys titles onChange>
+    <Transfer.Render
+      showSearch=true
+      showSelectAll=false
+      filterOption
+      dataSource
+      targetKeys
+      titles
+      onChange>
       {({filteredItems, onItemSelectAll, onItemSelect, selectedKeys}) => {
          let columnsUpdated:
            array(

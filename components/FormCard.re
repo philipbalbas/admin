@@ -112,9 +112,20 @@ module ChoicesTableTransfer = {
       [|targetKeys|],
     );
 
+    let choiceSearch = text =>
+      Fuse.make(
+        dataSource,
+        {"keys": [|"content"|], "useExtendedSearch": true},
+      )
+      |> Fuse.search(text);
+
     <div>
       <FormCardTableTransfer
         dataSource
+        filterOption={(value, option) => {
+          let res = choiceSearch(value);
+          res->Belt.Array.some(c => {c##item##key == option##key});
+        }}
         titles=[|"Choices List"->string, "Active Choices"->string|]
         targetKeys
         onChange={(nextTargetKeys, _, _) => {setTargetKeys(nextTargetKeys)}}
@@ -195,10 +206,6 @@ let make = (~categoryId) => {
 
   let examSearch = text =>
     Fuse.make(exams, {"keys": [|"name"|], "useExtendedSearch": true})
-    |> Fuse.search(text);
-
-  let choiceSearch = text =>
-    Fuse.make(choices, {"keys": [|"content"|], "useExtendedSearch": true})
     |> Fuse.search(text);
 
   let resetFields = () => {
