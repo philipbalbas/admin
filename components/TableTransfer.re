@@ -1,8 +1,16 @@
 open Ant;
 
 [@react.component]
-let make = (~dataSource, ~targetKeys, ~titles, ~columns, ~onChange) => {
-  <Transfer.Render dataSource targetKeys titles onChange>
+let make =
+    (~dataSource, ~targetKeys, ~titles, ~columns, ~onChange, ~filterOption) => {
+  <Transfer.Render
+    showSearch=true
+    showSelectAll=false
+    filterOption
+    dataSource
+    targetKeys
+    titles
+    onChange>
     {({filteredItems, onItemSelectAll, onItemSelect, selectedKeys}) => {
        let rowSelection: Table.rowSelection('a) = {
          ...Table.defaultRowSelection,

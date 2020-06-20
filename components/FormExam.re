@@ -142,8 +142,19 @@ module CardsTableTransfer = {
       },
     |];
 
+    let cardSearch = text =>
+      Fuse.make(
+        dataSource,
+        {"keys": [|"question"|], "useExtendedSearch": true},
+      )
+      |> Fuse.search(text);
+
     <TableTransfer
       dataSource
+      filterOption={(value, option) => {
+        let res = cardSearch(value);
+        res->Belt.Array.some(c => {c##item##key == option##key});
+      }}
       titles=[|"Cards"->string, "Active"->string|]
       targetKeys
       columns

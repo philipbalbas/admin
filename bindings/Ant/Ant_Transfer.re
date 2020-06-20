@@ -24,7 +24,7 @@ external make:
   (
     ~dataSource: array('a)=?,
     ~disabled: bool=?,
-    // ~filterOption: "(inputValue, option): boolean",=?,
+    ~filterOption: (string, Js.t('c)) => bool=?,
     ~footer: 'b => React.element=?,
     // ~listStyle: "object|({direction: 'left'|'right'}) => object",=?,
     // ~locale: "{ itemUnit: string; itemsUnit: string; searchPlaceholder: string; notFoundContent: ReactNode; }",=?,
