@@ -185,7 +185,7 @@ let make = (~categoryId="", ~examId="", ~mutationType: mutationType) => {
     | None => {
         name: "",
         description: "",
-        type_: `PRACTICE,
+        type_: `COMPREHENSIVE,
         order: None,
         topics: None,
         cards: None,
