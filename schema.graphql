@@ -393,7 +393,7 @@ type RootMutationType {
   signin(email: String, password: String): Session
 
   """Signup a user"""
-  signup(input: UserInput!): User
+  signup(input: SignupInput!): SignupPayload
 
   """Update a category"""
   updateCategory(input: UpdateCategoryInput!): UpdateCategoryPayload
@@ -464,6 +464,9 @@ type RootQueryType {
   """Get a single topic"""
   getTopic(id: ID!): Topic
 
+  """Get a user"""
+  getUser(id: ID!): User
+
   """Get a list of cards"""
   listCards(filter: CardFilter): [Card!]
 
@@ -494,24 +497,27 @@ type RootQueryType {
   """Get a list topics"""
   listTopics(filter: TopicsFilter): [Topic!]
 
+  """Get a list of users"""
+  listUsers: [User]
+
   """Fetches an object given its ID"""
   node(
     """The id of an object."""
     id: ID!
   ): Node
-
-  """Get a user"""
-  user(id: ID!): User
-
-  """Get a list of users"""
-  users: [User]
 }
 
-type Session implements Node {
-  """The ID of an object"""
-  id: ID!
+type Session {
   token: String!
   user: User!
+}
+
+input SignupInput {
+  inputData: UserSignupInput!
+}
+
+type SignupPayload {
+  result: User
 }
 
 enum SortOrder {
@@ -700,7 +706,7 @@ type UpsertQuestionAnswersPayload {
 }
 
 type User implements Node {
-  email: String
+  email: String!
   firstName: String
 
   """The ID of an object"""
@@ -711,10 +717,17 @@ type User implements Node {
   username: String
 }
 
-input UserInput {
+enum UserRole {
+  ADMIN
+  STUDENT
+  TEACHER
+}
+
+input UserSignupInput {
   email: String!
   organizationId: ID!
   password: String!
-  username: String!
+  role: UserRole
+  username: String
 }
 

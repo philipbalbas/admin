@@ -1,4 +1,5 @@
-open EntityProvider;
+open React;
+open AuthProvider;
 
 type pageProps = {.};
 
@@ -9,7 +10,7 @@ type pageProps = {.};
 "import('../styles/main.css')";
 
 module PageComponent = {
-  type t = React.component(pageProps);
+  type t = component(pageProps);
 };
 
 type props = {
@@ -18,39 +19,52 @@ type props = {
   pageProps,
 };
 
-type state = {entity};
+type authState = {user};
 
-let reducer = (_, action) =>
+let authReducer = (_, action) =>
   switch (action) {
-  | UpdateEntity(entity) => entity
+  | Signin(token, user) => {...user, token}
+  | Logout => initUser
   };
 
 [@gentype]
-let make = (props: props): React.element => {
+let make = (props: props): element => {
   let {component, pageProps} = props;
-  let (state, dispatch) =
-    React.useReducer(reducer, {categoryId: "", moduleId: "", subjecId: ""});
+  let (state, dispatch) = useReducer(authReducer, initUser);
+
+  useEffect1(
+    () => {
+      if (state.token == "") {
+        Next.Router.(router |> push("/sign-in"));
+      };
+      Some(() => ());
+    },
+    [|state.token|],
+  );
 
   let router = Next.Router.useRouter();
 
-  let content = React.createElement(component, pageProps);
+  let content = createElement(component, pageProps);
 
   let shownContent =
     switch (router.route) {
     | "/" => content
     | "/create" => content
     | "/[categoryId]/edit" => content
+    | "/sign-in" => content
     | _ => <MainLayout> content </MainLayout>
     };
 
-  <ReasonRelay.Context.Provider environment=RelayEnv.environment>
+  let environment = RelayEnv.initializeEnvironment(state.token);
+
+  <ReasonRelay.Context.Provider environment>
     <Next.Head>
       <meta
         name="viewport"
         content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover"
       />
-      <title> "Review Dashboard"->React.string </title>
+      <title> "Review Dashboard"->string </title>
     </Next.Head>
-    <EntityProvider value=(state, dispatch)> shownContent </EntityProvider>
+    <AuthProvider value=(state, dispatch)> shownContent </AuthProvider>
   </ReasonRelay.Context.Provider>;
 };

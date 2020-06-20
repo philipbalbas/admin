@@ -60,3 +60,8 @@ module Number = {
     React.element =
     "InputNumber";
 };
+
+module Password = {
+  [@bs.module "antd"] [@bs.scope "Input"] [@react.component]
+  external make: (~visibilityToggle: bool=?) => React.element = "Password";
+};
