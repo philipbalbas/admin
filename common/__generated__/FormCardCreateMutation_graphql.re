@@ -1,19 +1,5 @@
 /* @generated */
 
-type enum_CardType = [ | `MULTIPLE | `SINGLE | `FutureAddedValue(string)];
-
-let unwrap_enum_CardType: string => enum_CardType =
-  fun
-  | "MULTIPLE" => `MULTIPLE
-  | "SINGLE" => `SINGLE
-  | v => `FutureAddedValue(v);
-
-let wrap_enum_CardType: enum_CardType => string =
-  fun
-  | `MULTIPLE => "MULTIPLE"
-  | `SINGLE => "SINGLE"
-  | `FutureAddedValue(v) => v;
-
 type enum_CardLevel = [
   | `ANALYSE
   | `APPLY
@@ -44,6 +30,20 @@ let wrap_enum_CardLevel: enum_CardLevel => string =
   | `UNDERSTAND => "UNDERSTAND"
   | `FutureAddedValue(v) => v;
 
+type enum_CardType = [ | `MULTIPLE | `SINGLE | `FutureAddedValue(string)];
+
+let unwrap_enum_CardType: string => enum_CardType =
+  fun
+  | "MULTIPLE" => `MULTIPLE
+  | "SINGLE" => `SINGLE
+  | v => `FutureAddedValue(v);
+
+let wrap_enum_CardType: enum_CardType => string =
+  fun
+  | `MULTIPLE => "MULTIPLE"
+  | `SINGLE => "SINGLE"
+  | `FutureAddedValue(v) => v;
+
 module Types = {
   type cardCreateInput = {
     level: [
@@ -67,6 +67,15 @@ module Types = {
     question: string,
     rationale: option(string),
     type_: [ | `MULTIPLE | `SINGLE | `FutureAddedValue(string)],
+    level: [
+      | `ANALYSE
+      | `APPLY
+      | `CREATE
+      | `EVALUATE
+      | `REMEMBER
+      | `UNDERSTAND
+      | `FutureAddedValue(string)
+    ],
   };
   type response_createCard = {result: option(response_createCard_result)};
 
@@ -77,9 +86,12 @@ module Types = {
 module Internal = {
   type wrapResponseRaw;
   let wrapResponseConverter: Js.Dict.t(Js.Dict.t(Js.Dict.t(string))) = [%raw
-    {json| {"__root":{"createCard":{"n":""},"createCard_result":{"n":""},"createCard_result_rationale":{"n":""},"createCard_result_type_":{"e":"enum_CardType"}}} |json}
+    {json| {"__root":{"createCard":{"n":""},"createCard_result":{"n":""},"createCard_result_rationale":{"n":""},"createCard_result_type_":{"e":"enum_CardType"},"createCard_result_level":{"e":"enum_CardLevel"}}} |json}
   ];
-  let wrapResponseConverterMap = {"enum_CardType": wrap_enum_CardType};
+  let wrapResponseConverterMap = {
+    "enum_CardType": wrap_enum_CardType,
+    "enum_CardLevel": wrap_enum_CardLevel,
+  };
   let convertWrapResponse = v =>
     v
     ->ReasonRelay._convertObj(
@@ -90,9 +102,12 @@ module Internal = {
 
   type responseRaw;
   let responseConverter: Js.Dict.t(Js.Dict.t(Js.Dict.t(string))) = [%raw
-    {json| {"__root":{"createCard":{"n":""},"createCard_result":{"n":""},"createCard_result_rationale":{"n":""},"createCard_result_type_":{"e":"enum_CardType"}}} |json}
+    {json| {"__root":{"createCard":{"n":""},"createCard_result":{"n":""},"createCard_result_rationale":{"n":""},"createCard_result_type_":{"e":"enum_CardType"},"createCard_result_level":{"e":"enum_CardLevel"}}} |json}
   ];
-  let responseConverterMap = {"enum_CardType": unwrap_enum_CardType};
+  let responseConverterMap = {
+    "enum_CardType": unwrap_enum_CardType,
+    "enum_CardLevel": unwrap_enum_CardLevel,
+  };
   let convertResponse = v =>
     v
     ->ReasonRelay._convertObj(
@@ -135,11 +150,13 @@ module Utils = {
   let makeVariables = (~input): variables => {input: input};
 
   let make_response_createCard_result =
-      (~id, ~question, ~rationale=?, ~type_, ()): response_createCard_result => {
+      (~id, ~question, ~rationale=?, ~type_, ~level, ())
+      : response_createCard_result => {
     id,
     question,
     rationale,
     type_,
+    level,
   };
 
   let make_response_createCard = (~result=?, ()): response_createCard => {
@@ -213,6 +230,13 @@ v1 = [
             "kind": "ScalarField",
             "name": "type",
             "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "level",
+            "storageKey": null
           }
         ],
         "storageKey": null
@@ -242,7 +266,7 @@ return {
     "metadata": {},
     "name": "FormCardCreateMutation",
     "operationKind": "mutation",
-    "text": "mutation FormCardCreateMutation(\n  $input: CreateCardInput!\n) {\n  createCard(input: $input) {\n    result {\n      id\n      question\n      rationale\n      type_: type\n    }\n  }\n}\n"
+    "text": "mutation FormCardCreateMutation(\n  $input: CreateCardInput!\n) {\n  createCard(input: $input) {\n    result {\n      id\n      question\n      rationale\n      type_: type\n      level\n    }\n  }\n}\n"
   }
 };
 })() |json}

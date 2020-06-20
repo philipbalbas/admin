@@ -48,6 +48,7 @@ module CreateCardMutation = [%relay.mutation
           question
           rationale
           type_: type
+          level
         }
       }
     }
@@ -138,6 +139,7 @@ type state = {
   examIds: array(string),
   choiceIds: array(string),
   answerIds: array(string),
+  level: FormCardCreateMutation_graphql.enum_CardLevel,
 };
 
 [@react.component]
@@ -213,7 +215,7 @@ let make = (~categoryId) => {
             topicId: state.topicId,
             type_: `SINGLE,
             rationale: state.rationale,
-            level: `UNDERSTAND,
+            level: state.level,
           },
         },
       },
@@ -322,6 +324,16 @@ let make = (~categoryId) => {
         <Radio.Button value=`MULTIPLE>
           "Multiple Choice"->string
         </Radio.Button>
+      </Radio.Group>
+    </Form.Item>
+    <Form.Item label={<div> "Level"->string </div>} name="level">
+      <Radio.Group>
+        <Radio.Button value=`REMEMBER> "Remember"->string </Radio.Button>
+        <Radio.Button value=`UNDERSTAND> "Understand"->string </Radio.Button>
+        <Radio.Button value=`APPLY> "Apply"->string </Radio.Button>
+        <Radio.Button value=`ANALYSE> "Analyse"->string </Radio.Button>
+        <Radio.Button value=`EVALUTE> "Evaluate"->string </Radio.Button>
+        <Radio.Button value=`CREATE> "Create"->string </Radio.Button>
       </Radio.Group>
     </Form.Item>
     <Form.Item label={<div> "Topic"->string </div>} name="topicId">
