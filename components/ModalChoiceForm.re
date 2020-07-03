@@ -65,17 +65,19 @@ let make = (~visible, ~onCancel, ~mutationType, ~choice=?) => {
               }
             | None => {id: "", content: ""}
             };
+
           let newRecord =
             store->RecordSourceSelectorProxy.get(
               ~dataId=makeDataId(newData.id),
             );
 
           switch (
+            res.createChoice->Belt.Option.isSome,
             store
             ->RecordSourceSelectorProxy.getRoot
-            ->RecordProxy.getLinkedRecords(~name="listChoices", ())
+            ->RecordProxy.getLinkedRecords(~name="listChoices", ()),
           ) {
-          | Some(records) =>
+          | (true, Some(records)) =>
             let _ =
               store
               ->RecordSourceSelectorProxy.getRoot
@@ -85,7 +87,8 @@ let make = (~visible, ~onCancel, ~mutationType, ~choice=?) => {
                   (),
                 );
             ();
-          | None => ()
+          | (false, _) => ()
+          | (_, None) => ()
           };
           ();
         },
