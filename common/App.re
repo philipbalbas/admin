@@ -21,25 +21,35 @@ type props = {
 
 type authState = {user};
 
-let authReducer = (_, action) =>
+let authReducer = (state, action) =>
   switch (action) {
-  | Signin(token, user) => {...user, token}
-  | Logout => initUser
+  | Signin(token, user) =>
+    let localstorage = Dom.Storage.localStorage;
+    localstorage |> Dom.Storage.setItem("token", token);
+    {user, token};
+  | UpdateUser(user) => {...state, user}
+  | Logout => initState
   };
 
 [@gentype]
 let make = (props: props): element => {
   let {component, pageProps} = props;
-  let (state, dispatch) = useReducer(authReducer, initUser);
+  let (state, dispatch) = useReducer(authReducer, initState);
+  let (token, setToken) = useState(_ => "");
 
   useEffect1(
     () => {
-      if (state.token == "") {
-        Next.Router.(router |> push("/sign-in"));
+      let localStorage = Dom.Storage.localStorage;
+      let savedToken = localStorage |> Dom.Storage.getItem("token");
+
+      switch (savedToken) {
+      | Some(token) => setToken(_ => token)
+      | None => Next.Router.(router |> push("/sign-in"))
       };
+
       Some(() => ());
     },
-    [|state.token|],
+    [||],
   );
 
   let router = Next.Router.useRouter();
@@ -55,7 +65,7 @@ let make = (props: props): element => {
     | _ => <MainLayout> content </MainLayout>
     };
 
-  let environment = RelayEnv.initializeEnvironment(state.token);
+  let environment = RelayEnv.initializeEnvironment(token);
 
   <ReasonRelay.Context.Provider environment>
     <Next.Head>
@@ -65,6 +75,10 @@ let make = (props: props): element => {
       />
       <title> "Review Dashboard"->string </title>
     </Next.Head>
-    <AuthProvider value=(state, dispatch)> shownContent </AuthProvider>
+    <AuthProvider value=(state, dispatch)>
+      <Suspense fallback={"Loading..."->string}>
+        <OuterLayout> shownContent </OuterLayout>
+      </Suspense>
+    </AuthProvider>
   </ReasonRelay.Context.Provider>;
 };

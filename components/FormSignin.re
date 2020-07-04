@@ -44,7 +44,6 @@ let make = () => {
                 {
                   id: user.id,
                   email: user.email,
-                  token,
                   firstName: user.firstName,
                   lastName: user.lastName,
                 },

@@ -2,27 +2,35 @@
 type user = {
   id: string,
   email: string,
-  token: string,
   firstName: option(string),
   lastName: option(string),
 };
 
+[@decco]
+type state = {
+  token: string,
+  user,
+};
+
 type authAction =
   | Signin(string, user)
+  | UpdateUser(user)
   | Logout;
 
 type dispatch = authAction => unit;
-type contextValue = (user, dispatch);
+type contextValue = (state, dispatch);
 
-let initUser = {
-  id: "",
-  email: "",
+let initState = {
+  user: {
+    id: "",
+    email: "",
+    firstName: None,
+    lastName: None,
+  },
   token: "",
-  firstName: None,
-  lastName: None,
 };
 
-let initValue: contextValue = (initUser, _ => ignore());
+let initValue: contextValue = (initState, _ => ignore());
 
 let context = React.createContext(initValue);
 let useAuth = () => React.useContext(context);

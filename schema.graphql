@@ -500,6 +500,9 @@ type RootQueryType {
   """Get a list of users"""
   listUsers: [User]
 
+  """Get the currently signed-in user"""
+  me: User
+
   """Fetches an object given its ID"""
   node(
     """The id of an object."""
