@@ -15,6 +15,7 @@ type state = {
 type authAction =
   | Signin(string, user)
   | UpdateUser(user)
+  | SetToken(string)
   | Logout;
 
 type dispatch = authAction => unit;

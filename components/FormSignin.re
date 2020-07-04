@@ -38,6 +38,8 @@ let make = () => {
         (_, res) => {
           switch (res.signin) {
           | Some({token, user}) =>
+            let localstorage = Dom.Storage.localStorage;
+            localstorage |> Dom.Storage.setItem("token", token);
             dispatch(
               Signin(
                 token,
@@ -48,7 +50,7 @@ let make = () => {
                   lastName: user.lastName,
                 },
               ),
-            )
+            );
           | None => ()
           }
         },

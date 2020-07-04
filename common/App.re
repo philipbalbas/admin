@@ -21,21 +21,19 @@ type props = {
 
 type authState = {user};
 
-let authReducer = (state, action) =>
+let authReducer = (state, action) => {
   switch (action) {
-  | Signin(token, user) =>
-    let localstorage = Dom.Storage.localStorage;
-    localstorage |> Dom.Storage.setItem("token", token);
-    {user, token};
+  | Signin(token, user) => {user, token}
+  | SetToken(token) => {...state, token}
   | UpdateUser(user) => {...state, user}
   | Logout => initState
   };
+};
 
 [@gentype]
 let make = (props: props): element => {
   let {component, pageProps} = props;
   let (state, dispatch) = useReducer(authReducer, initState);
-  let (token, setToken) = useState(_ => "");
 
   useEffect1(
     () => {
@@ -43,7 +41,7 @@ let make = (props: props): element => {
       let savedToken = localStorage |> Dom.Storage.getItem("token");
 
       switch (savedToken) {
-      | Some(token) => setToken(_ => token)
+      | Some(token) => dispatch(SetToken(token))
       | None => Next.Router.(router |> push("/sign-in"))
       };
 
@@ -65,7 +63,7 @@ let make = (props: props): element => {
     | _ => <MainLayout> content </MainLayout>
     };
 
-  let environment = RelayEnv.initializeEnvironment(token);
+  let environment = RelayEnv.initializeEnvironment(state.token);
 
   <ReasonRelay.Context.Provider environment>
     <Next.Head>
