@@ -2,6 +2,35 @@ open React;
 open Ant;
 open Next;
 
+module CardQuery = [%relay.query
+  {|
+    query FormCardQuery($id: ID!) {
+      getCard(id: $id) {
+        question
+        rationale
+        choices {
+          content
+          id
+        }
+        answers {
+          content
+          id
+        }
+        exams {
+          name
+          id
+        }
+        topic {
+          id
+          name
+        }
+        level
+        type_: type
+      }
+    }
+  |}
+];
+
 module TopicsQuery = [%relay.query
   {|
     query FormCardTopicsQuery($categoryId: ID!) {
@@ -55,6 +84,22 @@ module CreateCardMutation = [%relay.mutation
   |}
 ];
 
+module UpdateCardMutation = [%relay.mutation
+  {|
+    mutation FormCardUpdateMutation($input: UpdateCardInput!) {
+      updateCard(input: $input) {
+        result {
+          id
+          question
+          rationale
+          type_: type
+          level
+        }
+      }
+    }
+  |}
+];
+
 module UpsertCardExamsMutation = [%relay.mutation
   {|
     mutation FormCardUpsertExamsMutation($input: UpsertCardExamsInput!) {
@@ -96,8 +141,8 @@ module UpsertCardAnswersMutation = [%relay.mutation
 
 module ChoicesTableTransfer = {
   [@react.component]
-  let make = (~dataSource, ~initTargetKeys, ~onChange) => {
-    let (targetKeys, setTargetKeys) = useState(_ => initTargetKeys);
+  let make = (~dataSource, ~value, ~onChange) => {
+    let (targetKeys, setTargetKeys) = useState(_ => value);
     let (modalVisible, setModalVisible) = useState(_ => false);
 
     let onCancel = () => {
@@ -153,16 +198,39 @@ type state = {
   level: FormCardCreateMutation_graphql.enum_CardLevel,
 };
 
+type mutationType = [ | `CREATE | `UPDATE];
+
 [@react.component]
-let make = (~categoryId) => {
+let make = (~categoryId, ~cardId="", ~mutationType: mutationType) => {
   let (rationaleActive, setRationaleActive) = useState(_ => true);
   let (selectedChoiceIds, setSelectedChoiceIds) = useState(_ => [||]);
   let (createCard, isCreatingCard) = CreateCardMutation.use();
+  let (updateCard, isUpdatingCard) = UpdateCardMutation.use();
   let (upsertExams, isUpsertingExam) = UpsertCardExamsMutation.use();
   let (upsertChoices, isUpsertingChoices) = UpsertCardChoicesMutation.use();
   let (upsertAnswers, isUpsertingAnswers) = UpsertCardAnswersMutation.use();
 
   let (form, _) = Form.useForm();
+
+  let cardQueryData = CardQuery.use(~variables={id: cardId}, ());
+
+  let card =
+    switch (cardQueryData.getCard) {
+    | Some(card) => card
+    | None => {
+        question: "",
+        rationale: None,
+        level: `ANALYSE,
+        type_: `SINGLE,
+        choices: None,
+        answers: None,
+        exams: None,
+        topic: {
+          id: "",
+          name: "",
+        },
+      }
+    };
 
   let topicsQueryData =
     TopicsQuery.use(
@@ -209,11 +277,13 @@ let make = (~categoryId) => {
     |> Fuse.search(text);
 
   let resetFields = () => {
-    form |> Form.resetFields();
+    switch (mutationType) {
+    | `CREATE => form |> Form.resetFields()
+    | `UPDATE => ()
+    };
   };
 
-  let onFinish = values => {
-    let state = stateFromJs(values);
+  let createMutation = state =>
     createCard(
       ~variables={
         input: {
@@ -291,10 +361,98 @@ let make = (~categoryId) => {
       (),
     )
     |> ignore;
+
+  let updateMutation = state =>
+    updateCard(
+      ~variables={
+        input: {
+          inputData: {
+            id: cardId,
+            question: Some(state.question),
+            topicId: Some(state.topicId),
+            type_: Some(`SINGLE),
+            rationale: state.rationale,
+            level: Some(state.level),
+          },
+        },
+      },
+      ~onCompleted=
+        (res, err) => {
+          switch (res.updateCard) {
+          | Some(response) =>
+            switch (response.result) {
+            | Some(card) =>
+              let question = card.question;
+              Message.(message |> success({j| Card $question created  |j}));
+              upsertExams(
+                ~variables={
+                  input: {
+                    inputData: {
+                      examIds: state.examIds,
+                      cardId: card.id,
+                    },
+                  },
+                },
+                (),
+              )
+              |> ignore;
+
+              upsertChoices(
+                ~variables={
+                  input: {
+                    inputData: {
+                      cardId: card.id,
+                      choiceIds: state.choiceIds,
+                    },
+                  },
+                },
+                (),
+              )
+              |> ignore;
+
+              upsertAnswers(
+                ~variables={
+                  input: {
+                    inputData: {
+                      cardId: card.id,
+                      answerIds: state.answerIds,
+                    },
+                  },
+                },
+                (),
+              )
+              |> ignore;
+
+              resetFields();
+            | None => ()
+            }
+          | None => ()
+          };
+          switch (err) {
+          | Some(err) =>
+            let _ =
+              Belt.Array.map(err, e => {
+                Message.(message |> error(e.message))
+              });
+            ();
+          | None => ()
+          };
+        },
+      (),
+    )
+    |> ignore;
+
+  let onFinish = values => {
+    let state = stateFromJs(values);
+    switch (mutationType) {
+    | `CREATE => createMutation(state)
+    | `UPDATE => updateMutation(state)
+    };
   };
 
   let loading =
     isCreatingCard
+    || isUpdatingCard
     || isUpsertingExam
     || isUpsertingChoices
     || isUpsertingAnswers;
@@ -314,13 +472,37 @@ let make = (~categoryId) => {
       Js.Promise.resolve();
     };
 
+  let buttonText =
+    switch (mutationType) {
+    | `CREATE => "Create"
+    | `UPDATE => "Update"
+    };
+
   <Form
     form
     name="card"
     layout=`horizontal
     labelCol={"span": 2}
     wrapperCol={"span": 22}
-    initialValues={"type_": `SINGLE, "choiceIds": [||]}
+    initialValues={
+      "question": card.question,
+      "rationale": card.rationale,
+      "type_": card.type_,
+      "level": card.level,
+      "answerIds":
+        card.answers
+        ->Belt.Option.mapWithDefault([||], answer => answer)
+        ->Belt.Array.map(answer => answer.id),
+      "choiceIds":
+        card.choices
+        ->Belt.Option.mapWithDefault([||], choice => choice)
+        ->Belt.Array.map(choice => choice.id),
+      "examIds":
+        card.exams
+        ->Belt.Option.mapWithDefault([||], exam => exam)
+        ->Belt.Array.map(exam => exam.id),
+      "topicId": card.topic.id,
+    }
     onFinish>
     <Form.Item label={<div> "Question"->string </div>} name="question">
       <Slate.Editor />
@@ -375,7 +557,11 @@ let make = (~categoryId) => {
     <Form.Item label={"Choices"->string} name="choiceIds">
       <ChoicesTableTransfer
         dataSource=choices
-        initTargetKeys=[||]
+        value={
+          card.choices
+          ->Belt.Option.mapWithDefault([||], choice => choice)
+          ->Belt.Array.map(choice => choice.id)
+        }
         onChange={values => setSelectedChoiceIds(_ => values)}
       />
     </Form.Item>
@@ -396,7 +582,7 @@ let make = (~categoryId) => {
     </Form.Item>
     <Form.Item wrapperCol={"offset": 2, "span": 22}>
       <Button className="mr-4" _type=`primary htmlType="submit" loading>
-        {loading ? "Upating" : "Create"}->string
+        {loading ? "Upating" : buttonText}->string
       </Button>
       <Link href="/[categoryId]/cards" _as={j|/$categoryId/cards|j}>
         <Button loading> "Cancel"->string </Button>

@@ -64,6 +64,15 @@ enum CardType {
   SINGLE
 }
 
+input CardUpdateInput {
+  id: ID!
+  level: CardLevel
+  question: String
+  rationale: String
+  topicId: ID
+  type: CardType
+}
+
 type Category implements Node {
   description: String!
   exams: [Exam!]
@@ -395,6 +404,9 @@ type RootMutationType {
   """Signup a user"""
   signup(input: SignupInput!): SignupPayload
 
+  """Update an exam"""
+  updateCard(input: UpdateCardInput!): UpdateCardPayload
+
   """Update a category"""
   updateCategory(input: UpdateCategoryInput!): UpdateCategoryPayload
 
@@ -439,6 +451,9 @@ type RootMutationType {
 }
 
 type RootQueryType {
+  """Get a single card"""
+  getCard(id: ID!): Card
+
   """Get a single category"""
   getCategory(id: ID!): Category
   getChoice(id: ID!): Choice
@@ -594,6 +609,14 @@ input TopicUpdateInput {
   name: String
   order: Int
   subjectId: ID
+}
+
+input UpdateCardInput {
+  inputData: CardUpdateInput!
+}
+
+type UpdateCardPayload {
+  result: Card
 }
 
 input UpdateCategoryInput {

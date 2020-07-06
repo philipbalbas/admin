@@ -9,7 +9,7 @@ let make = () => {
   <div className="w-full lg:w-3/4">
     <div className="text-2xl"> "Create Card"->React.string </div>
     <Suspense fallback={<div> "Loading..."->string </div>}>
-      <FormCard categoryId />
+      <FormCard categoryId mutationType=`CREATE />
     </Suspense>
   </div>;
 };

@@ -360,7 +360,8 @@ let make = (~categoryId="", ~examId="", ~mutationType: mutationType) => {
     | `UPDATE => "Update"
     };
 
-  let loading = isCreatingExam || isUpdatingExam || isUpsertingTopics;
+  let loading =
+    isCreatingExam || isUpdatingExam || isUpsertingTopics || isUpsertingCards;
 
   <Form
     form

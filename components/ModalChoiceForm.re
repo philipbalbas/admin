@@ -40,6 +40,7 @@ let make = (~visible, ~onCancel, ~mutationType, ~choice=?) => {
   let (form, _) = Form.useForm();
   let (createChoice, isCreatingChoice) = ModalFormCreateChoice.use();
   let (updateChoice, isUpdatingChoice) = ModalFormUpdateChoice.use();
+  let (_, setRefresh) = useState(_ => 1.);
 
   let resetFields = () => {
     form |> Form.resetFields();
@@ -226,11 +227,11 @@ let make = (~visible, ~onCancel, ~mutationType, ~choice=?) => {
         <Button loading onClick={_ => onCancel()}> "Return"->string </Button>
       </div>
     }>
-    <Form form onFinish>
+    <Form form onFinish initialValues={"content": choice.content}>
       <Form.Item
         name="content"
         rules=[|{"required": true, "message": "Content is required"}|]>
-        <Slate.Editor defaultValue={choice.content} />
+        <Slate.Editor />
       </Form.Item>
     </Form>
   </Modal>;

@@ -110,7 +110,7 @@ module Editable = {
 module Editor = {
   [@bs.module "./SlateEditor"] [@react.component]
   external make:
-    (~readOnly: bool=?, ~defaultValue: string=?, ~onChange: 'a => unit=?) =>
+    (~readOnly: bool=?, ~value: string=?, ~onChange: 'a => unit=?) =>
     React.element =
     "default";
 };

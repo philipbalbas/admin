@@ -106,6 +106,30 @@ let make = (~categoryId="") => {
         ),
       onCell: None,
     },
+    {
+      title: "",
+      dataIndex: [||],
+      key: "action",
+      render:
+        Some(
+          (_, record, _) => {
+            let cardId = record.id;
+            <>
+              <Link
+                href="/[categoryId]/cards/[cardId]/edit"
+                _as={j|/$categoryId/cards/$cardId/edit|j}>
+                <a>
+                  <FontAwesomeIcon
+                    icon=FontAwesomeIcon.faEdit
+                    className="text-blue-400 hover:text-blue-700 cursor-pointer"
+                  />
+                </a>
+              </Link>
+            </>;
+          },
+        ),
+      onCell: None,
+    },
   |];
 
   let expandedRowRender =

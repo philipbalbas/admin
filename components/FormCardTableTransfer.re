@@ -98,11 +98,13 @@ let make = (~dataSource, ~filterOption, ~targetKeys, ~titles, ~onChange) => {
          />;
        }}
     </Transfer.Render>
-    <ModalChoiceForm
-      visible=modalVisible
-      choice=editingChoice
-      onCancel
-      mutationType=`UPDATE
-    />
+    {modalVisible
+       ? <ModalChoiceForm
+           visible=modalVisible
+           choice=editingChoice
+           onCancel
+           mutationType=`UPDATE
+         />
+       : React.null}
   </>;
 };

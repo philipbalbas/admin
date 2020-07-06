@@ -85,7 +85,7 @@ const blankValue = [
   },
 ]
 
-const SlateEditor = ({ readOnly = false, defaultValue, onChange }) => {
+const SlateEditor = ({ readOnly = false, value: defaultValue, onChange }) => {
   const document = new DOMParser().parseFromString(defaultValue, 'text/html')
   const [value, setValue] = useState(
     defaultValue?.length > 0
